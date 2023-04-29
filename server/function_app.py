@@ -11,7 +11,6 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
 @app.function_name(name="HttpTrigger2")
 @app.route(route="name")
 def test_function(req: func.HttpRequest) -> func.HttpResponse:
-
      name = req.params.get('name')
      if not name:
         try:
