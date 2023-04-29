@@ -62,6 +62,25 @@ $ /usr/local/bin/func
 ```
 
 
+### Install dependencies
+In the /server folder, create a local.settings.json file and paste the below in. 
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AzureWebJobsFeatureFlags": "EnableWorkerIndexing",
+    "AzureWebJobsStorage": ""
+  }
+}
+```
+
+Install dependencies with the below command. 
+```sh
+$ python3 -m install -r requirements.txt
+```
+
+
 ## Run the stack
 Activate your virtual environment. 
 ```sh
