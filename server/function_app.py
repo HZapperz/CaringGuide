@@ -1,4 +1,5 @@
 import azure.functions as func
+from src.routingvalidator import RoutingValidator
 
 app = func.FunctionApp()
 
@@ -11,8 +12,12 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
 @app.function_name(name="HttpTrigger2")
 @app.route(route="name")
 def test_function(req: func.HttpRequest) -> func.HttpResponse:
-     name = req.params.get('name')
-     if not name:
+    valid = RoutingValidator.check_valid_params(req, ["name"])
+    if not valid:
+        return func.HttpResponse("Invalid params", status_code=400)
+    
+    name = req.params.get('name')
+    if not name:
         try:
             req_body = req.get_json()
         except ValueError:
@@ -20,9 +25,9 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
         else:
             name = req_body.get('name')
 
-     if name:
+    if name:
         return func.HttpResponse(f"Hello, {name}. This HTTP-triggered function executed successfully.")
-     else:
+    else:
         return func.HttpResponse(
              "This HTTP-triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
              status_code=200
