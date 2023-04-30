@@ -1,5 +1,5 @@
 import azure.functions as func
-from src.routing import RoutingValidator
+from src.routingvalidator import RoutingValidator
 
 app = func.FunctionApp()
 
