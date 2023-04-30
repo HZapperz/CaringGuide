@@ -4,6 +4,23 @@
 - Better inline and function documentation
     - We should have function documentation for every function
     - Refer to [PEP 257](https://peps.python.org/pep-0257/) for Python
+    - Refer to [Google-TypeScript-Guide](https://google.github.io/styleguide/tsguide.html) for TypeScript
+
+
+```ts
+/**
+ * This function will return the page all of the user's data. 
+ * @param context - (Next object containing the request context)
+ */
+function getServerSideProps(context) {
+    const user = axios.get("/api/user/[....]")
+    return {
+        props: {
+            user: user
+    }
+}
+
+```
 
 ```py
 @staticmethod
@@ -46,3 +63,4 @@ Code guidelines:
 - Move constants out of file or on the top of files
 	- Topic data for example can be moved out of the file
 	- Helps with readability and explaining magic numbers
+        - Magic number are numbers in your code that have a lot of meaning and should just be a variable for better readability.
