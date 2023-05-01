@@ -1,118 +1,264 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { useState, useEffect } from "react";
+import { Parallax } from "react-parallax";
+import { Text, Image, Button } from "@nextui-org/react";
 
-const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+type TypingProps = {
+  texts: string[];
+  delay?: number;
+};
+
+const Typing: React.FC<TypingProps> = ({ texts, delay = 1000 }) => {
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (isTyping) {
+      // typing
+      if (currentText.length < texts[currentTextIndex].length) {
+        timer = setTimeout(() => {
+          setCurrentText((prevText) => {
+            return prevText + texts[currentTextIndex][prevText.length];
+          });
+        }, 50);
+      }
+      // delay before backspacing
+      else {
+        timer = setTimeout(() => {
+          setIsTyping(false);
+        }, delay);
+      }
+    } else {
+      // backspacing
+      if (currentText.length > 0) {
+        timer = setTimeout(() => {
+          setCurrentText((prevText) => {
+            return prevText.slice(0, -1);
+          });
+        }, 50);
+      }
+      // switch to next text
+      else {
+        setIsTyping(true);
+        setCurrentTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [currentText, currentTextIndex, delay, isTyping, texts]);
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <Text h1 weight="bold" css={{ textAlign: "center" }} color="primary" size={60}>
+      {currentText}
+    </Text>
+  );
+};
+
+interface SectionProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+const Section = ({ title, children }: SectionProps) => {
+  return (
+    <section className="min-h-screen">
+      <div className="container mx-auto">
+        <h2 className="text-3xl font-bold text-center mt-12 mb-6">{title}</h2>
+        <div className="flex flex-wrap -mx-4">{children}</div>
+      </div>
+    </section>
+  );
+};
+
+const ParallaxSection = () => {
+  return (
+    <Parallax bgImage="/images/parallax-image2.gif" strength={500}>
+      <div className="h-screen flex items-center justify-center relative">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ overflowX: 'hidden' }}>
+          <Typing texts={["Caring made easier.", "Navigating Together.", "Helping You Thrive.", "Finding Your Way."]} delay={1500} />
+        </div>
+        <div className="absolute bottom-1/3 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+          <div className="flex items-center justify-between">
+            <Button
+              color="secondary"
+              onClick={() =>
+                window.scrollTo({
+                  top: window.innerHeight-90,
+                  behavior: "smooth",
+                })
+              }
+            >
+              Learn More
+            </Button>
+            <Button 
+              color="secondary"
+              bordered
+              className="ml-4"
+            >
+              Get Started
+            </Button>
+          </div>
         </div>
       </div>
+    </Parallax>
+  );
+};
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+const Nav = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+  return (
+      <nav
+        className="fixed top-0 left-0 w-full px-4 py-4 bg-green-900 bg-opacity-60 backdrop-filter backdrop-blur-lg z-50"
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Image src="/logo.png" alt="Logo" width={40} height={40} />
+            <Text h2 weight="bold" 
+            css={{
+              textGradient: "45deg, $green900 -10%, $red800 50%",
+            }}
+            >Caring Guide</Text>
+          </div>
+          <div className="hidden md:flex items-center space-x-4">
+            <Button auto color="secondary">Login</Button>
+            <Button auto color="secondary">Sign Up</Button>
+          </div>
+          <div className="md:hidden cursor-pointer" onClick={handleToggle}>
+            <svg
+              className="h-6 w-6 fill-current text-black"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {isOpen ? (
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M19.41 16.41L18 15l-6 6-6-6L4.59 16.41L12 23.83l7.41-7.42z"
+                />
+              ) : (
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"
+                />
+              )}
+            </svg>
+          </div>
+        </div>
+        {isOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-white px-6 py-4 flex flex-col items-center space-y-4">
+            <Button auto >Login</Button>
+            <Button auto >Sign Up</Button>
+          </div>
+        )}
+      </nav>
+    )
 }
+
+type ContentSectionProps = {
+  title: string;
+  children: React.ReactNode;
+  bgColor?: string;
+};
+
+export const ContentSection: React.FC<ContentSectionProps> = ({
+  title,
+  children,
+  bgColor = "white",
+}) => {
+  return (
+    <section
+      className={`flex flex-col justify-center items-center py-10 ${
+        bgColor === "white" ? "bg-white" : "bg-gray-100"
+      }`}
+    >
+      <Text size={36} weight="bold" color="primary" className="mb-8">
+        {title}
+      </Text>
+      <div className="flex flex-wrap justify-center w-full max-w-6xl">
+        {children}
+      </div>
+    </section>
+  );
+};
+
+const IndexPage = () => {
+  return (
+    <>
+      <Nav />
+      <ParallaxSection />
+      <Section title="Section 1">
+        <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+          <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <Image
+              src="/section-1-image.jpg"
+              alt="Section 1 Image"
+              width={400}
+              height={400}
+              objectFit="cover"
+            />
+            <div className="p-4">
+              <h3 className="text-xl font-bold mb-2">Our Verification Process</h3>
+              <p className="text-gray-700 text-base">
+              We take the safety and security of our users very seriously. That's why all of our guides go through a rigorous verification process before they are officially approved. This includes background checks, reference checks, and personal interviews. You can rest assured that you're in good hands with Caring Guide.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+          <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <Image
+              src="/section-2-image.jpg"
+              alt="Section 2 Image"
+              width={400}
+              height={400}
+              objectFit="cover"
+            />
+            <div className="p-4">
+              <h3 className="text-xl font-bold mb-2">Personalized Guidebook of Resources</h3>
+              <p className="text-gray-700 text-base">
+              Our personalized guidebook covers a wide range of resource categories, including Physical, Emotional/Mental, Financial, Housing, Spiritual, End of Life, and General. This comprehensive approach ensures that caregivers have access to the support they need, when they need it. Plus, our mentorship program provides personalized guidance and support tailored to your unique situation.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+          <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <Image
+              src="/section-3-image.jpg"
+              alt="Section 3 Image"
+              width={400}
+              height={400}
+              objectFit="cover"
+            />
+            <div className="p-4">
+              <h3 className="text-xl font-bold mb-2">Connect with a Personal Mentor</h3>
+              <p className="text-gray-700 text-base">
+              At Caring Guide, we understand that caregiving can be overwhelming and stressful. That's why we connect caregivers with a personal mentor who provides emotional and practical support throughout their caregiving journey.
+              </p>
+            </div>
+          </div>
+        </div>
+      </Section>
+      <Section title="Section 2">
+        
+        <div className="flex items-center justify-between">
+          <Text>
+          Whether you're an early-stage caregiver or an experienced veteran, we've got you covered. Our personalized guidebook and mentorship program are designed to meet the needs of caregivers at every stage of their journey. Plus, our user profiles allow you to connect with other caregivers who are at a similar stage, so you can learn from each other and grow together.
+          </Text>
+          </div>  
+        
+      </Section>
+    </>
+  );
+};
+
+export default IndexPage;
