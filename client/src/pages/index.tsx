@@ -155,8 +155,8 @@ const Nav = () => {
         </div>
         {isOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-white px-6 py-4 flex flex-col items-center space-y-4">
-            <Button auto color="black">Login</Button>
-            <Button auto color="black">Sign Up</Button>
+            <Button auto >Login</Button>
+            <Button auto >Sign Up</Button>
           </div>
         )}
       </nav>
@@ -204,7 +204,6 @@ const IndexPage = () => {
               width={400}
               height={400}
               objectFit="cover"
-              quality={100}
             />
             <div className="p-4">
               <h3 className="text-xl font-bold mb-2">Our Verification Process</h3>
@@ -222,7 +221,6 @@ const IndexPage = () => {
               width={400}
               height={400}
               objectFit="cover"
-              quality={100}
             />
             <div className="p-4">
               <h3 className="text-xl font-bold mb-2">Personalized Guidebook of Resources</h3>
@@ -240,7 +238,6 @@ const IndexPage = () => {
               width={400}
               height={400}
               objectFit="cover"
-              quality={100}
             />
             <div className="p-4">
               <h3 className="text-xl font-bold mb-2">Connect with a Personal Mentor</h3>
