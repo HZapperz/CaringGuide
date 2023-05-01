@@ -51,14 +51,11 @@ const Typing: React.FC<TypingProps> = ({ texts, delay = 1000 }) => {
   }, [currentText, currentTextIndex, delay, isTyping, texts]);
 
   return (
-    <div style={{ minHeight: '50px', minWidth: '600px' }}>
-      <Text weight="bold" color="primary" size={60}>
-        {currentText}
-      </Text>
-    </div>
+    <Text h1 weight="bold" css={{ textAlign: "center" }} color="primary" size={60}>
+      {currentText}
+    </Text>
   );
 };
-
 
 interface SectionProps {
   title: string;
@@ -79,55 +76,34 @@ const Section = ({ title, children }: SectionProps) => {
 const ParallaxSection = () => {
   return (
     <Parallax bgImage="/images/parallax-image2.gif" strength={500}>
-        <div className="h-screen flex items-center justify-center relative">
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div className="flex items-center justify-between">
-        <Typing texts={["Caring made easier.", "Navigating Together.", "Helping You Thrive.", "Finding Your Way."]} delay={1500} />
+      <div className="h-screen flex items-center justify-center relative">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ overflowX: 'hidden' }}>
+          <Typing texts={["Caring made easier.", "Navigating Together.", "Helping You Thrive.", "Finding Your Way."]} delay={1500} />
         </div>
-</div>
-  {/* <h1 className="text-6xl font-bold text-black">
-    Caring Guide
-  </h1> */}
-  <div className="flex items-center justify-between mt-4 flex space-x-4">
-    <Button
-      color="secondary"
-      onClick={() =>
-        window.scrollTo({
-          top: window.innerHeight-90,
-          behavior: "smooth",
-        })
-      }
-    >
-      Learn More
-    </Button>
-    <Button 
-      color="secondary"
-      bordered
-    >
-      Get Started
-    </Button>
-  </div>
-</div>
-
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-10">
-            <svg
-              className="h-6 w-6 text-white cursor-pointer mb-4"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+        <div className="absolute bottom-1/3 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+          <div className="flex items-center justify-between">
+            <Button
+              color="secondary"
               onClick={() =>
-                window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
+                window.scrollTo({
+                  top: window.innerHeight-90,
+                  behavior: "smooth",
+                })
               }
             >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M12 18.707l-7.354-7.353 1.414-1.414L12 15.88l6.94-6.94 1.414 1.414L12 18.707z"
-              />
-            </svg>
+              Learn More
+            </Button>
+            <Button 
+              color="secondary"
+              bordered
+              className="ml-4"
+            >
+              Get Started
+            </Button>
           </div>
         </div>
-      </Parallax>
+      </div>
+    </Parallax>
   );
 };
 
@@ -186,6 +162,33 @@ const Nav = () => {
       </nav>
     )
 }
+
+type ContentSectionProps = {
+  title: string;
+  children: React.ReactNode;
+  bgColor?: string;
+};
+
+export const ContentSection: React.FC<ContentSectionProps> = ({
+  title,
+  children,
+  bgColor = "white",
+}) => {
+  return (
+    <section
+      className={`flex flex-col justify-center items-center py-10 ${
+        bgColor === "white" ? "bg-white" : "bg-gray-100"
+      }`}
+    >
+      <Text size={36} weight="bold" color="primary" className="mb-8">
+        {title}
+      </Text>
+      <div className="flex flex-wrap justify-center w-full max-w-6xl">
+        {children}
+      </div>
+    </section>
+  );
+};
 
 const IndexPage = () => {
   return (

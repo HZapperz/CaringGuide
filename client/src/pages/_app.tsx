@@ -6,7 +6,7 @@ const theme = createTheme({
   type: "light", // it could be "light" or "dark"
   theme: {
     colors: {
-      primary: "#0e4735",
+      primary: "#08291e",
       secondary: "#ab1d41",
       tertiary: "#142850",
       background: "#f2f2f2",
