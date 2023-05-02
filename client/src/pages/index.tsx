@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Parallax } from "react-parallax";
 import { Navbar, Text, Image, Button } from "@nextui-org/react";
+import { SocialIcon } from "react-social-icons";
 
 type TypingProps = {
   texts: string[];
@@ -117,6 +118,29 @@ const ParallaxSection = () => {
         </div>
       </div>
     </Parallax>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer className="bg-gray-900 text-white py-8">
+      <div className="container mx-auto flex justify-between items-center">
+        <div>
+          <p className="mb-2">Follow Us</p>
+          <div className="flex flex-col">
+            <SocialIcon
+              url="https://twitter.com/caringguide"
+              style={{ height: 25, width: 25, marginBottom: 10 }}
+            />
+            <SocialIcon
+              url="https://www.facebook.com/profile.php?id=100090495821344"
+              style={{ height: 25, width: 25, marginBottom: 10 }}
+            />
+          </div>
+        </div>
+        <p className="text-center">© 2023 Caring Guide. All rights reserved.</p>
+      </div>
+    </footer>
   );
 };
 
@@ -334,6 +358,7 @@ const IndexPage = () => {
           </Text>
         </div>
       </Section>
+      <Footer />
     </>
   );
 };
