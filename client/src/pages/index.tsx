@@ -26,10 +26,10 @@ const IndexPage = () => {
               </h3>
               <p className="text-gray-700 text-base">
                 We take the safety and security of our users very seriously.
-                That's why all of our guides go through a rigorous verification
+                That&apos;s why all of our guides go through a rigorous verification
                 process before they are officially approved. This includes
                 background checks, reference checks, and personal interviews.
-                You can rest assured that you're in good hands with Caring
+                You can rest assured that you&apos;re in good hands with Caring
                 Guide.
               </p>
             </div>
@@ -75,7 +75,7 @@ const IndexPage = () => {
               </h3>
               <p className="text-gray-700 text-base">
                 At Caring Guide, we understand that caregiving can be
-                overwhelming and stressful. That's why we connect caregivers
+                overwhelming and stressful. That&apos;s why we connect caregivers
                 with a personal mentor who provides emotional and practical
                 support throughout their caregiving journey.
               </p>
@@ -86,8 +86,8 @@ const IndexPage = () => {
       <Section title="Section 2" id="section-2" style={{margin: '0 10%'}}>
         <div className="flex items-center justify-between">
           <Text style={{textAlign: 'center'}}>
-            Whether you're an early-stage caregiver or an experienced veteran,
-            we've got you covered. Our personalized guidebook and mentorship
+            Whether you&apos;re an early-stage caregiver or an experienced veteran,
+            we&apos;ve got you covered. Our personalized guidebook and mentorship
             program are designed to meet the needs of caregivers at every stage
             of their journey. Plus, our user profiles allow you to connect with
             other caregivers who are at a similar stage, so you can learn from
