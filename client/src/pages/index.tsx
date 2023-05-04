@@ -192,6 +192,7 @@ export const ContentSection: React.FC<ContentSectionProps> = ({
 
 const IndexPage = () => {
   return (
+  
     <>
       <Nav />
       <ParallaxSection />
@@ -249,16 +250,56 @@ const IndexPage = () => {
         </div>
       </Section>
       <Section title="Section 2">
-        
-        <div className="flex items-center justify-between">
-          <Text>
-          Whether you're an early-stage caregiver or an experienced veteran, we've got you covered. Our personalized guidebook and mentorship program are designed to meet the needs of caregivers at every stage of their journey. Plus, our user profiles allow you to connect with other caregivers who are at a similar stage, so you can learn from each other and grow together.
-          </Text>
-          </div>  
-        
-      </Section>
+
+      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+  <div className="md:flex">
+    <div className="md:shrink-0">
+      <img className="h-48 w-full object-cover md:h-full md:w-48" src="/img/building.jpg" alt="Modern building architecture"/>
+    </div>
+    <div className="p-8">
+      <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Company retreats</div>
+      <a href="#" className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Incredible accommodation for your team</a>
+      <p className="mt-2 text-slate-500">Looking to take your team away on a retreat to enjoy awesome food and take in some sunshine? We have a list of places to do just that.</p>
+    </div>
+  </div>
+</div>
+
+ 
+</Section>
+<Section title="Section 3">
+<div className="flex flex-row ">
+  <div className="bg-cover bg-center px-4 py-6  mx-auto bg-[url('../../public/images/caregiver-CreativeRFTerryVineGettyImages-56cd9ca53df78cfb37a3276b.jpeg')]">
+    <h2 className="text-4xl font-bold mb-2 text-center text-white">Care Giving By the Numbers</h2>
+    {/* <p className="text-sm">Fifth Box Content</p> */}
+  </div>
+  <div className="grid grid-cols-2 ">
+  
+    <div className="bg-caring px-4 py-6 flex-1">
+    <hr className="w-48 h-1 mx-auto bg-gray-100 border-0 rounded ml-8 mb-4"/>
+      <h2 className="text-2xl font-bold text-black">41.8 million Americans provided care to an adult over 50 in 2020</h2>
+  
+    </div>
+    <div className="bg-caring px-4 py-6 flex-1">
+    <hr className="w-48 h-1 mx-auto bg-gray-100 border-0 rounded ml-8 mb-4"/>
+      <h2 className="text-2xl font-bold bg text-black">89% of caregivers provide care for a relative or other loved one</h2>
+
+    </div>
+    <div className="bg-caring px-4 py-6 flex-1">
+    <hr className="w-48 h-1 mx-auto bg-gray-100 border-0 rounded ml-8 mb-4"/>
+      <h2 className="text-2xl font-bold text-black ">16.6% of Americans provide care to adults with a disability or illness</h2>
+
+    </div>
+    <div className="bg-caring px-4 py-6 flex-1">
+    <hr className="w-48 h-1 mx-auto bg-gray-100 border-0 rounded ml-8 mb-4"/>
+      <h2 className="text-2xl font-bold text-black">23.7 hours per week on average spent providing care for loved ones not lived with</h2>
+
+    </div>
+  </div>
+</div>
+</Section>
+
     </>
-  );
+    );
 };
 
 export default IndexPage;
