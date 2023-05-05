@@ -40,11 +40,11 @@ const auth = () => {
               <div className="mt-5">
                 <input type="checkbox" className="border border-gray-400 rounded-xl"/>
                 <span>
-                  <a>     </a>I accept the <a href="#" className="text-purple-500 font-semibold">Terms of Use</a> &  <a href="#" className="text-purple-500 font-semibold">Privacy Policy</a> 
+                  <a>     </a>I accept the <a href="#" className="text-caring font-semibold">Terms of Use</a> &  <a href="#" className="text-caring font-semibold">Privacy Policy</a> 
                 </span>
               </div>
               <div className="mt-5">
-                <button className="w-full bg-purple-500 py-3 text-center text-white rounded-xl">Register Now</button>
+                <button className="w-full bg-caring py-3 text-center text-white rounded-xl">Register Now</button>
               </div>
           </form>
         </div>
