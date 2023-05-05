@@ -104,7 +104,7 @@ const Nav = () => {
           Login
         </Navbar.Link>
         <Navbar.Item>
-        <Link href="/auth">
+        <Link href="/signup">
           <Button flat color="secondary" auto href="#" >
             Sign Up
           </Button>
