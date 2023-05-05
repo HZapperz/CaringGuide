@@ -1,5 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import { Navbar, Text, Image, Button } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
+import Link from "next/link";
+
+
 
 const Nav = () => {
   const [activeLink, setActiveLink] = useState("");
@@ -43,6 +47,17 @@ const Nav = () => {
       });
     }
   };
+
+  
+
+  // const navigate = useNavigate();
+
+  // const handleSignUpClick = () => {
+  //   navigate("/auth");
+  // };
+
+
+
 
   return (
     <Navbar
@@ -89,9 +104,11 @@ const Nav = () => {
           Login
         </Navbar.Link>
         <Navbar.Item>
-          <Button flat color="secondary" auto href="#">
+        <Link href="/auth">
+          <Button flat color="secondary" auto href="#" >
             Sign Up
           </Button>
+          </Link>
         </Navbar.Item>
       </Navbar.Content>
     </Navbar>
