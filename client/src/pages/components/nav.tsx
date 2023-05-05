@@ -100,7 +100,7 @@ const Nav = () => {
         </Navbar.Link>
       </Navbar.Content>
       <Navbar.Content>
-        <Navbar.Link color="primary" href="#">
+        <Navbar.Link color="primary" href="/signin">
           Login
         </Navbar.Link>
         <Navbar.Item>

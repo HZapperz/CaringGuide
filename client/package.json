@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.17",
     "@nextui-org/react": "^1.0.0-beta.12",
     "@types/node": "18.16.3",
     "@types/react": "18.2.0",
@@ -19,6 +20,7 @@
     "postcss": "8.4.23",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
     "react-parallax": "^3.5.1",
     "react-router-dom": "^6.11.1",
     "react-social-icons": "^5.15.0",
