@@ -109,7 +109,7 @@ const IndexPage = () => {
   </div>
   <div className="grid grid-cols-2 ">
   
-    <div className="bg-caring px-4 py-6 flex-1">
+    <div className="bg-guide px-4 py-6 flex-1">
     <hr className="w-48 h-1 mx-auto bg-gray-100 border-0 rounded ml-8 mb-4"/>
       <h2 className="text-2xl font-bold text-black">41.8 million Americans provided care to an adult over 50 in 2020</h2>
   
