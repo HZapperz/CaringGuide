@@ -22,6 +22,9 @@ https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference-pyth
 ## For Apple Silicon Macs
 At the moment, Azure Functions do not support ARM for local development. Below are instructions to emulate x86 on your ARM based system. 
 
+## For Windows
+For Windows, you can use the [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=v4%2Cwindows%2Ccsharp%2Cportal%2Cbash#install-the-azure-functions-core-tools) to run the stack locally.
+
 ### Install the i386 version of homebrew
 ```sh
 $ arch -x86_64  /bin/bash  -c  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
