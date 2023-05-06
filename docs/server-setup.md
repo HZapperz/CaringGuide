@@ -28,8 +28,6 @@ At the moment, Azure Functions do not support ARM for local development. Below a
 $ arch -x86_64  /bin/bash  -c  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ```
 
-
-
 ### Setup your ~/.zshrc
 Run the below in your terminal to open up .zschrc in Vim. 
 ```sh
@@ -47,13 +45,19 @@ alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias mbrew='arch -arm64e /opt/homebrew/bin/brew'
 ```
 
+## Installation and running
 
-### Install azure dependencies for i386
+### Install azure dependencies
+M1 Macs:
 ```sh
 $ ibrew tap azure/functions
 $ ibrew install azure-functions-core-tools@4
 ```
-  
+Everything else:
+```sh
+$ brew tap azure/functions
+$ brew install azure-functions-core-tools@4
+```
 
 ### Ensure you have functions installed
 ```sh
