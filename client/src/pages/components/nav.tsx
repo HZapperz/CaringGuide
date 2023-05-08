@@ -73,7 +73,10 @@ const Nav = () => {
           color="primary"
           onClick={handleScrollToSection1}
         >
-          Section 1
+          <p className=" text-bold relative group">
+<span className="">Section 1</span>
+  <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
+  </p>
         </Navbar.Link>
         <Navbar.Link
           activeColor="secondary"
@@ -85,9 +88,22 @@ const Nav = () => {
         </Navbar.Link>
       </Navbar.Content>
       <Navbar.Content>
+<<<<<<< Updated upstream
         <Navbar.Link color="primary" href="#">
           Login
         </Navbar.Link>
+=======
+      <Navbar.Link
+  color="primary"
+  href="/signin"
+  className="relative inline-block font-bold transition-colors duration-300 text-black"
+>
+<p className=" text-bold relative group">
+<span className="">Login</span>
+  <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
+  </p>
+</Navbar.Link>
+>>>>>>> Stashed changes
         <Navbar.Item>
           <Button flat color="secondary" auto href="#">
             Sign Up
