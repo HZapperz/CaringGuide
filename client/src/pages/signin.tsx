@@ -1,7 +1,11 @@
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
+import { Button } from "@nextui-org/react";
 import { EyeIcon, EyeSlashIcon, UserIcon, LockClosedIcon } from '@heroicons/react/20/solid';
 import React from 'react';
+import Link from "next/link";
+
+
 
 
 
@@ -11,6 +15,7 @@ type FormValues = {
 };
 
 const LoginPage = () => {
+  
   const {
     register,
     handleSubmit,
@@ -22,13 +27,21 @@ const LoginPage = () => {
     console.log(data);
   };
 
+  
+    
+  
+
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleShowPasswordClick = () => setShowPassword(!showPassword);
 
   const password = watch('password');
+  
+  
+ 
 
   return (
+   
     <div className="flex h-screen">
       <div className="flex-1 bg-white inherit overflow-hidden">
          <img
@@ -39,6 +52,14 @@ const LoginPage = () => {
       </div>
       <div className="flex-1 bg-white flex justify-center items-center">
         <div className="w-96">
+          
+        <Link href="/">
+          <Button flat color="secondary" auto href="/" >
+            Back
+          </Button>
+          </Link>
+          
+          
         <img
           src="/images/full.png"
           alt="Login Background"
@@ -111,8 +132,8 @@ const LoginPage = () => {
               </div>
               <div className='flex justify-center'>
               <button
-                type="submit" className="bg-caring hover:bg-guide text-white font-bold py-2 px-4 rounded ">
-                Sign In
+                type="submit" className="bg-caring hover:bg-guide text-white font-bold py-2 px-4 rounded "> 
+                Sign In now
               </button>
               </div>
             </form>
@@ -120,8 +141,11 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+      
     );
+    
   };
+  
   
   export default LoginPage;
   
