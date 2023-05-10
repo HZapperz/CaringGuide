@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { Button } from "@nextui-org/react";
-import { EyeIcon, EyeSlashIcon, UserIcon, LockClosedIcon } from '@heroicons/react/20/solid';
+import { EyeIcon, EyeSlashIcon, UserIcon, LockClosedIcon, ArrowLeftIcon } from '@heroicons/react/20/solid';
 import React from 'react';
 import Link from "next/link";
 
@@ -54,9 +54,9 @@ const LoginPage = () => {
         <div className="w-96">
           
         <Link href="/">
-          <Button flat color="secondary" auto href="/" >
-            Back
-          </Button>
+          <button  >
+          <ArrowLeftIcon className="h-9 w-9 text-black pt-1" />
+          </button>
           </Link>
           
           
