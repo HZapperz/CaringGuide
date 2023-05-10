@@ -133,7 +133,7 @@ const LoginPage = () => {
               <div className='flex justify-center'>
               <button
                 type="submit" className="bg-caring hover:bg-guide text-white font-bold py-2 px-4 rounded "> 
-                Sign In now
+                Sign In
               </button>
               </div>
             </form>
