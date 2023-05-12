@@ -3,6 +3,9 @@ import { Text, Image, Col, Card } from "@nextui-org/react";
 import Section from "./components/section";
 
 import React from 'react'
+import { EyeIcon, EyeSlashIcon, UserIcon, LockClosedIcon, ArrowLeftIcon } from '@heroicons/react/20/solid';
+import Link from "next/link";
+
 
 const auth = () => {
   return (
@@ -19,6 +22,11 @@ const auth = () => {
             </div>
           </div>
           <div className="w-full lg:w-1/2 py-16 px-12">
+            <Link href="/">
+              <button  >
+                <ArrowLeftIcon className="h-9 w-9 text-black pt-1" />
+              </button>
+            </Link>
             <h2  className="text-3xl mb-4">Register</h2>
             <p className="mb-4 ">
               Create your account. It’s free and only take a minute
