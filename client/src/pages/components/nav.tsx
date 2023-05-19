@@ -100,6 +100,9 @@ const Nav = () => {
         </Navbar.Link>
       </Navbar.Content>
       <Navbar.Content>
+        <Navbar.Link color="primary" href="/feed">
+            Feed
+        </Navbar.Link>
         <Navbar.Link color="primary" href="/signin">
           Login
         </Navbar.Link>
