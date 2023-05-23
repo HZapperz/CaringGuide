@@ -57,7 +57,7 @@ const LoginPage = () => {
           <button  >
           <ArrowLeftIcon className="h-9 w-9 text-black pt-1" />
           </button>
-          </Link>
+        </Link>
           
           
         <img
