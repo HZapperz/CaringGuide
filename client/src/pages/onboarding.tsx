@@ -172,7 +172,7 @@ const onboarding = () => {
           color="secondary" />
           </Grid>
 
-          <Button>
+          
           <Grid>
           <Input 
           bordered
@@ -181,8 +181,8 @@ const onboarding = () => {
           labelPlaceholder="Middle Name" 
           color="secondary" />
           </Grid>
-          </Button>
           
+
           <Grid>
           <Input 
           clearable
@@ -325,9 +325,12 @@ const onboarding = () => {
           
           width = 'lg'
           bordered
-          color="secondary"
-           />
+          color="secondary"/>
           
+
+          <Button>
+            
+          </Button>
         </div>
         }
 
