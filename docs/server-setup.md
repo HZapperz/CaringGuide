@@ -1,4 +1,4 @@
-# Caring Guide Server
+# Caring Guide Server with anaConda
 
 ## Folder Structure
 The main project folder (<project_root>) can contain the following files:
@@ -9,7 +9,8 @@ The main project folder (<project_root>) can contain the following files:
 
 * **host.json** - Contains global configuration options that affect all functions in a function app. This file does get published to Azure. Not all options are supported when running locally.
 
-* **.venv/** - Contains a Python virtual environment used by local development.
+* **anaconda** - *IMPORTANT* Install from https://www.anaconda.com/download
+
   
 Each function has its own code file and binding configuration file ([**function.json**](https://aka.ms/azure-functions/python/function.json)).
 
@@ -81,9 +82,14 @@ $ python3 -m install -r requirements.txt
 
 
 ## Run the stack
+Create virtual environment with Conda.
+```sh
+$ conda create --name cg-env
+```
+
 Activate your virtual environment. 
 ```sh
-$ source .venv/bin/activate
+$ conda activate cg-env
 ```
 
 Run the stack
