@@ -14,7 +14,7 @@ const theme = createTheme({
       white: "#fff",
       black: "#000",
       gray: "#888",
-      success: "#4bb543",
+      success: "#eceeed",
       warning: "#ffc107",
       error: "#dc3545",
       info: "#17a2b8",
