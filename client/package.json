@@ -9,26 +9,32 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@heroicons/react": "^2.0.17",
+    "@material-tailwind/react": "^2.0.1",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.3",
     "@nextui-org/react": "^1.0.0-beta.12",
     "@types/node": "18.16.3",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",
     "@types/react-router-dom": "^5.3.3",
-    "autoprefixer": "10.4.14",
     "next": "13.3.2",
-    "postcss": "8.4.23",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
     "react-parallax": "^3.5.1",
     "react-router-dom": "^6.11.1",
     "react-social-icons": "^5.15.0",
-    "tailwindcss": "3.3.2",
+    "tw-elements": "^1.0.0-beta2",
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.14",
     "eslint": "8.39.0",
-    "eslint-config-next": "13.3.4"
+    "eslint-config-next": "13.3.4",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2"
   }
 }
