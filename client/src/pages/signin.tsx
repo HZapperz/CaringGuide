@@ -5,10 +5,6 @@ import { EyeIcon, EyeSlashIcon, UserIcon, LockClosedIcon, ArrowLeftIcon } from '
 import React from 'react';
 import Link from "next/link";
 
-
-
-
-
 type FormValues = {
   username: string;
   password: string;

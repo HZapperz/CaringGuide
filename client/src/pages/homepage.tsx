@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 import { Text, Image, Col, Card } from "@nextui-org/react";
 
 import Section from "./components/section";
@@ -10,7 +12,18 @@ import journal from "./api/journalData";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddIcon from "@mui/icons-material/Add";
 
+
 const HomePage = () => {
+  const router = useRouter();
+  const [preclickedButton, setPreclickedButton] = useState(false);
+
+  const handleNewEntryClick = () => {
+    router.push({
+      pathname: "/journalpage",
+      query: { preclickedButton: true },
+    });
+  };
+
   return (
     <>
       {/*Full Page Div*/}
@@ -159,9 +172,9 @@ const HomePage = () => {
         <div className="w-[24%] h-full border border-gray-300 border-2 rounded-xl m-2 p-3">
           <div className="flex items-center justify-between mb-4">
             <div className="text-2xl font-bold">Journal</div>
-            <div className="text-gray-500">
+            <button className="text-gray-500" onClick={handleNewEntryClick}>
               <AddIcon />
-            </div>
+            </button>
           </div>
           <div
             className="grid grid-cols-1 gap-4 overflow-y-auto"
@@ -177,7 +190,7 @@ const HomePage = () => {
                   <h3 className="text-sm font-bold mr-2">{item.title}</h3>
                   <div className="text-xs text-gray-500">{item.date}</div>
                 </div>
-                <p className="text-xs mt-1">{item.description}</p>
+                <p className="text-xs mt-1 line-clamp-3">{item.description}</p>
               </div>
             ))}
           </div>
