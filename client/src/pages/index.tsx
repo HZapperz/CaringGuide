@@ -3,7 +3,7 @@ import { Text, Image, Col, Card } from "@nextui-org/react";
 import Section from "./components/section";
 import ParallaxSection  from "./components/parallaxsection";
 import Footer from "./components/footer";
-import Nav from "./components/nav";
+import Nav from "./components/nav1";
 
 const IndexPage = () => {
   return (

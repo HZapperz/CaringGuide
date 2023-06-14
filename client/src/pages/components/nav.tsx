@@ -1,9 +1,7 @@
-import { useState, useEffect, FC } from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar, Text, Image, Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import Link from "next/link";
-
-
 
 const Nav = () => {
   const [activeLink, setActiveLink] = useState("");
@@ -48,17 +46,6 @@ const Nav = () => {
     }
   };
 
-  
-
-  // const navigate = useNavigate();
-
-  // const handleSignUpClick = () => {
-  //   navigate("/auth");
-  // };
-
-
-
-
   return (
     <Navbar
       isBordered
@@ -69,51 +56,35 @@ const Nav = () => {
         $$navbarBlurBackgroundColor: "#FFFFFF80",
       }}
     >
-      <Navbar.Brand>
-        <Image src="/logo.png" alt="Logo" width={40} height={40} />
-        <Text
-          h2
-          weight="bold"
-          css={{
-            textGradient: "45deg, $green900 -10%, $red800 50%",
-          }}
-        >
-          Caring Guide
-        </Text>
-      </Navbar.Brand>
-      <Navbar.Content hideIn="xs" variant="underline">
-        <Navbar.Link
-          activeColor="secondary"
-          isActive={activeLink === "section-1"}
-          color="primary"
-          onClick={handleScrollToSection1}
-        >
-          <p className=" text-bold relative group">
-<span className="">Section 1</span>
-  <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
-  </p>
-        </Navbar.Link>
-        <Navbar.Link
-          activeColor="secondary"
-          isActive={activeLink === "section-2"}
-          color="primary"
-          onClick={handleScrollToSection2}
-        >
-          Section 2
-        </Navbar.Link>
+      <Navbar.Content align="left">
+        <Navbar.Brand>
+          <Image src="/logo.png" alt="Logo" width={40} height={40} />
+          <Text
+            h2
+            weight="bold"
+            css={{
+              textGradient: "45deg, $green900 -10%, $red800 50%",
+            }}
+          >
+            Caring Guide
+          </Text>
+        </Navbar.Brand>
       </Navbar.Content>
-      <Navbar.Content>
-        <Navbar.Link color="primary" href="/signin"className="relative inline-block font-bold transition-colors duration-300 text-black">
-          <p className=" text-bold relative group">
-          <span className="">Login</span>
-          <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
-          </p>
+      <Navbar.Content align="right">
+        <Text className="mr-10" color="red" className="font-bold">
+          HOME
+        </Text>
+        <Text className="mr-10" color="primary" className="font-bold">
+          ABOUT US
+        </Text>
+        <Navbar.Link color="primary" href="/signin" className="font-bold">
+          <Text color="primary">LOGIN</Text>
         </Navbar.Link>
         <Navbar.Item>
-        <Link href="/signup">
-          <Button flat color="secondary" auto href="#" >
-            Sign Up
-          </Button>
+          <Link href="/signup">
+            <Button flat color="secondary" auto>
+              SIGN UP
+            </Button>
           </Link>
         </Navbar.Item>
       </Navbar.Content>

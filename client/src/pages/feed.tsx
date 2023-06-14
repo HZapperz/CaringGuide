@@ -1,4 +1,4 @@
-import Nav from "./components/nav";
+import Nav from "./components/nav1";
 import Streams from "./components/streams";
 import { Navbar, Text, Image, Button, Input } from "@nextui-org/react";
 import Link from "next/link";

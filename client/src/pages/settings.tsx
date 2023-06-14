@@ -1,4 +1,4 @@
-import Nav from "./components/nav";
+import Nav from "./components/nav1";
 import { Navbar, Text, Image, Button, Input, User, Dropdown, Avatar, Grid, Container, Row, Col, Card, Spacer, Textarea } from "@nextui-org/react";
 import Link from "next/link";
 
