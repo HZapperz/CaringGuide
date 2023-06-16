@@ -9,7 +9,7 @@ The main project folder (<project_root>) can contain the following files:
 
 * **host.json** - Contains global configuration options that affect all functions in a function app. This file does get published to Azure. Not all options are supported when running locally.
 
-* **.venv/** - Contains a Python virtual environment used by local development.
+* **Download Conda** - https://anaconda.org/anaconda/conda
   
 Each function has its own code file and binding configuration file ([**function.json**](https://aka.ms/azure-functions/python/function.json)).
 
@@ -83,10 +83,15 @@ $ python3 -m install -r requirements.txt
 ```
 
 
-## Run the stack
-Activate your virtual environment. 
+## Create and Run the stack
+Create Conda environment
 ```sh
-$ source .venv/bin/activate
+$ conda create --name cg-env
+```
+
+Activate your Conda environment. 
+```sh
+$ source activate cg-env
 ```
 
 Run the stack
