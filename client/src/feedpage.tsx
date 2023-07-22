@@ -1,40 +1,24 @@
-import Nav from "./components/nav";
-import Streams from "./components/streams";
-import {
-  Navbar,
-  Text,
-  Image,
-  Button,
-  Input,
-  Grid,
-  Container,
-  Card,
-  Checkbox,
-  Spacer,
-} from "@nextui-org/react";
+import { Navbar, Text, Image, Button, Input } from "@nextui-org/react";
 import Link from "next/link";
-import Articles from "./components/articles";
 import links from "./links";
 
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 import { useState } from "react";
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-
-const feedpage = () => {
-  const [value, setValue] = React.useState(0);
+const Feedpage = () => {
+  const [value, setValue] = useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
   const a11yProps = (index: number) => {
     return {
-      id: `tab-${index}`,
+      "id": `tab-${index}`,
       "aria-controls": `tabpanel-${index}`,
     };
   };
@@ -96,7 +80,7 @@ const feedpage = () => {
           clearable
           contentLeftStyling={false}
           css={{
-            w: "90%",
+            "w": "90%",
             "@xs": {
               mw: "800px",
             },
@@ -144,7 +128,7 @@ const feedpage = () => {
             label="GENERAL INFO"
             {...a11yProps(0)}
             sx={{
-              fontWeight: "bold",
+              "fontWeight": "bold",
               "&.Mui-selected": {
                 color: "#0E4735",
               },
@@ -154,7 +138,7 @@ const feedpage = () => {
             label="FINANCES"
             {...a11yProps(1)}
             sx={{
-              fontWeight: "bold",
+              "fontWeight": "bold",
               "&.Mui-selected": {
                 color: "#0E4735",
               },
@@ -164,7 +148,7 @@ const feedpage = () => {
             label="END-OF-LIFE/GREIF"
             {...a11yProps(2)}
             sx={{
-              fontWeight: "bold",
+              "fontWeight": "bold",
               "&.Mui-selected": {
                 color: "#0E4735",
               },
@@ -174,7 +158,7 @@ const feedpage = () => {
             label="INFORMAL"
             {...a11yProps(3)}
             sx={{
-              fontWeight: "bold",
+              "fontWeight": "bold",
               "&.Mui-selected": {
                 color: "#0E4735",
               },
@@ -184,7 +168,7 @@ const feedpage = () => {
             label="PHYSICAL CARE"
             {...a11yProps(4)}
             sx={{
-              fontWeight: "bold",
+              "fontWeight": "bold",
               "&.Mui-selected": {
                 color: "#0E4735",
               },
@@ -194,7 +178,7 @@ const feedpage = () => {
             label="EMOTIONS"
             {...a11yProps(5)}
             sx={{
-              fontWeight: "bold",
+              "fontWeight": "bold",
               "&.Mui-selected": {
                 color: "#0E4735",
               },
@@ -214,8 +198,9 @@ const feedpage = () => {
         ].map((label) => (
           <button
             key={label}
-            className={`checkbox-button ${selected.includes(label) ? "selected" : ""
-              }`}
+            className={`checkbox-button ${
+              selected.includes(label) ? "selected" : ""
+            }`}
             onClick={() => handleButtonClick(label)}
           >
             {label}
@@ -262,8 +247,7 @@ const feedpage = () => {
                 rel="noopener noreferrer"
                 key={ind}
               >
-                <img
-
+                <Image
                   className="object-cover p-2 rounded-2xl h-48 w-48"
                   src={val.imgsrc}
                   alt="image"
@@ -292,18 +276,14 @@ const feedpage = () => {
                     />
                   )}
                 </div>
-
               </a>
             );
           }
           return null;
         })}
       </div>
-
-
-
     </>
   );
 };
 
-export default feedpage;
+export default Feedpage;

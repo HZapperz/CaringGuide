@@ -1,6 +1,6 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
-import { createTheme, NextUIProvider, Text } from "@nextui-org/react"
+import "@/styles/globals.css";
+import type { AppProps } from "next/app";
+import { createTheme, NextUIProvider, Text } from "@nextui-org/react";
 
 const theme = createTheme({
   type: "light", // it could be "light" or "dark"
@@ -19,17 +19,17 @@ const theme = createTheme({
       error: "#dc3545",
       info: "#17a2b8",
 
-      gradient: 'linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)',
-      link: '#5E1DAD',
+      gradient:
+        "linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)",
+      link: "#5E1DAD",
 
       // you can also create your own color
-      myColor: '#ff4ecd'
-
+      myColor: "#ff4ecd",
     },
     space: {},
-    fonts: {}
-  }
-})
+    fonts: {},
+  },
+});
 
 function App({ Component, pageProps }: AppProps) {
   return (

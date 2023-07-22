@@ -7,7 +7,6 @@ import Nav from "./components/nav";
 
 const IndexPage = () => {
   return (
-  
     <>
       <Nav />
       <ParallaxSection />

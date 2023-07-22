@@ -3,8 +3,6 @@ import { Navbar, Text, Image, Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import Link from "next/link";
 
-
-
 const Nav = () => {
   const [activeLink, setActiveLink] = useState("");
 
@@ -48,16 +46,11 @@ const Nav = () => {
     }
   };
 
-  
-
   // const navigate = useNavigate();
 
   // const handleSignUpClick = () => {
   //   navigate("/auth");
   // };
-
-
-
 
   return (
     <Navbar
@@ -89,9 +82,9 @@ const Nav = () => {
           onClick={handleScrollToSection1}
         >
           <p className=" text-bold relative group">
-<span className="">Section 1</span>
-  <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
-  </p>
+            <span className="">Section 1</span>
+            <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
+          </p>
         </Navbar.Link>
         <Navbar.Link
           activeColor="secondary"
@@ -103,17 +96,21 @@ const Nav = () => {
         </Navbar.Link>
       </Navbar.Content>
       <Navbar.Content>
-        <Navbar.Link color="primary" href="/signin"className="relative inline-block font-bold transition-colors duration-300 text-black">
+        <Navbar.Link
+          color="primary"
+          href="/signin"
+          className="relative inline-block font-bold transition-colors duration-300 text-black"
+        >
           <p className=" text-bold relative group">
-          <span className="">Login</span>
-          <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
+            <span className="">Login</span>
+            <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
           </p>
         </Navbar.Link>
         <Navbar.Item>
-        <Link href="/signup">
-          <Button flat color="secondary" auto href="#" >
-            Sign Up
-          </Button>
+          <Link href="/signup">
+            <Button flat color="secondary" auto href="#">
+              Sign Up
+            </Button>
           </Link>
         </Navbar.Item>
       </Navbar.Content>
