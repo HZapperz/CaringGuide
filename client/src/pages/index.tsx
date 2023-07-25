@@ -1,143 +1,213 @@
-import { Text, Image, Col, Card } from "@nextui-org/react";
-
-import Section from "./components/section";
-import ParallaxSection  from "./components/parallaxsection";
-import Footer from "./components/footer";
+import Image from "next/image";
+import home1 from "../../public/images/Home1.png";
+import faq1 from "../../public/images/faq1.png";
+import faq2 from "../../public/images/faq2.png";
+import faq3 from "../../public/images/faq3.png";
 import Nav from "./components/nav";
+import HomeStats from "./components/homeStats";
+import people from "../../public/svgs/people.svg";
+import care from "../../public/svgs/care.svg";
+import crowd from "../../public/svgs/crowd.svg";
+import time from "../../public/svgs/time.svg";
+import handShake from "../../public/images/handShake.png";
+import think from "../../public/images/think.png";
+import doc from "../../public/images/doc.png";
+import brains from "../../public/svgs/brain.svg";
+import shield from "../../public/svgs/shield.svg";
+import bookmark from "../../public/svgs/bookmark.svg";
+import FAQComp from "./components/faqComp";
 
-const IndexPage = () => {
+const Home = () => {
+  const list = [
+    {
+      image: people,
+      lText: "41.8",
+      sText: "Million",
+      para: "Americans provided care to an adult over 50 in 2020",
+    },
+    {
+      image: care,
+      lText: "16.6%",
+      sText: null,
+      para: "of Americans provide care to adults with a disability or illness",
+    },
+    {
+      image: time,
+      lText: "23.7",
+      sText: "Hours Per Week",
+      para: "on average spent providing care for loved ones not lived with",
+    },
+    {
+      image: crowd,
+      lText: "89%",
+      sText: null,
+      para: "of caregivers provide care for a relative or other loved one",
+    },
+  ];
+
+  const info = [
+    {
+      src: handShake,
+      heading: "Our Verification Process",
+      para: `We take the safety and security of our users very seriously.
+              That's why all of our guides go through a rigorous verification
+              process before they are officially approved. This includes
+              background checks, reference checks, and personal interviews. You
+              can rest assured that you're in good hands with Caring Guide.`,
+    },
+    {
+      src: think,
+      heading: "Personalized Guidebook of Resources",
+      para: `Our personalized guidebook covers a wide range of resource categories, including Physical, Emotional/Mental, Financial, Housing, Spiritual, End of Life, and General. This comprehensive approach ensures that caregivers have access to the support they need, when they need it. Plus, our mentorship program provides personalized guidance and support tailored to your unique situation.`,
+    },
+    {
+      src: doc,
+      heading: "Connect with a Personal Guide",
+      para: `At Caring Guide, we understand that caregiving can be overwhelming and stressful. That's why we connect caregivers with a personal mentor who provides emotional and practical support throughout their caregiving journey.`,
+    },
+  ];
+
+  const faqs = [
+    {
+      image: brains,
+      question: "How do I find the best guide for me?",
+    },
+    {
+      image: shield,
+      question: "How are to guide verified?",
+    },
+    {
+      image: bookmark,
+      question: "How can I find more resources?",
+    },
+  ];
   return (
-    <>
+    <div className="bg-white">
       <Nav />
-      <ParallaxSection />
-      <Section title="Section 1" id="section-1">
-        <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
-          <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-            <Image
-              src="/homeimgs/trust.png"
-              alt="Section 1 Image"
-              width={410}
-              height={410}
-              objectFit="cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-bold mb-2">
-                Our Verification Process
-              </h3>
-              <p className="text-gray-700 text-base">
-                We take the safety and security of our users very seriously.
-                That&apos;s why all of our guides go through a rigorous verification
-                process before they are officially approved. This includes
-                background checks, reference checks, and personal interviews.
-                You can rest assured that you&apos;re in good hands with Caring
-                Guide.
+      <main>
+        <div className="relative inline-block overflow-hidden w-full px-1 bg-white">
+          <div>
+            <Image src={home1} alt="Your Image" className="w-full" />
+            <div className="absolute bottom-0 left-1 right-1 top-0 bg-black opacity-50 rounded-b-[48px]"></div>
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 top-0 rounded-lg flex items-center w-[50%] p-20">
+            <div className="p-4 rounded-bl-lg rounded-br-lg">
+              <p className="text-white font-poppins font-bold text-7xl tracking-normal text-left leading-[6rem]">
+                Foster Connections Find Your Way
               </p>
+              <p className="text-white font-poppins font-medium text-3xl tracking-normal text-left leading-[4rem]">
+                Find a Guide Today
+              </p>
+              <button
+                type="button"
+                className="flex justify-between items-center bg-caring text-white px-8 py-6 mt-2 rounded-lg font-poppins font-medium text-3xl tracking-normal text-left w-80"
+              >
+                Get Started
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={3}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
-          <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-            <Image
-              src="/homeimgs/resources.png"
-              alt="Section 2 Image"
-              width={410}
-              height={410}
-              objectFit="cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-bold mb-2">
-                Personalized Guidebook of Resources
-              </h3>
-              <p className="text-gray-700 text-base">
-                Our personalized guidebook covers a wide range of resource
-                categories, including Physical, Emotional/Mental, Financial,
-                Housing, Spiritual, End of Life, and General. This comprehensive
-                approach ensures that caregivers have access to the support they
-                need, when they need it. Plus, our mentorship program provides
-                personalized guidance and support tailored to your unique
-                situation.
-              </p>
+        <div className="w-full h-full p-16 flex justify-center items-center">
+          {list && (
+            <div className="grid grid-cols-2 xl:grid-cols-4 gap-8 xl:gap-2">
+              {list.map((item, index) => (
+                <HomeStats
+                  key={index}
+                  image={item.image}
+                  lText={item.lText}
+                  sText={item.sText}
+                  para={item.para}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 gap-y-20 p-16">
+          {info.map((item, index) => (
+            <>
+              <div
+                className={
+                  "flex justify-center items-center" +
+                  (index % 2 === 0 ? " hidden" : "")
+                }
+              >
+                <Image
+                  src={item.src}
+                  alt=""
+                  className="rounded-xl w-[60%] h-[400px] xl:w-[90%] xl:h-[450px]"
+                />
+              </div>
+              <div key={index}>
+                <div className="text-start font-poppins text-[35px] font-medium text-[#245B48]">
+                  {item.heading}
+                </div>
+                <div className="text-black font-poppins text-[22px] font-normal">
+                  {item.para}
+                </div>
+              </div>
+              <div
+                className={
+                  "flex justify-center items-center" +
+                  (index % 2 === 0 ? "" : " hidden")
+                }
+              >
+                <Image
+                  src={item.src}
+                  alt=""
+                  className="rounded-xl w-[60%] h-[400px] xl:w-[90%] xl:h-[450px]"
+                />
+              </div>
+            </>
+          ))}
+        </div>
+        <div>
+          <div className="relative inline-block overflow-hidden w-full bg-white">
+            <div>
+              <div className="flex w-full">
+                <Image src={faq1} alt="Your Image" className="w-[33%]" />
+                <Image src={faq2} alt="Your Image" className="w-[34%]" />
+                <Image src={faq3} alt="Your Image" className="w-[33%]" />
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 top-0 bg-black opacity-50"></div>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 top-0 rounded-lg flex flex-col items-center justify-center p-6">
+              <h1 className="text-white text-center font-poppins text-[40px] font-semibold">
+                Frequently Asked Questions
+              </h1>
+              {faqs.map((items, index) => (
+                <FAQComp
+                  key={index}
+                  image={items.image}
+                  question={items.question}
+                />
+              ))}
             </div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
-          <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-            <Image
-              src="/homeimgs/connect.png"
-              alt="Section 3 Image"
-              width={410}
-              height={410}
-              objectFit="cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-bold mb-2">
-                Connect with a Personal Mentor
-              </h3>
-              <p className="text-gray-700 text-base">
-                At Caring Guide, we understand that caregiving can be
-                overwhelming and stressful. That&apos;s why we connect caregivers
-                with a personal mentor who provides emotional and practical
-                support throughout their caregiving journey.
-              </p>
-            </div>
+        <div className="p-10">
+          <div className="text-gray-700 text-center font-poppins text-[40px] font-medium mb-4">
+            Contact Us
           </div>
+          <hr className="bg-[#ECEEED] border-[#ECEEED]" />
         </div>
-      </Section>
-      <Section title="Section 2">
-
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-  <div className="md:flex">
-    <div className="md:shrink-0">
-      <img className="h-48 w-full object-cover md:h-full md:w-48" src="/img/building.jpg" alt="Modern building architecture"/>
+        <div></div>
+      </main>
     </div>
-    <div className="p-8">
-      <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Company retreats</div>
-      <a href="#" className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Incredible accommodation for your team</a>
-      <p className="mt-2 text-slate-500">Looking to take your team away on a retreat to enjoy awesome food and take in some sunshine? We have a list of places to do just that.</p>
-    </div>
-  </div>
-</div>
-
- 
-</Section>
-<Section title="Section 3">
-<div className="flex flex-row ">
-  <div className="bg-cover bg-center px-4 py-6  mx-auto bg-[url('../../public/images/caregiver-CreativeRFTerryVineGettyImages-56cd9ca53df78cfb37a3276b.jpeg')]">
-    <h2 className="text-4xl font-bold mb-2 text-center text-white">Care Giving By the Numbers</h2>
-    {/* <p className="text-sm">Fifth Box Content</p> */}
-  </div>
-  <div className="grid grid-cols-2 ">
-  
-    <div className="bg-caring px-4 py-6 flex-1">
-    <hr className="w-48 h-1 mx-auto bg-gray-100 border-0 rounded ml-8 mb-4"/>
-      <h2 className="text-2xl font-bold text-black">41.8 million Americans provided care to an adult over 50 in 2020</h2>
-  
-    </div>
-    <div className="bg-caring px-4 py-6 flex-1">
-    <hr className="w-48 h-1 mx-auto bg-gray-100 border-0 rounded ml-8 mb-4"/>
-      <h2 className="text-2xl font-bold bg text-black">89% of caregivers provide care for a relative or other loved one</h2>
-
-    </div>
-    <div className="bg-caring px-4 py-6 flex-1">
-    <hr className="w-48 h-1 mx-auto bg-gray-100 border-0 rounded ml-8 mb-4"/>
-      <h2 className="text-2xl font-bold text-black ">16.6% of Americans provide care to adults with a disability or illness</h2>
-
-    </div>
-    <div className="bg-caring px-4 py-6 flex-1">
-    <hr className="w-48 h-1 mx-auto bg-gray-100 border-0 rounded ml-8 mb-4"/>
-      <h2 className="text-2xl font-bold text-black">23.7 hours per week on average spent providing care for loved ones not lived with</h2>
-
-    </div>
-  </div>
-</div>
-</Section>
-
-
-
-
-
-    </>
-    );
+  );
 };
 
-export default IndexPage;
+export default Home;
