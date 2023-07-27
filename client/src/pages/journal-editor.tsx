@@ -11,8 +11,8 @@ const JournalEditor: React.FC = () => {
           <div>JOURNAL</div>
         </div>
         <div className="border-2 border-[#ECEEED h-full flex flex-col md:flex-row justify-start items-start">
-          <div className="container flex flex-col justify-start items-start min-h-full p-4 w-full md:w-[40%]">
-            <div className="container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 w-fit overflow-auto">
+          <div className="container flex flex-col justify-start items-start min-h-full p-4 w-full md:w-80">
+            <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 w-full md:w-80 overflow-auto">
               <div>
                 <JournalCard />
               </div>
