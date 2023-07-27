@@ -46,7 +46,7 @@ const DashboardCareCard = (props: any) => {
             <div className="text-[#4E4E4E] p-4 rounded-xl bg-white">
               <div className="text-[#4E4E4E]">
                 <p className="opacity-50 text-[10px]">PHONE NUMBER</p>
-                <p className="text-[15px] font-[300]">469 d-570-8561</p>
+                <p className="text-[15px] font-[300]">469-570-8561</p>
               </div>
               <div className="text-[#4E4E4E]">
                 <p className="opacity-50 text-[10px]">Email</p>

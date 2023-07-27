@@ -139,7 +139,10 @@ const JournalPage = () => {
             </div>
           ) : (
             <div className="p-8">
-              <h1 className="text-3xl font-bold text-center text-gray-400">Click on a journal to view or click New Entry to start a new journal</h1>
+              <h1 className="text-3xl font-bold text-center text-gray-400">
+                Click on a journal to view or click New Entry to start a new
+                journal
+              </h1>
             </div>
           )}
         </div>

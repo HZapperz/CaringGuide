@@ -1,8 +1,9 @@
 import React from "react";
+import EditProfile from "./editProfile";
 
 const DashboardCard = (props: any) => {
   return (
-    <main className="container mx-auto w-96">
+    <main className="container mx-auto">
       <div className="max-w-md mx-auto rounded-xl overflow-hidden bg-white border-2 border-[#ECEEED]">
         <div className="flex justify-between items-center p-4 w-full">
           <div className="w-[40%]">
@@ -36,7 +37,7 @@ const DashboardCard = (props: any) => {
             <div className="text-[#4E4E4E] p-4 rounded-xl bg-[#ECEEED]">
               <div className="text-[#4E4E4E]">
                 <p className="opacity-50 text-[10px]">PHONE NUMBER</p>
-                <p className="text-[15px] font-[300]">469 d-570-8561</p>
+                <p className="text-[15px] font-[300]">469-570-8561</p>
               </div>
               <div className="text-[#4E4E4E]">
                 <p className="opacity-50 text-[10px]">Email</p>
@@ -52,12 +53,7 @@ const DashboardCard = (props: any) => {
             </div>
           </div>
           <div className="mt-4">
-            <button
-              type="button"
-              className="flex justify-center items-center border-2 border-[#ECEEED] rounded-2xl text-[#4E4E4E] px-4 py-2 lg:px-8 lg:py-4 mt-2 font-poppins font-[400] text-[16px] tracking-normal text-center w-full"
-            >
-              Edit Profile
-            </button>
+            <EditProfile />
           </div>
         </div>
       </div>
