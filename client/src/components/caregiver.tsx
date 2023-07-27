@@ -40,7 +40,7 @@ const Caregiver = () => {
                 type="text"
                 placeholder="First Name"
                 {...register("fName", { required: true })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.fName ? " border border-red-500" : ""
                 }`}
               />
@@ -53,7 +53,7 @@ const Caregiver = () => {
                 type="text"
                 placeholder="Middle Name"
                 {...register("mName", { required: true })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.mName ? " border border-red-500" : ""
                 }`}
               />
@@ -66,7 +66,7 @@ const Caregiver = () => {
                 type="text"
                 placeholder="Last Name"
                 {...register("lName", { required: true })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.lName ? " border border-red-500" : ""
                 }`}
               />
@@ -79,7 +79,7 @@ const Caregiver = () => {
                 type="number"
                 placeholder="Age"
                 {...register("age", { required: true })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.age ? " border border-red-500" : ""
                 }`}
               />
@@ -93,7 +93,7 @@ const Caregiver = () => {
                 id="gender"
                 {...register("gender", { required: true })}
                 defaultValue={"Gender"}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.gender ? " border border-red-500" : ""
                 }`}
               >
@@ -118,7 +118,7 @@ const Caregiver = () => {
                 type="email"
                 placeholder="Email"
                 {...register("email", { required: true })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.email ? " border border-red-500" : ""
                 }`}
               />
@@ -131,7 +131,7 @@ const Caregiver = () => {
                 type="text"
                 placeholder="Mobile Number"
                 {...register("phone", { required: true })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.phone ? " border border-red-500" : ""
                 }`}
               />
@@ -152,7 +152,7 @@ const Caregiver = () => {
                 type="text"
                 placeholder="Name"
                 {...register("lovedOneName", { required: true })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.lovedOneName ? " border border-red-500" : ""
                 }`}
               />
@@ -166,13 +166,15 @@ const Caregiver = () => {
                 id="condition"
                 {...register("condition", { required: true })}
                 defaultValue={"Loved One Condition"}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.condition ? " border border-red-500" : ""
                 }`}
               >
-                <option value="good">Good</option>
-                <option value="bad">Bad</option>
-                <option value="worse">Worse</option>
+                <option value="Multiple Myeloma">Multiple Myeloma</option>
+                <option value="Alzheimer’s Disease">Alzheimer’s Disease</option>
+                <option value="Parkinson’s Disease">Parkinson’s Disease</option>
+                <option value="Stroke">Stroke</option>
+                <option value="ALS">ALS</option>
               </select>
               {errors.condition && (
                 <p className="text-red-500 mt-2">Condition is required</p>
@@ -184,7 +186,7 @@ const Caregiver = () => {
                 id="relationship"
                 {...register("relationship", { required: true })}
                 defaultValue={"Relationship to Patient"}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.relationship ? " border border-red-500" : ""
                 }`}
               >
@@ -215,7 +217,9 @@ const Caregiver = () => {
                     type="checkbox"
                     name="6"
                     id="plus"
-                    className={`mr-2 ${errors.age ? " border border-red-500" : ""}`}
+                    className={`mr-2 ${
+                      errors.age ? " border border-red-500" : ""
+                    }`}
                   />
                   <label htmlFor="plus">4+ Years</label>
                 </div>

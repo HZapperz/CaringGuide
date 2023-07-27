@@ -3,8 +3,8 @@ import home1 from "../../public/images/Home1.png";
 import faq1 from "../../public/images/faq1.png";
 import faq2 from "../../public/images/faq2.png";
 import faq3 from "../../public/images/faq3.png";
-import Nav from "./components/nav";
-import HomeStats from "./components/homeStats";
+import Nav from "../components/nav";
+import HomeStats from "../components/homeStats";
 import people from "../../public/svgs/people.svg";
 import care from "../../public/svgs/care.svg";
 import crowd from "../../public/svgs/crowd.svg";
@@ -15,7 +15,7 @@ import doc from "../../public/images/doc.png";
 import brains from "../../public/svgs/brain.svg";
 import shield from "../../public/svgs/shield.svg";
 import bookmark from "../../public/svgs/bookmark.svg";
-import FAQComp from "./components/faqComp";
+import FAQComp from "../components/faqComp";
 
 const Home = () => {
   const list = [
@@ -88,19 +88,19 @@ const Home = () => {
         <div className="relative inline-block overflow-hidden w-full px-1 bg-white">
           <div>
             <Image src={home1} alt="Your Image" className="w-full" />
-            <div className="absolute bottom-0 left-1 right-1 top-0 bg-black opacity-50 rounded-b-[48px]"></div>
+            <div className="absolute bottom-0 left-1 right-1 top-0 bg-black opacity-50 rounded-b-[16px] lg:rounded-b-[48px]"></div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 top-0 rounded-lg flex items-center w-[50%] p-20">
+          <div className="absolute bottom-0 left-0 right-0 top-0 rounded-lg flex items-center w-[80%] lg:w-[70%] xl:w-[50%] p-10 lg:p-20">
             <div className="p-4 rounded-bl-lg rounded-br-lg">
-              <p className="text-white font-poppins font-bold text-7xl tracking-normal text-left leading-[6rem]">
+              <p className="text-white font-poppins font-bold text-3xl lg:text-5xl xl:text-7xl tracking-normal text-left leading-[2rem] lg:leading-[4rem] xl:leading-[6rem]">
                 Foster Connections Find Your Way
               </p>
-              <p className="text-white font-poppins font-medium text-3xl tracking-normal text-left leading-[4rem]">
+              <p className="text-white font-poppins font-medium text-2xl lg:text-3xl tracking-normal text-left leading-[4rem]">
                 Find a Guide Today
               </p>
               <button
                 type="button"
-                className="flex justify-between items-center bg-caring text-white px-8 py-6 mt-2 rounded-lg font-poppins font-medium text-3xl tracking-normal text-left w-80"
+                className="flex justify-between items-center bg-caring text-white px-4 py-2 lg:px-8 lg:py-6 mt-2 rounded-lg font-poppins font-medium text-3xl tracking-normal text-left w-80"
               >
                 Get Started
                 <svg
@@ -123,7 +123,7 @@ const Home = () => {
         </div>
         <div className="w-full h-full p-16 flex justify-center items-center">
           {list && (
-            <div className="grid grid-cols-2 xl:grid-cols-4 gap-8 xl:gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 xl:gap-2">
               {list.map((item, index) => (
                 <HomeStats
                   key={index}
@@ -184,8 +184,8 @@ const Home = () => {
               </div>
               <div className="absolute bottom-0 left-0 right-0 top-0 bg-black opacity-50"></div>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 top-0 rounded-lg flex flex-col items-center justify-center p-6">
-              <h1 className="text-white text-center font-poppins text-[40px] font-semibold">
+            <div className="absolute bottom-0 left-0 right-0 top-0 rounded-lg flex flex-col items-center justify-center p-6 overflow-auto">
+              <h1 className="text-white text-center font-poppins text-[30px] xl:text-[40px] mt-64 md:mt-20  lg:mt-0 font-semibold">
                 Frequently Asked Questions
               </h1>
               {faqs.map((items, index) => (

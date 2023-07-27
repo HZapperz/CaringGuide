@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Nav from "../components/nav";
-import Caregiver from "./caregiver";
-import Guide from "./caregiver";
+import Caregiver from "../components/caregiver";
+import Guide from "../components/caregiver";
 
 const OnBoarding = () => {
   const [caregiver, setCareGiver] = useState(1);

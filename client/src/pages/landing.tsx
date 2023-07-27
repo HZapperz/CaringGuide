@@ -9,7 +9,7 @@ import GppGoodIcon from "@mui/icons-material/GppGood";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-import Nav from "./components/nav";
+import Nav from "../components/nav";
 import trust from "../../public/homeimgs/trust.png";
 import resources from "../../public/homeimgs/resources.png";
 import connect from "../../public/homeimgs/connect.png";

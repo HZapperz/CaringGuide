@@ -1,5 +1,21 @@
-import Nav from "./components/nav";
-import { Navbar, Text, Image, Button, Input, User, Dropdown, Avatar, Grid, Container, Row, Col, Card, Spacer, Textarea } from "@nextui-org/react";
+import Nav from "../components/nav";
+import {
+  Navbar,
+  Text,
+  Image,
+  Button,
+  Input,
+  User,
+  Dropdown,
+  Avatar,
+  Grid,
+  Container,
+  Row,
+  Col,
+  Card,
+  Spacer,
+  Textarea,
+} from "@nextui-org/react";
 import Link from "next/link";
 
 const SettingsPage = () => {
@@ -26,7 +42,7 @@ const SettingsPage = () => {
             Caring Guide
           </Text>
         </Navbar.Brand>
-        
+
         <Navbar.Content>
           <Navbar.Link color="primary" href="/settings">
             RESOURCES
@@ -47,16 +63,13 @@ const SettingsPage = () => {
                   />
                 </Dropdown.Trigger>
                 <Dropdown.Menu color="secondary" aria-label="Avatar Actions">
-                  <Dropdown.Item key="settings">
-                    Edit Profile
-                  </Dropdown.Item>
+                  <Dropdown.Item key="settings">Edit Profile</Dropdown.Item>
                   <Dropdown.Item key="logout" color="error" withDivider>
                     Log Out
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Grid>
-
           </Navbar.Item>
         </Navbar.Content>
       </Navbar>
@@ -64,7 +77,10 @@ const SettingsPage = () => {
         <div className="relative">
           <div className="h-72">
             <div className="h-36 w-full bg-gradient-to-r from-green-100 to-pink-200"></div>
-            <img className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500" src="default.jpeg" />
+            <img
+              className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500"
+              src="default.jpeg"
+            />
             <div className="pr-48 pt-12 flex md:flex md:flex-grow flex-row justify-end space-x-1">
               <button className="text-sm w-24 bg-green-900 border-2 hover:bg-green-800 text-white py-2 px-4 rounded-lg border-green-900">
                 Save
@@ -74,35 +90,44 @@ const SettingsPage = () => {
                 Cancel
               </button>
             </div>
-
           </div>
         </div>
       </section>
 
       <section>
-        <Container gap={0} css={{ d: 'flex', flexWrap: 'nowrap' }}>
+        <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
           <Spacer x={12} />
           <Text size={15}>First Name</Text>
           <Spacer x={5} />
-          <Input bordered size="sm" placeholder="First Name" color="secondary" />
+          <Input
+            bordered
+            size="sm"
+            placeholder="First Name"
+            color="secondary"
+          />
         </Container>
         <Spacer y={0.5} />
         <div className="relative flex py-5 items-center">
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
         <Spacer y={0.5} />
-        <Container gap={0} css={{ d: 'flex', flexWrap: 'nowrap' }}>
+        <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
           <Spacer x={12} />
           <Text size={15}>Middle Name</Text>
           <Spacer x={4.3} />
-          <Input bordered size="sm" placeholder="Middle Name" color="secondary" />
+          <Input
+            bordered
+            size="sm"
+            placeholder="Middle Name"
+            color="secondary"
+          />
         </Container>
         <Spacer y={0.5} />
         <div className="relative flex py-5 items-center">
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
         <Spacer y={0.5} />
-        <Container gap={0} css={{ d: 'flex', flexWrap: 'nowrap' }}>
+        <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
           <Spacer x={12} />
           <Text size={15}>Last Name</Text>
           <Spacer x={5} />
@@ -113,7 +138,7 @@ const SettingsPage = () => {
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
         <Spacer y={0.5} />
-        <Container gap={0} css={{ d: 'flex', flexWrap: 'nowrap' }}>
+        <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
           <Spacer x={12} />
           <Text size={15}>Age</Text>
           <Spacer x={7} />
@@ -124,7 +149,7 @@ const SettingsPage = () => {
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
         <Spacer y={0.5} />
-        <Container gap={0} css={{ d: 'flex', flexWrap: 'nowrap' }}>
+        <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
           <Spacer x={12} />
           <Text size={15}>Location</Text>
           <Spacer x={5.7} />
@@ -132,26 +157,27 @@ const SettingsPage = () => {
           <Spacer x={4} />
           <Text size={15}>State</Text>
           <Spacer x={3} />
-          <Input bordered width="120px" size="sm" placeholder="State" color="secondary" />
+          <Input
+            bordered
+            width="120px"
+            size="sm"
+            placeholder="State"
+            color="secondary"
+          />
         </Container>
         <Spacer y={0.5} />
         <div className="relative flex py-5 items-center">
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
         <Spacer y={0.5} />
-        <Container gap={0} css={{ d: 'flex', flexWrap: 'nowrap' }}>
+        <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
           <Spacer x={12} />
           <Text size={15}>Your Bio</Text>
           <Spacer x={5.7} />
-          <Textarea
-            bordered
-            color="secondary"
-            width="500px"
-          />
+          <Textarea bordered color="secondary" width="500px" />
         </Container>
         <Spacer y={3} />
       </section>
-
     </>
   );
 };

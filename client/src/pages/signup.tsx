@@ -1,6 +1,6 @@
 import { Text, Image, Col, Card, Button } from "@nextui-org/react";
 
-import Section from "./components/section";
+import Section from "../components/section";
 
 import React from "react";
 import {
