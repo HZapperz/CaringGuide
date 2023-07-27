@@ -29,7 +29,7 @@ const JournalEditor: React.FC = () => {
           </div>
           <hr className="w-2 h-full bg-[#ECEEED border-[#ECEEED" />
           <div className="w-full flex flex-col">
-            <input type="text" placeholder="Title" className="text-[30]" />
+            <input type="text" placeholder="Title" className="text-[30px]" />
             <textarea
               name="description"
               id="description"
