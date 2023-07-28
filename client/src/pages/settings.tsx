@@ -77,16 +77,17 @@ const SettingsPage = () => {
         <div className="relative">
           <div className="h-72">
             <div className="h-36 w-full bg-gradient-to-r from-green-100 to-pink-200"></div>
-            <img
+            <Image
               className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500"
               src="default.jpeg"
+              alt="default jpeg"
             />
             <div className="pr-48 pt-12 flex md:flex md:flex-grow flex-row justify-end space-x-1">
               <button className="text-sm w-24 bg-green-900 border-2 hover:bg-green-800 text-white py-2 px-4 rounded-lg border-green-900">
                 Save
               </button>
               <Spacer x={2} />
-              <button className="w-24 text-sm rounded-lg bg-transparent text-gray-800 hover:bg-gray-200 hover:border-transparent py-2 px-4 border-2 border-gray-300 rounded">
+              <button className="w-24 text-sm rounded-lg bg-transparent text-gray-800 hover:bg-gray-200 hover:border-transparent py-2 px-4 border-2 border-gray-300">
                 Cancel
               </button>
             </div>

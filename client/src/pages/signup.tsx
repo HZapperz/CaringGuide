@@ -1,100 +1,167 @@
-import { Text, Image, Col, Card, Button } from "@nextui-org/react";
-
-import Section from "../components/section";
-
-import React from "react";
-import {
-  EyeIcon,
-  EyeSlashIcon,
-  UserIcon,
-  LockClosedIcon,
-  ArrowLeftIcon,
-} from "@heroicons/react/20/solid";
+import React, { useEffect } from "react";
+import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import Nav from "../components/nav";
+import { registerSchema } from "../schema/auth";
+import { useSnackbar } from "@saas-ui/react";
+import { AuthApiError } from "@supabase/supabase-js";
+import { useForm } from "react-hook-form";
+import { ZodError } from "zod";
+import { fromZodError } from "zod-validation-error";
+import { useRouter } from "next/router";
 
-const auth = () => {
+type FormData = {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  acceptedTerms: boolean;
+};
+
+const Welcome = () => {
+  const router = useRouter();
+
+  const snackbar = useSnackbar();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      console.log("Form submitted:", data);
+      const result = registerSchema.parse(data);
+
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
+    } catch (err) {
+      if (err instanceof AuthApiError) {
+        snackbar.error(err.message);
+      } else if (err instanceof ZodError) {
+        snackbar.error(fromZodError(err).toString());
+      } else {
+        snackbar.error("Something went wrong.");
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen py-40 background-image: linear-gradient(115deg, #9F7AEA, #FEE2FE)">
-      <div className="container mx-auto">
-        <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
-          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center bg-[url('../../public/images/Valley-day.png')]">
-            <h1 className="text-black text-3xl mb-3">Welcome</h1>
-            <div>
-              <h2 className="text-black text-xl justify-center">
-                Register and get started with CaringGuide today!{" "}
-              </h2>
-              <a href="#" className="text-white font-semibold">
-                Learn more
-              </a>
+    <div className="min-h-screen bg-[url('../../public/images/signinBG.png')] bg-no-repeat bg-cover bg-center bg-fixed">
+      <Nav />
+      <div className="pt-40 background-image: linear-gradient(115deg, #9F7AEA, #FEE2FE) overflow-hidden">
+        <div className="container mx-auto">
+          <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-black bg-opacity-80 rounded-xl mx-auto shadow-lg">
+            <div className="absolute w-20 p-5">
+              <Link href={"/"}>
+                <ChevronLeftIcon color="white" />
+              </Link>
             </div>
-          </div>
-          <div className="w-full lg:w-1/2 py-16 px-12">
-            <Link href="/">
-              <Button>
-                <ArrowLeftIcon className="h-9 w-9 text-black pt-1" />
-              </Button>
-            </Link>
-            <h2 className="text-3xl mb-4">Register</h2>
-            <p className="mb-4 ">
-              Create your account. It’s free and only take a minute
-            </p>
-            <form action="#">
-              <div className="grid grid-cols-2 gap-5">
-                <input
-                  type="text"
-                  placeholder="Firstname"
-                  className="border border-gray-400 py-1 px-2 rounded-xl"
-                />
-                <input
-                  type="text"
-                  placeholder="Surname"
-                  className="border border-gray-400 py-1 px-2 rounded-xl"
-                />
+            <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12">
+              <h1 className="text-white font-poppins text-5xl font-[600] mb-8">
+                Welcome
+              </h1>
+              <div>
+                <h2 className="text-white text-3xl text-start font-[500] tracking-wide font-poppins">
+                  Register and get started with CaringGuide today!{" "}
+                </h2>
+                <a
+                  href="#"
+                  className="text-white font-semibold underline font-poppins"
+                >
+                  Click to learn more
+                </a>
+                <div className="text-white mt-8 font-poppins">
+                  <a> </a>Have an account?{" "}
+                  <Link href="/signin" className="text-caring font-semibold">
+                    Login
+                  </Link>
+                </div>
               </div>
-              <div className="mt-5">
-                <input
-                  type="text"
-                  placeholder="Email"
-                  className="border border-gray-400 py-1 px-2 w-full rounded-xl"
-                />
-              </div>
-              <div className="mt-5">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="border border-gray-400 py-1 px-2 w-full rounded-xl"
-                />
-              </div>
-              <div className="mt-5">
-                <input
-                  type="password"
-                  placeholder="Confirm Password"
-                  className="border border-gray-400 py-1 px-2 w-full rounded-xl"
-                />
-              </div>
-              <div className="mt-5">
-                <input
-                  title={"checkbox"}
-                  type="checkbox"
-                  className="border border-gray-400 rounded-xl"
-                />
-                <span>
-                  <a> </a>I accept the{" "}
-                  <a href="#" className="text-caring font-semibold">
-                    Terms of Use
-                  </a>{" "}
-                  &{" "}
-                  <a href="#" className="text-caring font-semibold">
-                    Privacy Policy
-                  </a>
-                </span>
-              </div>
-              <div className="mt-5">
-                <button className="w-full bg-caring py-3 text-center text-white rounded-xl">
-                  Register Now
-                </button>
-              </div>
-            </form>
+            </div>
+            <div className="w-full lg:w-1/2 py-16 px-12">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="grid grid-cols-2 gap-5">
+                  <input
+                    type="text"
+                    placeholder="Firstname"
+                    {...register("firstname", { required: true })}
+                    className={`border-2 ${
+                      errors.firstname ? "border-caring" : "border-white"
+                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl`}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Lastname"
+                    {...register("lastname", { required: true })}
+                    className={`border-2 ${
+                      errors.lastname ? "border-caring" : "border-white"
+                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl`}
+                  />
+                </div>
+                <div className="mt-6">
+                  <input
+                    type="text"
+                    placeholder="Email"
+                    {...register("email", { required: true })}
+                    className={`border-2 ${
+                      errors.email ? "border-caring" : "border-white"
+                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl w-full`}
+                  />
+                </div>
+                <div className="mt-6">
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    {...register("password", { required: true })}
+                    className={`border-2 ${
+                      errors.password ? "border-caring" : "border-white"
+                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl w-full`}
+                  />
+                </div>
+                <div className="mt-6">
+                  <input
+                    type="password"
+                    placeholder="Confirm Password"
+                    {...register("confirmPassword", { required: true })}
+                    className={`border-2 ${
+                      errors.confirmPassword ? "border-caring" : "border-white"
+                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl w-full`}
+                  />
+                </div>
+                <div className="mt-6">
+                  <input
+                    title={"checkbox"}
+                    type="checkbox"
+                    {...register("acceptedTerms")}
+                    className={`border-2 ${
+                      errors.acceptedTerms ? "border-caring" : "border-white"
+                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl`}
+                  />
+                  <span className="text-white">
+                    <a> </a>I accept the{" "}
+                    <a href="#" className="text-caring font-semibold">
+                      Terms of Use
+                    </a>{" "}
+                    &{" "}
+                    <a href="#" className="text-caring font-semibold">
+                      Privacy Policy
+                    </a>
+                  </span>
+                </div>
+                <div className="mt-5">
+                  <button
+                    type="submit"
+                    className="w-full bg-caring py-3 text-center text-white rounded-xl"
+                  >
+                    Register Now
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -102,4 +169,4 @@ const auth = () => {
   );
 };
 
-export default auth;
+export default Welcome;

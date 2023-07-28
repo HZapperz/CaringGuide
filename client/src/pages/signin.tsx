@@ -1,139 +1,229 @@
-import Image from "next/image";
-import { useForm } from "react-hook-form";
-import { Button } from "@nextui-org/react";
-import {
-  EyeIcon,
-  EyeSlashIcon,
-  UserIcon,
-  LockClosedIcon,
-  ArrowLeftIcon,
-} from "@heroicons/react/20/solid";
 import React from "react";
+import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import Nav from "../components/nav";
+import { useForm } from "react-hook-form";
 
-type FormValues = {
-  username: string;
+type FormData = {
+  fname: string;
+  lname: string;
+  email: string;
   password: string;
+  confirmPassword: string;
 };
 
-const LoginPage = () => {
+const Signin = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-  } = useForm<FormValues>();
+  } = useForm<FormData>();
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
+  const onSubmit = (data: FormData) => {
+    console.log("Form submitted:", data);
   };
 
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const handleShowPasswordClick = () => setShowPassword(!showPassword);
-
-  const password = watch("password");
-
   return (
-    <div className="flex h-screen">
-      <div className="flex-1 bg-white inherit overflow-hidden">
-        <Image
-          src="/images/back.png"
-          alt="Login Background"
-          className="overflow-hidden"
-          width={100}
-          height={100}
-        />
-      </div>
-      <div className="flex-1 bg-white flex justify-center items-center">
-        <div className="w-96">
-          <Link href="/">
-            <Button>
-              <ArrowLeftIcon className="h-9 w-9 text-black pt-1" />
-            </Button>
-          </Link>
-
-          <Image
-            src="/images/full.png"
-            alt="Login Background"
-            width={100}
-            height={100}
-            className="w-full h-full"
-          />
-
-          <div className="flex justify-center">
-            <h1 className="text-2xl font-bold text-black mb-6 pt-5 justify-center">
-              Welcome to CaringGuide
-            </h1>
+    <div className="flex flex-col w-screen h-screen">
+      <Nav />
+      <div className="flex h-full w-full">
+        <div className="h-full w-[50%] lg:block hidden">
+          <div className="h-full bg-[url('../../public/images/signinBG.png')] bg-no-repeat bg-cover bg-center"></div>
+        </div>
+        <div className="lg:w-[50%] w-full h-full bg-white flex flex-col justify-center items-center pt-6">
+          <div className="text-[#4E4E4E] text-center font-poppins text-4xl font-medium leading-normal">
+            LOG IN
           </div>
-          <div className="p-8 bg-gray-200 rounded-lg shadow-xl">
+          <div className="mt-6 w-full flex justify-center items-center">
+            <button
+              type="button"
+              className="flex justify-between items-center bg-[#FFFFFF] text-white px-8 py-2 lg:px-8 lg:py-4 rounded-lg tracking-normal text-left w-[400px] sm:w-[500px] border  border-[#4E4E4E]"
+            >
+              <p className="mr-6 font-poppins font-medium text-xl text-[#4E4E4E]">
+                Log In With Google
+              </p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 533.5 544.3"
+                className="w-6 h-6"
+              >
+                <path
+                  fill="#4E4E4E"
+                  d="M533.5 278.4c0-19.4-1.6-38.3-4.6-56.7H272.2v107.2h149.7c-6.2 33.6-24.3 62.1-51.5 80.7v66h83.4c48.9-45.1 76.8-111.7 76.8-197.2z"
+                />
+                <path
+                  fill="#4E4E4E"
+                  d="M272.2 544.3c69.7 0 128.1-22.9 170.7-62.4l-83.4-66c-23.2 15.6-52.9 24.8-87.3 24.8-66.8 0-123.4-45.1-143.8-105.7H38.6v66c42.6 83.4 128.1 138.3 233.6 138.3z"
+                />
+                <path
+                  fill="#4E4E4E"
+                  d="M128.4 324.1a162.2 162.2 0 0 1-8.9-51.3c0-17.8 3-35.1 8.9-51.3V155H38.6a278.2 278.2 0 0 0 0 234.3l89.8-65.2z"
+                />
+                <path
+                  fill="#4E4E4E"
+                  d="M272.2 107.7c37.9 0 72.3 13.1 99.2 34.1l75.1-75.1C400.3 22.9 341.9 0 272.2 0 166.7 0 81.2 54.9 38.6 138.3l89.8 65.2c20.4-60.6 77-105.7 143.8-105.7z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div className="flex justify-center items-center w-[400px] sm:w-[500px] mt-8">
+            <hr className="w-full" />
+            <p className="text-[#4E4E4E] text-center font-poppins text-xl font-medium leading-normal mx-2">
+              or
+            </p>
+            <hr className="w-full" />
+          </div>
+          <div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-4">
+              <div className="mt-6 flex flex-col">
                 <label
-                  htmlFor="username"
-                  className="block text-gray-800 font-bold mb-2"
+                  htmlFor="fname"
+                  className="text-[#4E4E4E] text-left font-poppins text-xl font-medium leading-normal"
                 >
-                  Username
+                  First Name
                 </label>
-                <div className="relative">
-                  <input
-                    type="username"
-                    id="username"
-                    {...register("username", { required: true })}
-                    className={`w-full border-2 p-2 pl-10 rounded-lg ${
-                      errors.username ? "border-red-500" : "border-gray-300"
-                    }`}
-                  />
-                  <div className="absolute top-2 left-2">
-                    <UserIcon className="h-6 w-6 text-gray-500 pt-1" />
-                  </div>
-                </div>
-                {errors.username && (
-                  <p className="text-red-500 mt-2">Email is required</p>
+                <input
+                  type="text"
+                  id="fname"
+                  placeholder="FIRST NAME"
+                  {...register("fname", {
+                    required: "First Name is required.",
+                  })}
+                  className={`border-2 ${
+                    errors.fname ? "border-caring" : "border-[#4E4E4E]"
+                  } placeholder-[#4e4e4e50] placeholder:font-poppins bg-[#FFFFFF] bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl`}
+                />
+                {errors.fname && (
+                  <span className="text-caring mt-1">
+                    {errors.fname.message}
+                  </span>
                 )}
               </div>
-              <div className="mb-4">
+              <div className="mt-6 flex flex-col">
+                <label
+                  htmlFor="lname"
+                  className="text-[#4E4E4E] text-left font-poppins text-xl font-medium leading-normal"
+                >
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  id="lname"
+                  placeholder="LAST NAME"
+                  {...register("lname", {
+                    required: "Last Name is required.",
+                  })}
+                  className={`border-2 ${
+                    errors.lname ? "border-caring" : "border-[#4E4E4E]"
+                  } placeholder-[#4e4e4e50] placeholder:font-poppins bg-[#FFFFFF] bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl`}
+                />
+                {errors.lname && (
+                  <span className="text-caring mt-1">
+                    {errors.lname.message}
+                  </span>
+                )}
+              </div>
+              <div className="mt-6 flex flex-col">
+                <label
+                  htmlFor="email"
+                  className="text-[#4E4E4E] text-left font-poppins text-xl font-medium leading-normal"
+                >
+                  Email
+                </label>
+                <input
+                  type="text"
+                  id="email"
+                  placeholder="EMAIL"
+                  {...register("email", {
+                    required: "Email is required.",
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: "Please enter a valid email address.",
+                    },
+                  })}
+                  className={`border-2 ${
+                    errors.email ? "border-caring" : "border-[#4E4E4E]"
+                  } placeholder-[#4e4e4e50] placeholder:font-poppins bg-[#FFFFFF] bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl`}
+                />
+                {errors.email && (
+                  <span className="text-caring mt-1">
+                    {errors.email.message}
+                  </span>
+                )}
+              </div>
+              <div className="mt-6 flex flex-col">
                 <label
                   htmlFor="password"
-                  className="block text-gray-800 font-bold mb-2"
+                  className="text-[#4E4E4E] text-left font-poppins text-xl font-medium leading-normal"
                 >
                   Password
                 </label>
-                <div className="relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    {...register("password", { required: true })}
-                    className={`w-full border-2 p-2 pl-10 rounded-lg ${
-                      errors.password ? "border-red-500" : "border-gray-300"
-                    }`}
-                  />
-                  <button
-                    type="button"
-                    onClick={handleShowPasswordClick}
-                    className="absolute right-2 top-2"
-                  >
-                    {showPassword ? (
-                      <EyeSlashIcon className="h-6 w-6 text-gray-600 pt-1" />
-                    ) : (
-                      <EyeIcon className="h-6 w-6 text-gray-600 pt-1" />
-                    )}
-                  </button>
-                  <div className="absolute top-2 left-2">
-                    <LockClosedIcon className="h-6 w-6 text-gray-500 pt-1" />
-                  </div>
-                </div>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="PASSWORD"
+                  {...register("password", {
+                    required: "Password is required.",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters long.",
+                    },
+                  })}
+                  className={`border-2 ${
+                    errors.password ? "border-caring" : "border-[#4E4E4E]"
+                  } placeholder-[#4e4e4e50] bg-[#FFFFFF] placeholder:font-poppins bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl`}
+                />
                 {errors.password && (
-                  <p className="text-red-500 mt-2">Password is required</p>
+                  <span className="text-caring mt-1">
+                    {errors.password.message}
+                  </span>
                 )}
               </div>
-              <div className="flex justify-center">
+              <div className="mt-6 flex flex-col">
+                <label
+                  htmlFor="confirmPassword"
+                  className="text-[#4E4E4E] text-left font-poppins text-xl font-medium leading-normal"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  placeholder="CONFIRM PASSWORD"
+                  {...register("confirmPassword", {
+                    required: "Confirm Password is required.",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters long.",
+                    },
+                  })}
+                  className={`border-2 ${
+                    errors.confirmPassword
+                      ? "border-caring"
+                      : "border-[#4E4E4E]"
+                  } placeholder-[#4e4e4e50] bg-[#FFFFFF] placeholder:font-poppins bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl`}
+                />
+                {errors.confirmPassword && (
+                  <span className="text-caring mt-1">
+                    {errors.confirmPassword.message}
+                  </span>
+                )}
+              </div>
+              <div className="mt-6">
                 <button
                   type="submit"
-                  className="bg-caring hover:bg-guide text-white font-bold py-2 px-4 rounded "
+                  className="flex justify-center items-center text-[#245B48] border-2 border-[#245B48] rounded-2xl px-4 py-4 lg:px-8 lg:py-4 mt-2 font-poppins font-medium text-xl tracking-normal text-left w-full"
                 >
-                  Sign In
+                  Log In
                 </button>
+              </div>
+              <div className="my-6">
+                <div className="text-[#4E4E4E] text-center font-poppins text-2xl font-medium leading-normal">
+                  {`Don't have an account? `}
+                  <Link href="/signup" className="text-caring font-semibold">
+                    Sign Up
+                  </Link>
+                </div>
               </div>
             </form>
           </div>
@@ -143,4 +233,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Signin;

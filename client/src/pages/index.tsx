@@ -16,6 +16,9 @@ import brains from "../../public/svgs/brain.svg";
 import shield from "../../public/svgs/shield.svg";
 import bookmark from "../../public/svgs/bookmark.svg";
 import FAQComp from "../components/faqComp";
+import { Grid } from "@nextui-org/react";
+import { SocialIcon } from "react-social-icons";
+import logo from "../../public/images/Caring-Guide-logo-horiz-color.png";
 
 const Home = () => {
   const list = [
@@ -204,7 +207,77 @@ const Home = () => {
           </div>
           <hr className="bg-[#ECEEED] border-[#ECEEED]" />
         </div>
-        <div></div>
+        <div className="flex justify-center pl-12 pr-12">
+          <Grid.Container gap={2} justify="center" css={{ p: "$1" }}>
+            <Grid
+              xs
+              style={{
+                justifyContent: "center",
+                textAlign: "center",
+                alignItems: "center",
+              }}
+            >
+              <div className="max-w-sm p-3 bg-white">
+                <Image src={logo} alt="logo" />
+                <p className="mb-3 text-xl font-medium text-slate-600 dark:text-gray-800">
+                  +1 (123)456-7890
+                </p>
+                <p className="mb-3 text-xl font-medium text-slate-600 dark:text-gray-800">
+                  help@caringguide.org
+                </p>
+              </div>
+            </Grid>
+            <Grid
+              xs
+              style={{
+                justifyContent: "center",
+                textAlign: "center",
+                alignItems: "center",
+              }}
+            >
+              <div className="max-w-sm p-3 bg-white">
+                <div className="flex flex-col">
+                  <SocialIcon
+                    url="https://twitter.com/caringguide"
+                    style={{ height: 50, width: 50, marginBottom: 10 }}
+                  />
+                  <SocialIcon
+                    url="https://www.facebook.com/profile.php?id=100090495821344"
+                    style={{ height: 50, width: 50, marginBottom: 10 }}
+                  />
+                  <SocialIcon
+                    url="https://www.instagram.com"
+                    style={{ height: 50, width: 50, marginBottom: 10 }}
+                  />
+                  <SocialIcon
+                    url="https://www.linkedin.com"
+                    style={{ height: 50, width: 50, marginBottom: 10 }}
+                  />
+                </div>
+              </div>
+            </Grid>
+            <Grid
+              xs
+              style={{
+                justifyContent: "center",
+                textAlign: "center",
+                alignItems: "center",
+              }}
+            >
+              <div className="max-w-sm p-3 bg-white">
+                <p className="mb-3 text-xl font-bold text-slate-600 dark:text-gray-800">
+                  General
+                </p>
+                <p className="mb-3 text-xl font-medium text-slate-600 dark:text-gray-800">
+                  Privacy Policy
+                </p>
+                <p className="mb-3 text-xl font-medium text-slate-600 dark:text-gray-800">
+                  Terms of Use
+                </p>
+              </div>
+            </Grid>
+          </Grid.Container>
+        </div>
       </main>
     </div>
   );

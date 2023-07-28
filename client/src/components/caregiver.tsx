@@ -24,7 +24,7 @@ const Caregiver = () => {
   } = useForm<FormValues>();
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
+    console.log("Form submitted:", data);
   };
 
   return (
