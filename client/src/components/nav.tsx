@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 
 const Nav = () => {
+<<<<<<< HEAD
   const user = useUser();
   const supabase = useSupabaseClient();
   const [activeLink, setActiveLink] = useState("");
@@ -49,6 +50,8 @@ const Nav = () => {
     }
   };
 
+=======
+>>>>>>> 73d4abf4e5ee86f80b93722301ab307277408d07
   return (
     <Navbar
       isBordered
@@ -71,6 +74,7 @@ const Nav = () => {
           Caring Guide
         </Text>
       </Navbar.Brand>
+<<<<<<< HEAD
       <Navbar.Content hideIn="xs" variant="underline">
         <Navbar.Link
           activeColor="secondary"
@@ -133,6 +137,27 @@ const Nav = () => {
           </Navbar.Item>
         </Navbar.Content>
       )}
+=======
+      <Navbar.Content>
+        <Navbar.Link
+          color="primary"
+          href="/signin"
+          className="relative inline-block font-bold transition-colors duration-300 text-black"
+        >
+          <p className=" text-bold relative group">
+            <span className="">Login</span>
+            <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
+          </p>
+        </Navbar.Link>
+        <Navbar.Item>
+          <Link href="/signup">
+            <Button flat color="secondary" auto href="#">
+              Sign Up
+            </Button>
+          </Link>
+        </Navbar.Item>
+      </Navbar.Content>
+>>>>>>> 73d4abf4e5ee86f80b93722301ab307277408d07
     </Navbar>
   );
 };

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Nav from "../components/nav";
 import Caregiver from "../components/caregiver";
 import Guide from "../components/caregiver";
 
@@ -8,7 +7,6 @@ const OnBoarding = () => {
 
   return (
     <>
-      <Nav />
       <div className="p-16 bg-white">
         <div className="pb-8">
           <h1 className="font-poppins text-3xl font-[600]">Onboarding</h1>

@@ -1,89 +1,25 @@
-import Nav from "@/components/nav";
-import {
-  Navbar,
-  Text,
-  Image,
-  Button,
-  Input,
-  User,
-  Dropdown,
-  Avatar,
-  Grid,
-  Container,
-  Row,
-  Col,
-  Card,
-  Spacer,
-  Textarea,
-} from "@nextui-org/react";
+import { Text, Input, Container, Spacer, Textarea } from "@nextui-org/react";
 import Link from "next/link";
 
 const SettingsPage = () => {
   return (
     <>
-      <Navbar
-        isBordered
-        variant="sticky"
-        maxWidth="fluid"
-        css={{
-          $$navbarBackgroundColor: "#FFFFFF80",
-          $$navbarBlurBackgroundColor: "#FFFFFF80",
-        }}
-      >
-        <Navbar.Brand>
-          <Image src="/logo.png" alt="Logo" width={40} height={40} />
-          <Text
-            h2
-            weight="bold"
-            css={{
-              textGradient: "45deg, $green900 -10%, $red800 50%",
-            }}
-          >
-            Caring Guide
-          </Text>
-        </Navbar.Brand>
-
-        <Navbar.Content>
-          <Navbar.Link color="primary" href="/settings">
-            RESOURCES
-          </Navbar.Link>
-          <Navbar.Link color="primary" href="/settings">
-            DASHBOARD
-          </Navbar.Link>
-          <Navbar.Item>
-            <Grid>
-              <Dropdown placement="bottom-left">
-                <Dropdown.Trigger>
-                  <Avatar
-                    bordered
-                    size="lg"
-                    as="button"
-                    color="secondary"
-                    src="default.jpeg"
-                  />
-                </Dropdown.Trigger>
-                <Dropdown.Menu color="secondary" aria-label="Avatar Actions">
-                  <Dropdown.Item key="settings">Edit Profile</Dropdown.Item>
-                  <Dropdown.Item key="logout" color="error" withDivider>
-                    Log Out
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Grid>
-          </Navbar.Item>
-        </Navbar.Content>
-      </Navbar>
       <section>
         <div className="relative">
           <div className="h-72">
             <div className="h-36 w-full bg-gradient-to-r from-green-100 to-pink-200"></div>
-            <Image
+            <img
               className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500"
               src="default.jpeg"
               alt="default jpeg"
+              width={192}
+              height={192}
             />
             <div className="pr-48 pt-12 flex md:flex md:flex-grow flex-row justify-end space-x-1">
-              <button className="text-sm w-24 bg-green-900 border-2 hover:bg-green-800 text-white py-2 px-4 rounded-lg border-green-900">
+              <button
+                type="button"
+                className="text-sm w-24 bg-green-900 border-2 hover:bg-green-800 text-white py-2 px-4 rounded-lg border-green-900"
+              >
                 Save
               </button>
               <Spacer x={2} />

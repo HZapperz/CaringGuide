@@ -1,38 +1,9 @@
+import React from "react";
 import Link from "next/link";
-<<<<<<< HEAD
-import Nav from "../components/nav";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-=======
->>>>>>> 73d4abf4e5ee86f80b93722301ab307277408d07
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useRouter } from "next/router";
-
-type SignInFormValues = {
-  email: string;
-  password: string;
-};
 
 const Login = () => {
-  const supabase = useSupabaseClient();
-  const form = useForm<SignInFormValues>();
-  const router = useRouter();
-
-  async function handleLogin(data: SignInFormValues) {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: data.email,
-      password: data.password,
-    });
-
-    if (error) {
-      console.log(error);
-    } else {
-      router.push("/dashboard");
-    }
-  }
-
   return (
-    <div className="flex flex-col w-screen h-full">
+    <>
       <div className="flex h-full w-full">
         <div className="h-full w-[50%] lg:block hidden">
           <div className="h-full bg-[url('../../public/images/signinBG.png')] bg-no-repeat bg-cover bg-center"></div>
@@ -45,11 +16,6 @@ const Login = () => {
             <button
               type="button"
               className="flex justify-between items-center bg-[#FFFFFF] text-white px-8 py-2 lg:px-8 lg:py-4 rounded-lg tracking-normal text-left w-[400px] sm:w-[500px] border  border-[#4E4E4E]"
-              onClick={() =>
-                supabase.auth.signInWithOAuth({
-                  provider: "google",
-                })
-              }
             >
               <p className="mr-6 font-poppins font-medium text-xl text-[#4E4E4E]">
                 Log In With Google
@@ -86,7 +52,7 @@ const Login = () => {
             <hr className="w-full" />
           </div>
           <div>
-            <form {...form} onSubmit={form.handleSubmit(handleLogin)}>
+            <form action="#">
               <div className="mt-6 flex flex-col">
                 <label
                   htmlFor="email"
@@ -98,7 +64,6 @@ const Login = () => {
                   type="text"
                   id="email"
                   placeholder="EMAIL"
-                  {...form.register("email")}
                   className="border-2 border-[#4E4E4E] placeholder-[#4e4e4e50] placeholder:font-poppins bg-[#FFFFFF] bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl"
                 />
               </div>
@@ -113,13 +78,12 @@ const Login = () => {
                   id="password"
                   type="password"
                   placeholder="PASSWORD"
-                  {...form.register("password")}
                   className="border-2 border-[#4E4E4E] placeholder-[#4e4e4e50] bg-[#FFFFFF] placeholder:font-poppins bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl"
                 />
               </div>
               <div className="mt-6">
                 <button
-                  type="submit"
+                  type="button"
                   className="flex justify-center items-center text-[#245B48] border-2 border-[#245B48] rounded-2xl px-4 py-4 lg:px-8 lg:py-4 mt-2 font-poppins font-medium text-xl tracking-normal text-left w-full"
                 >
                   Log In
@@ -137,7 +101,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

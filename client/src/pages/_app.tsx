@@ -5,6 +5,9 @@ import { createPagesBrowserClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { env } from "../env.mjs";
+import { useRouter } from "next/router";
+import Nav from "@/components/nav";
+import NavbarComp from "@/components/navbar";
 
 const theme = createTheme({
   type: "light", // it could be "light" or "dark"

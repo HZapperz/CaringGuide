@@ -3,7 +3,6 @@ import home1 from "../../public/images/Home1.png";
 import faq1 from "../../public/images/faq1.png";
 import faq2 from "../../public/images/faq2.png";
 import faq3 from "../../public/images/faq3.png";
-import Nav from "../components/nav";
 import HomeStats from "../components/homeStats";
 import people from "../../public/svgs/people.svg";
 import care from "../../public/svgs/care.svg";
@@ -86,7 +85,6 @@ const Home = () => {
   ];
   return (
     <div className="bg-white">
-      <Nav />
       <main>
         <div className="relative inline-block overflow-hidden w-full px-1 bg-white">
           <div>
@@ -187,8 +185,8 @@ const Home = () => {
               </div>
               <div className="absolute bottom-0 left-0 right-0 top-0 bg-black opacity-50"></div>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 top-0 rounded-lg flex flex-col items-center justify-center p-6 overflow-auto">
-              <h1 className="text-white text-center font-poppins text-[30px] xl:text-[40px] mt-64 md:mt-20  lg:mt-0 font-semibold">
+            <div className="absolute bottom-0 left-0 right-0 top-0 rounded-lg flex flex-col lg:items-center lg:justify-center p-6 overflow-auto">
+              <h1 className="text-white text-center font-poppins text-[30px] xl:text-[40px] mt-10 xl:mt-0 font-semibold">
                 Frequently Asked Questions
               </h1>
               {faqs.map((items, index) => (

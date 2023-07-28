@@ -46,7 +46,6 @@ const Feedpage = () => {
 
   return (
     <main className="min-h-screen bg-white">
-      <Nav />
       <div className="flex lg:flex-row flex-col justify-start items-start">
         <div className="lg:w-fit w-full p-6">
           <Text className="text-center font-poppins text-[30px] font-[500]">
