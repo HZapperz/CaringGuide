@@ -1,6 +1,6 @@
 import { Navbar, Text, Image, Button, Input } from "@nextui-org/react";
 import Link from "next/link";
-import links from "./links";
+import links from "../assets/links";
 
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
