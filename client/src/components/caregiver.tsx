@@ -2,14 +2,14 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 type FormValues = {
-  fName: string;
-  mName: string;
-  lName: string;
-  age: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  age: number;
   gender: string;
   email: string;
   phone: string;
-  lovedOneName: string;
+  lovedOnes: string;
   condition: string;
   relationship: string;
   synopsis: string;
@@ -23,8 +23,29 @@ const Caregiver = () => {
     watch,
   } = useForm<FormValues>();
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     console.log("Form submitted:", data);
+
+    try {
+      const response = await fetch("/api/mentors/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data: data, role: "mentor" }),
+      });
+
+      if (response.ok) {
+        const newMentor = await response.json();
+        console.log("New Mentor:", newMentor);
+        // Handle success, show notification, redirect, etc.
+      } else {
+        // Handle error, show error message, etc.
+        console.error("Error creating mentor:", response);
+      }
+    } catch (error) {
+      console.error("Error creating mentor:", error);
+    }
   };
 
   return (
@@ -39,12 +60,12 @@ const Caregiver = () => {
               <input
                 type="text"
                 placeholder="First Name"
-                {...register("fName", { required: true })}
+                {...register("firstName", { required: true })}
                 className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
-                  errors.fName ? " border border-red-500" : ""
+                  errors.firstName ? " border border-red-500" : ""
                 }`}
               />
-              {errors.fName && (
+              {errors.firstName && (
                 <p className="text-red-500 mt-2">First Name is required</p>
               )}
             </div>
@@ -52,12 +73,12 @@ const Caregiver = () => {
               <input
                 type="text"
                 placeholder="Middle Name"
-                {...register("mName", { required: true })}
+                {...register("middleName", { required: true })}
                 className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
-                  errors.mName ? " border border-red-500" : ""
+                  errors.middleName ? " border border-red-500" : ""
                 }`}
               />
-              {errors.mName && (
+              {errors.middleName && (
                 <p className="text-red-500 mt-2">Middle Name is required</p>
               )}
             </div>
@@ -65,12 +86,12 @@ const Caregiver = () => {
               <input
                 type="text"
                 placeholder="Last Name"
-                {...register("lName", { required: true })}
+                {...register("lastName", { required: true })}
                 className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
-                  errors.lName ? " border border-red-500" : ""
+                  errors.lastName ? " border border-red-500" : ""
                 }`}
               />
-              {errors.lName && (
+              {errors.lastName && (
                 <p className="text-red-500 mt-2">Last Name is required</p>
               )}
             </div>
@@ -151,12 +172,12 @@ const Caregiver = () => {
               <input
                 type="text"
                 placeholder="Name"
-                {...register("lovedOneName", { required: true })}
+                {...register("lovedOnes", { required: true })}
                 className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
-                  errors.lovedOneName ? " border border-red-500" : ""
+                  errors.lovedOnes ? " border border-red-500" : ""
                 }`}
               />
-              {errors.lovedOneName && (
+              {errors.lovedOnes && (
                 <p className="text-red-500 mt-2">Name is required</p>
               )}
             </div>

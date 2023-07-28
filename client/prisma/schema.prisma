@@ -9,7 +9,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 model Profile {
   id String @id
 
@@ -17,7 +16,7 @@ model Profile {
   firstName  String
   middleName String
   lastName   String
-  dob        DateTime
+  age        Int
   gender     String
   avatar     String?
 
@@ -26,11 +25,13 @@ model Profile {
   phone String
 
   role      Role
+  LovedOnes LovedOne[]
+  condition Int
+  relationship String
+  synopsis  String
+  mentors   Mentor[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  LovedOnes LovedOne[]
-  mentors   Mentor[]
 }
 
 model LovedOne {
