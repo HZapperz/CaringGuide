@@ -2,8 +2,11 @@ import { useState, useEffect, FC } from "react";
 import { Navbar, Text, Image, Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import Link from "next/link";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 
 const Nav = () => {
+  const user = useUser();
+  const supabase = useSupabaseClient();
   const [activeLink, setActiveLink] = useState("");
 
   useEffect(() => {
@@ -45,12 +48,6 @@ const Nav = () => {
       });
     }
   };
-
-  // const navigate = useNavigate();
-
-  // const handleSignUpClick = () => {
-  //   navigate("/auth");
-  // };
 
   return (
     <Navbar
@@ -95,25 +92,47 @@ const Nav = () => {
           Section 2
         </Navbar.Link>
       </Navbar.Content>
-      <Navbar.Content>
-        <Navbar.Link
-          color="primary"
-          href="/signin"
-          className="relative inline-block font-bold transition-colors duration-300 text-black"
-        >
-          <p className=" text-bold relative group">
-            <span className="">Login</span>
-            <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
-          </p>
-        </Navbar.Link>
-        <Navbar.Item>
-          <Link href="/signup">
-            <Button flat color="secondary" auto href="#">
-              Sign Up
-            </Button>
-          </Link>
-        </Navbar.Item>
-      </Navbar.Content>
+      {user ? (
+        <Navbar.Content>
+          <Navbar.Item>
+            <Link href="/dashboard">
+              <Button flat color="secondary" auto href="#">
+                Dashboard
+              </Button>
+            </Link>
+          </Navbar.Item>
+          <Button
+            color="primary"
+            className="relative inline-block font-bold transition-colors duration-300 text-black"
+            onClick={() => supabase.auth.signOut()}
+          >
+            <p className=" text-bold relative group">
+              <span className="">Logout</span>
+              <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
+            </p>
+          </Button>
+        </Navbar.Content>
+      ) : (
+        <Navbar.Content>
+          <Navbar.Link
+            color="primary"
+            href="/signin"
+            className="relative inline-block font-bold transition-colors duration-300 text-black"
+          >
+            <p className=" text-bold relative group">
+              <span className="">Login</span>
+              <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
+            </p>
+          </Navbar.Link>
+          <Navbar.Item>
+            <Link href="/signup">
+              <Button flat color="secondary" auto href="#">
+                Sign Up
+              </Button>
+            </Link>
+          </Navbar.Item>
+        </Navbar.Content>
+      )}
     </Navbar>
   );
 };

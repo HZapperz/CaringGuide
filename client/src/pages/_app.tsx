@@ -1,6 +1,10 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { createTheme, NextUIProvider, Text } from "@nextui-org/react";
+import { createTheme, NextUIProvider } from "@nextui-org/react";
+import { createPagesBrowserClient } from "@supabase/auth-helpers-nextjs";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { useState } from "react";
+import { env } from "../env.mjs";
 
 const theme = createTheme({
   type: "light", // it could be "light" or "dark"
@@ -32,11 +36,23 @@ const theme = createTheme({
 });
 
 function App({ Component, pageProps }: AppProps) {
+  const [supabaseClient] = useState(() =>
+    createPagesBrowserClient({
+      supabaseKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      supabaseUrl: env.NEXT_PUBLIC_SUPABASE_URL,
+    })
+  );
+
   return (
     // 2. Use at the root of your app
-    <NextUIProvider theme={theme}>
-      <Component {...pageProps} />
-    </NextUIProvider>
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
+      <NextUIProvider theme={theme}>
+        <Component {...pageProps} />
+      </NextUIProvider>
+    </SessionContextProvider>
   );
 }
 

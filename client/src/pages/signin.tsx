@@ -1,26 +1,32 @@
-import React from "react";
 import Link from "next/link";
 import Nav from "../components/nav";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useRouter } from "next/router";
 
-type FormData = {
-  fname: string;
-  lname: string;
+type SignInFormValues = {
   email: string;
   password: string;
-  confirmPassword: string;
 };
 
-const Signin = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
+const Login = () => {
+  const supabase = useSupabaseClient();
+  const form = useForm<SignInFormValues>();
+  const router = useRouter();
 
-  const onSubmit = (data: FormData) => {
-    console.log("Form submitted:", data);
-  };
+  async function handleLogin(data: SignInFormValues) {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (error) {
+      console.log(error);
+    } else {
+      router.push("/dashboard");
+    }
+  }
 
   return (
     <div className="flex flex-col w-screen h-screen">
@@ -29,7 +35,7 @@ const Signin = () => {
         <div className="h-full w-[50%] lg:block hidden">
           <div className="h-full bg-[url('../../public/images/signinBG.png')] bg-no-repeat bg-cover bg-center"></div>
         </div>
-        <div className="lg:w-[50%] w-full h-full bg-white flex flex-col justify-center items-center pt-6">
+        <div className="lg:w-[50%] w-full h-full bg-white flex flex-col justify-center items-center">
           <div className="text-[#4E4E4E] text-center font-poppins text-4xl font-medium leading-normal">
             LOG IN
           </div>
@@ -37,6 +43,11 @@ const Signin = () => {
             <button
               type="button"
               className="flex justify-between items-center bg-[#FFFFFF] text-white px-8 py-2 lg:px-8 lg:py-4 rounded-lg tracking-normal text-left w-[400px] sm:w-[500px] border  border-[#4E4E4E]"
+              onClick={() =>
+                supabase.auth.signInWithOAuth({
+                  provider: "google",
+                })
+              }
             >
               <p className="mr-6 font-poppins font-medium text-xl text-[#4E4E4E]">
                 Log In With Google
@@ -73,55 +84,7 @@ const Signin = () => {
             <hr className="w-full" />
           </div>
           <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mt-6 flex flex-col">
-                <label
-                  htmlFor="fname"
-                  className="text-[#4E4E4E] text-left font-poppins text-xl font-medium leading-normal"
-                >
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  id="fname"
-                  placeholder="FIRST NAME"
-                  {...register("fname", {
-                    required: "First Name is required.",
-                  })}
-                  className={`border-2 ${
-                    errors.fname ? "border-caring" : "border-[#4E4E4E]"
-                  } placeholder-[#4e4e4e50] placeholder:font-poppins bg-[#FFFFFF] bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl`}
-                />
-                {errors.fname && (
-                  <span className="text-caring mt-1">
-                    {errors.fname.message}
-                  </span>
-                )}
-              </div>
-              <div className="mt-6 flex flex-col">
-                <label
-                  htmlFor="lname"
-                  className="text-[#4E4E4E] text-left font-poppins text-xl font-medium leading-normal"
-                >
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  id="lname"
-                  placeholder="LAST NAME"
-                  {...register("lname", {
-                    required: "Last Name is required.",
-                  })}
-                  className={`border-2 ${
-                    errors.lname ? "border-caring" : "border-[#4E4E4E]"
-                  } placeholder-[#4e4e4e50] placeholder:font-poppins bg-[#FFFFFF] bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl`}
-                />
-                {errors.lname && (
-                  <span className="text-caring mt-1">
-                    {errors.lname.message}
-                  </span>
-                )}
-              </div>
+            <form {...form} onSubmit={form.handleSubmit(handleLogin)}>
               <div className="mt-6 flex flex-col">
                 <label
                   htmlFor="email"
@@ -133,22 +96,9 @@ const Signin = () => {
                   type="text"
                   id="email"
                   placeholder="EMAIL"
-                  {...register("email", {
-                    required: "Email is required.",
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: "Please enter a valid email address.",
-                    },
-                  })}
-                  className={`border-2 ${
-                    errors.email ? "border-caring" : "border-[#4E4E4E]"
-                  } placeholder-[#4e4e4e50] placeholder:font-poppins bg-[#FFFFFF] bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl`}
+                  {...form.register("email")}
+                  className="border-2 border-[#4E4E4E] placeholder-[#4e4e4e50] placeholder:font-poppins bg-[#FFFFFF] bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl"
                 />
-                {errors.email && (
-                  <span className="text-caring mt-1">
-                    {errors.email.message}
-                  </span>
-                )}
               </div>
               <div className="mt-6 flex flex-col">
                 <label
@@ -158,55 +108,12 @@ const Signin = () => {
                   Password
                 </label>
                 <input
-                  type="password"
                   id="password"
-                  placeholder="PASSWORD"
-                  {...register("password", {
-                    required: "Password is required.",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters long.",
-                    },
-                  })}
-                  className={`border-2 ${
-                    errors.password ? "border-caring" : "border-[#4E4E4E]"
-                  } placeholder-[#4e4e4e50] bg-[#FFFFFF] placeholder:font-poppins bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl`}
-                />
-                {errors.password && (
-                  <span className="text-caring mt-1">
-                    {errors.password.message}
-                  </span>
-                )}
-              </div>
-              <div className="mt-6 flex flex-col">
-                <label
-                  htmlFor="confirmPassword"
-                  className="text-[#4E4E4E] text-left font-poppins text-xl font-medium leading-normal"
-                >
-                  Password
-                </label>
-                <input
                   type="password"
-                  id="confirmPassword"
-                  placeholder="CONFIRM PASSWORD"
-                  {...register("confirmPassword", {
-                    required: "Confirm Password is required.",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters long.",
-                    },
-                  })}
-                  className={`border-2 ${
-                    errors.confirmPassword
-                      ? "border-caring"
-                      : "border-[#4E4E4E]"
-                  } placeholder-[#4e4e4e50] bg-[#FFFFFF] placeholder:font-poppins bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl`}
+                  placeholder="PASSWORD"
+                  {...form.register("password")}
+                  className="border-2 border-[#4E4E4E] placeholder-[#4e4e4e50] bg-[#FFFFFF] placeholder:font-poppins bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl"
                 />
-                {errors.confirmPassword && (
-                  <span className="text-caring mt-1">
-                    {errors.confirmPassword.message}
-                  </span>
-                )}
               </div>
               <div className="mt-6">
                 <button
@@ -216,7 +123,7 @@ const Signin = () => {
                   Log In
                 </button>
               </div>
-              <div className="my-6">
+              <div className="mt-6">
                 <div className="text-[#4E4E4E] text-center font-poppins text-2xl font-medium leading-normal">
                   {`Don't have an account? `}
                   <Link href="/signup" className="text-caring font-semibold">
@@ -232,4 +139,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default Login;

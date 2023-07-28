@@ -3,12 +3,12 @@ import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import Nav from "../components/nav";
 import { registerSchema } from "../schema/auth";
-import { useSnackbar } from "@saas-ui/react";
 import { AuthApiError } from "@supabase/supabase-js";
 import { useForm } from "react-hook-form";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import { useRouter } from "next/router";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 type FormData = {
   firstname: string;
@@ -20,10 +20,8 @@ type FormData = {
 };
 
 const Welcome = () => {
+  const supabase = useSupabaseClient();
   const router = useRouter();
-
-  const snackbar = useSnackbar();
-
   const {
     register,
     handleSubmit,
@@ -32,19 +30,23 @@ const Welcome = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      console.log("Form submitted:", data);
       const result = registerSchema.parse(data);
 
+      await supabase.auth.signUp({
+        email: result.email,
+        password: result.password,
+      });
+
       setTimeout(() => {
-        router.push("/login");
+        router.push("/signin");
       }, 2000);
     } catch (err) {
       if (err instanceof AuthApiError) {
-        snackbar.error(err.message);
+        console.error(err.message);
       } else if (err instanceof ZodError) {
-        snackbar.error(fromZodError(err).toString());
+        console.error(fromZodError(err).toString());
       } else {
-        snackbar.error("Something went wrong.");
+        console.error("Something went wrong.");
       }
     }
   };
@@ -84,24 +86,6 @@ const Welcome = () => {
             </div>
             <div className="w-full lg:w-1/2 py-16 px-12">
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="grid grid-cols-2 gap-5">
-                  <input
-                    type="text"
-                    placeholder="Firstname"
-                    {...register("firstname", { required: true })}
-                    className={`border-2 ${
-                      errors.firstname ? "border-caring" : "border-white"
-                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl`}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Lastname"
-                    {...register("lastname", { required: true })}
-                    className={`border-2 ${
-                      errors.lastname ? "border-caring" : "border-white"
-                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl`}
-                  />
-                </div>
                 <div className="mt-6">
                   <input
                     type="text"

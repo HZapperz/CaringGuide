@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id String @id
+
+  // personal Details
+  firstName  String
+  middleName String
+  lastName   String
+  dob        DateTime
+  gender     String
+  avatar     String?
+
+  // Contact Details
+  email String
+  phone String
+
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  LovedOnes LovedOne[]
+  mentors   Mentor[]
+}
+
+model LovedOne {
+  id String @id @default(uuid())
+
+  caregiverId           String
+  patientName           String
+  patientCondition      String
+  relationShipToPatient String
+  experience            Experience
+  synopsis              String
+
+  createdAt DateTime @default(now())
+
+  careGiver Profile @relation(fields: [caregiverId], references: [id])
+}
+
+model Mentor {
+  id String @id @default(uuid())
+
+  mentorId  String
+  createdAt DateTime @default(now())
+
+  mentee Profile @relation(fields: [mentorId], references: [id])
+}
+
+enum Role {
+  MENTOR
+  MENTEE
+}
+
+enum Experience {
+  LESS_THAN_2
+  BETWEEN_2_AND_4
+  MORE_THAN_4
+}
