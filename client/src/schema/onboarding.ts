@@ -1,45 +1,44 @@
+import { Experience, Role } from "@prisma/client";
 import { z } from "zod";
 
-const personalSchema = z.object({
+const commonDetailsSchema = z.object({
   firstName: z.string().min(2).max(50),
   middleName: z.string().optional(),
   lastName: z.string().min(2).max(50),
-  dob: z.date(),
+  dob: z.coerce.date(),
   gender: z.string(),
-});
+  conditions: z.string().array(),
+  experience: z.nativeEnum(Experience),
 
-const contactDetailsSchema = z.object({
   email: z.string().email(),
   phone: z.string(),
 });
 
-const patientInformationSchema = z.object({
-  name: z.string(),
-  condition: z.string(),
+const menteeInformationSchema = z.object({
+  patientName: z.string(),
   relation: z.string(),
-  experience: z.nativeEnum(Experience),
   synopsis: z.string(),
 });
 
 const mentorInformationSchema = z.object({
-  condition: z.string(),
-  experience: z.nativeEnum(Experience),
   about: z.string(),
 });
 
-export const onBoardingSchema = z.union([
-  z.object({
-    role: z.nativeEnum([Role.MENTEE]),
-    personalSchema,
-    contactDetailsSchema,
-    patientInformationSchema,
-  }),
-  z.object({
-    role: z.nativeEnum([Role.MENTOR]),
-    personalSchema,
-    contactDetailsSchema,
-    mentorInformationSchema,
-  }),
-]);
+export const mentorOnboardingSchema = z
+  .object({
+    role: z.literal(Role.MENTOR),
+  })
+  .merge(commonDetailsSchema)
+  .merge(mentorInformationSchema);
 
-export default onBoardingSchema;
+export const menteeOnboardingSchema = z
+  .object({
+    role: z.literal(Role.MENTEE),
+  })
+  .merge(commonDetailsSchema)
+  .merge(menteeInformationSchema);
+
+export const onBoardingSchema = z.union([
+  menteeOnboardingSchema,
+  mentorOnboardingSchema,
+]);

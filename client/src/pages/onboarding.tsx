@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Caregiver from "../components/caregiver";
-import Guide from "../components/caregiver";
+import Guide from "../components/guide";
+import { Role } from "@prisma/client";
 
 const OnBoarding = () => {
-  const [caregiver, setCareGiver] = useState(1);
+  const [role, setRole] = useState<Role>(Role.MENTEE);
 
   return (
     <>
@@ -14,11 +15,11 @@ const OnBoarding = () => {
         <div className="flex justify-around items-center mb-8">
           <div
             onClick={() => {
-              setCareGiver(1);
+              setRole("MENTEE");
             }}
             className={
               "w-96 h-56 p-8 text-center border-2 rounded-2xl flex flex-col justify-center items-center cursor-pointer" +
-              (caregiver === 1
+              (role === "MENTEE"
                 ? " border-2 border-caring"
                 : " border-2 border-inactive")
             }
@@ -32,11 +33,11 @@ const OnBoarding = () => {
           </div>
           <div
             onClick={() => {
-              setCareGiver(2);
+              setRole("MENTOR");
             }}
             className={
               "w-96 h-56 p-8 text-center border-2 rounded-2xl flex flex-col justify-center items-center cursor-pointer" +
-              (caregiver === 2
+              (role === "MENTOR"
                 ? " border-2 border-caring"
                 : " border-2 border-inactive")
             }
@@ -50,7 +51,7 @@ const OnBoarding = () => {
           </div>
         </div>
         <hr />
-        {caregiver === 1 ? <Caregiver /> : <Guide />}
+        {role === "MENTEE" ? <Caregiver /> : <Guide />}
       </div>
     </>
   );

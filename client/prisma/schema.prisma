@@ -9,53 +9,41 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model Profile {
   id String @id
 
   // personal Details
-  firstName  String
-  middleName String
-  lastName   String
-  age        Int
-  gender     String
-  avatar     String?
+  firstName             String
+  middleName            String?
+  lastName              String
+  dob                   DateTime
+  gender                String
+  avatar                String?
+  // Common Details
+  experience            Experience
+  conditions            String[]
+  // Mentor
+  about                 String?
+  // Mentee
+  patientName           String?
+  synopsis              String?
+  relationShipToPatient String?
 
   // Contact Details
   email String
   phone String
 
-  role      Role
-  LovedOnes LovedOne[]
-  condition Int
-  relationship String
-  synopsis  String
-  mentors   Mentor[]
+  role Role
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model LovedOne {
-  id String @id @default(uuid())
-
-  caregiverId           String
-  patientName           String
-  patientCondition      String
-  relationShipToPatient String
-  experience            Experience
-  synopsis              String
-
-  createdAt DateTime @default(now())
-
-  careGiver Profile @relation(fields: [caregiverId], references: [id])
-}
-
-model Mentor {
-  id String @id @default(uuid())
-
-  mentorId  String
-  createdAt DateTime @default(now())
-
-  mentee Profile @relation(fields: [mentorId], references: [id])
+model MentorMenteeMatch {
+  id       String @id @default(uuid())
+  mentorId String
+  menteeId String
 }
 
 enum Role {

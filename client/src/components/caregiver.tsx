@@ -1,38 +1,30 @@
-import React from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { menteeOnboardingSchema } from "@/schema/onboarding";
+import { z } from "zod";
 
-type FormValues = {
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  age: number;
-  gender: string;
-  email: string;
-  phone: string;
-  lovedOnes: string;
-  condition: string;
-  relationship: string;
-  synopsis: string;
-};
+type FormValues = z.infer<typeof menteeOnboardingSchema>;
 
 const Caregiver = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    defaultValues: {
+      role: "MENTEE",
+    },
+    resolver: zodResolver(menteeOnboardingSchema),
+  });
 
   const onSubmit = async (data: FormValues) => {
-    console.log("Form submitted:", data);
-
     try {
-      const response = await fetch("/api/mentors/create", {
+      const response = await fetch("/api/on-boarding", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ data: data, role: "mentor" }),
+        body: JSON.stringify({ ...data }),
       });
 
       if (response.ok) {
@@ -97,14 +89,14 @@ const Caregiver = () => {
             </div>
             <div>
               <input
-                type="number"
-                placeholder="Age"
-                {...register("age", { required: true })}
+                type="date"
+                placeholder="Date of Birth"
+                {...register("dob", { required: true })}
                 className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
-                  errors.age ? " border border-red-500" : ""
+                  errors.dob ? " border border-red-500" : ""
                 }`}
               />
-              {errors.age && (
+              {errors.dob && (
                 <p className="text-red-500 mt-2">Age is required</p>
               )}
             </div>
@@ -172,12 +164,12 @@ const Caregiver = () => {
               <input
                 type="text"
                 placeholder="Name"
-                {...register("lovedOnes", { required: true })}
+                {...register("patientName", { required: true })}
                 className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
-                  errors.lovedOnes ? " border border-red-500" : ""
+                  errors.patientName ? " border border-red-500" : ""
                 }`}
               />
-              {errors.lovedOnes && (
+              {errors.patientName && (
                 <p className="text-red-500 mt-2">Name is required</p>
               )}
             </div>
@@ -185,11 +177,11 @@ const Caregiver = () => {
               <select
                 title="condition"
                 id="condition"
-                {...register("condition", { required: true })}
                 defaultValue={"Loved One Condition"}
                 className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
-                  errors.condition ? " border border-red-500" : ""
+                  errors.conditions ? " border border-red-500" : ""
                 }`}
+                {...register("conditions", { required: true })}
               >
                 <option value="Multiple Myeloma">Multiple Myeloma</option>
                 <option value="Alzheimer’s Disease">Alzheimer’s Disease</option>
@@ -197,7 +189,7 @@ const Caregiver = () => {
                 <option value="Stroke">Stroke</option>
                 <option value="ALS">ALS</option>
               </select>
-              {errors.condition && (
+              {errors.conditions && (
                 <p className="text-red-500 mt-2">Condition is required</p>
               )}
             </div>
@@ -205,10 +197,10 @@ const Caregiver = () => {
               <select
                 title="relationship"
                 id="relationship"
-                {...register("relationship", { required: true })}
+                {...register("relation", { required: true })}
                 defaultValue={"Relationship to Patient"}
                 className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
-                  errors.relationship ? " border border-red-500" : ""
+                  errors.relation ? " border border-red-500" : ""
                 }`}
               >
                 <option value="mother">Mother</option>
@@ -218,7 +210,7 @@ const Caregiver = () => {
                 <option value="wife">Wife</option>
                 <option value="husband">Husband</option>
               </select>
-              {errors.relationship && (
+              {errors.relation && (
                 <p className="text-red-500 mt-2">Relationship is required</p>
               )}
             </div>
@@ -239,7 +231,7 @@ const Caregiver = () => {
                     name="6"
                     id="plus"
                     className={`mr-2 ${
-                      errors.age ? " border border-red-500" : ""
+                      errors.dob ? " border border-red-500" : ""
                     }`}
                   />
                   <label htmlFor="plus">4+ Years</label>
