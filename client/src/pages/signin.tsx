@@ -1,5 +1,4 @@
 import React from "react";
-import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import Nav from "../components/nav";
 import { useForm } from "react-hook-form";
