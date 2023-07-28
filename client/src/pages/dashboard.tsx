@@ -7,7 +7,6 @@ import DashboardCareCard from "@/components/dashboardCareCard";
 const Dashboard: React.FC = () => {
   return (
     <main className="min-h-screen bg-white w-screen">
-      <Nav />
       <div className="flex p-10 h-full w-full">
         <div className="mr-2">
           <DashboardCard />

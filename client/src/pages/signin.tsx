@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Nav from "../components/nav";
 import { useForm } from "react-hook-form";
 
 type FormData = {
@@ -23,8 +22,7 @@ const Signin = () => {
   };
 
   return (
-    <div className="flex flex-col w-screen h-screen">
-      <Nav />
+    <div className="flex flex-col w-screen h-full">
       <div className="flex h-full w-full">
         <div className="h-full w-[50%] lg:block hidden">
           <div className="h-full bg-[url('../../public/images/signinBG.png')] bg-no-repeat bg-cover bg-center"></div>

@@ -4,54 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Link from "next/link";
 
 const Nav = () => {
-  const [activeLink, setActiveLink] = useState("");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const section1 = document.getElementById("section-1");
-      const section2 = document.getElementById("section-2");
-      if (section1 && window.scrollY < section1.offsetTop - 100) {
-        setActiveLink("");
-      } else if (section2 && window.scrollY >= section2.offsetTop - 100) {
-        setActiveLink("section-2");
-      } else {
-        setActiveLink("section-1");
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  const handleScrollToSection1 = () => {
-    const section1 = document.getElementById("section-1");
-    if (section1) {
-      window.scrollTo({
-        top: section1.offsetTop - 90,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const handleScrollToSection2 = () => {
-    const section2 = document.getElementById("section-2");
-    if (section2) {
-      window.scrollTo({
-        top: section2.offsetTop - 90,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  // const navigate = useNavigate();
-
-  // const handleSignUpClick = () => {
-  //   navigate("/auth");
-  // };
-
   return (
     <Navbar
       isBordered
@@ -74,27 +26,6 @@ const Nav = () => {
           Caring Guide
         </Text>
       </Navbar.Brand>
-      <Navbar.Content hideIn="xs" variant="underline">
-        <Navbar.Link
-          activeColor="secondary"
-          isActive={activeLink === "section-1"}
-          color="primary"
-          onClick={handleScrollToSection1}
-        >
-          <p className=" text-bold relative group">
-            <span className="">Section 1</span>
-            <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
-          </p>
-        </Navbar.Link>
-        <Navbar.Link
-          activeColor="secondary"
-          isActive={activeLink === "section-2"}
-          color="primary"
-          onClick={handleScrollToSection2}
-        >
-          Section 2
-        </Navbar.Link>
-      </Navbar.Content>
       <Navbar.Content>
         <Navbar.Link
           color="primary"

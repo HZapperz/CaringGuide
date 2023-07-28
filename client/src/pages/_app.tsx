@@ -1,6 +1,9 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { createTheme, NextUIProvider, Text } from "@nextui-org/react";
+import { useRouter } from "next/router";
+import Nav from "@/components/nav";
+import NavbarComp from "@/components/navbar";
 
 const theme = createTheme({
   type: "light", // it could be "light" or "dark"
@@ -32,10 +35,24 @@ const theme = createTheme({
 });
 
 function App({ Component, pageProps }: AppProps) {
+  const pagesWithoutLayout = ["/signin", "/signup", "/login"];
+  const router = useRouter();
+  const shouldApplyLayout = pagesWithoutLayout.includes(router.pathname);
+
   return (
     // 2. Use at the root of your app
     <NextUIProvider theme={theme}>
-      <Component {...pageProps} />
+      {!shouldApplyLayout ? (
+        <div className="flex flex-col w-screen h-screen bg-white">
+          <NavbarComp />
+          <Component {...pageProps} />
+        </div>
+      ) : (
+        <div className="flex flex-col w-screen h-screen bg-white">
+          <Nav />
+          <Component {...pageProps} />
+        </div>
+      )}
     </NextUIProvider>
   );
 }

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
-import Nav from "../components/nav";
 import { registerSchema } from "../schema/auth";
 import { useSnackbar } from "@saas-ui/react";
 import { AuthApiError } from "@supabase/supabase-js";
@@ -50,8 +49,7 @@ const Welcome = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[url('../../public/images/signinBG.png')] bg-no-repeat bg-cover bg-center bg-fixed">
-      <Nav />
+    <div className="h-full bg-[url('../../public/images/signinBG.png')] bg-no-repeat bg-cover bg-center bg-fixed">
       <div className="pt-40 background-image: linear-gradient(115deg, #9F7AEA, #FEE2FE) overflow-hidden">
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-black bg-opacity-80 rounded-xl mx-auto shadow-lg">
