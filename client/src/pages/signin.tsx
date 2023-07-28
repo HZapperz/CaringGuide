@@ -1,12 +1,8 @@
 import Link from "next/link";
-<<<<<<< HEAD
-import Nav from "../components/nav";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-=======
->>>>>>> 73d4abf4e5ee86f80b93722301ab307277408d07
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter } from "next/router";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 type SignInFormValues = {
   email: string;

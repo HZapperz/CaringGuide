@@ -39,6 +39,10 @@ const theme = createTheme({
 });
 
 function App({ Component, pageProps }: AppProps) {
+  const pagesWithoutLayout = ["/signin", "/signup", "/login"];
+  const router = useRouter();
+  const shouldApplyLayout = pagesWithoutLayout.includes(router.pathname);
+
   const [supabaseClient] = useState(() =>
     createPagesBrowserClient({
       supabaseKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -47,13 +51,24 @@ function App({ Component, pageProps }: AppProps) {
   );
 
   return (
-    // 2. Use at the root of your app
     <SessionContextProvider
       supabaseClient={supabaseClient}
       initialSession={pageProps.initialSession}
     >
       <NextUIProvider theme={theme}>
-        <Component {...pageProps} />
+        <NextUIProvider theme={theme}>
+          {!shouldApplyLayout ? (
+            <div className="flex flex-col w-screen h-screen bg-white">
+              <NavbarComp />
+              <Component {...pageProps} />
+            </div>
+          ) : (
+            <div className="flex flex-col w-screen h-screen bg-white">
+              <Nav />
+              <Component {...pageProps} />
+            </div>
+          )}
+        </NextUIProvider>
       </NextUIProvider>
     </SessionContextProvider>
   );
