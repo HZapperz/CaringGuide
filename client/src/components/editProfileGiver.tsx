@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 
-const EditProfile: React.FC = () => {
+const EditProfileGiver: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   const togglePopup = () => {
@@ -14,9 +14,9 @@ const EditProfile: React.FC = () => {
       <button
         type="button"
         onClick={togglePopup}
-        className="flex justify-center items-center border-2 border-[#ECEEED] rounded-2xl text-[#4E4E4E] px-4 py-2 lg:px-8 lg:py-4 mt-2 font-poppins font-[400] text-[16px] tracking-normal text-center w-full"
+        className="text-[#4E4E4E] opacity-50 text-[15px] font-[300] font-poppins"
       >
-        Edit Profile
+        view my profile
       </button>
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
@@ -63,7 +63,7 @@ const EditProfile: React.FC = () => {
                 edit profile
               </Link>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 mt-4">
               <div>
                 <h3 className="text-xl lg:text-2xl font-poppins mb-2">About</h3>
                 <p className="text-[#4E4E4E] text-[16px] lg:text-[20px] font-[300] p-4 rounded-xl font-poppins bg-[#ECEEED] h-fit max-h-60 lg:h-60 overflow-auto">
@@ -87,6 +87,29 @@ const EditProfile: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <div className="font-poppins">
+                <h3 className="text-2xl font-poppins mb-2">
+                  Background Information
+                </h3>
+                <div className="text-[#4E4E4E] p-4 rounded-xl bg-[#ECEEED] h-fit max-h-60 lg:h-60">
+                  <div className="text-[#4E4E4E]">
+                    <p className="opacity-50 text-[15px]">
+                      PATIENT RELATIONSHIP
+                    </p>
+                    <p className="text-[18px] font-[300]">Son</p>
+                  </div>
+                  <div className="text-[#4E4E4E] mt-4">
+                    <p className="opacity-50 text-[15px]">PATIENT CONDITION</p>
+                    <p className="text-[18px] font-[300]">Early (0-2 years)</p>
+                  </div>
+                  <div className="text-[#4E4E4E] mt-4">
+                    <p className="opacity-50 text-[15px]">
+                      YEAR(S) AS CAREGIVER
+                    </p>
+                    <p className="text-[18px] font-[300]">0 years</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -95,4 +118,4 @@ const EditProfile: React.FC = () => {
   );
 };
 
-export default EditProfile;
+export default EditProfileGiver;

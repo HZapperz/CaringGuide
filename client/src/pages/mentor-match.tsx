@@ -3,7 +3,7 @@ import React from "react";
 
 const MentorMatch: React.FC = () => {
   return (
-    <main className="min-h-screen bg-white w-screen">
+    <main className="h-full bg-white w-screen">
       <div className="p-10 w-full">
         <div className="flex flex-col justify-between items-center font-poppins text-[#4E4E4E] text-5xl font-medium mb-4">
           <div className="flex justify-start items-start w-full">

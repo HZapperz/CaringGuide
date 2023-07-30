@@ -22,17 +22,17 @@ const Guide = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex py-10 justify-around items-start w-full px-4 mb-8">
-          <div className="font-poppins text-2xl font-[500] mr-8 w-2/6">
+        <div className="flex lg:flex-row flex-col py-10 justify-around items-start w-full px-1 md:px-4 mb-8">
+          <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
             PERSONAL DETAILS
           </div>
-          <div className="grid grid-cols-3 gap-x-20 gap-y-4 w-4/6">
-            <div>
+          <div className="grid content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 w-full lg:w-4/6">
+            <div className="flex sm:justify-start justify-center sm:items-start items-center">
               <input
                 type="text"
                 placeholder="First Name"
                 {...register("firstName", { required: true })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.firstName ? " border border-red-500" : ""
                 }`}
               />
@@ -40,20 +40,25 @@ const Guide = () => {
                 <p className="text-red-500 mt-2">First Name is required</p>
               )}
             </div>
-            <div>
+            <div className="flex sm:justify-start justify-center sm:items-start items-center">
               <input
                 type="text"
                 placeholder="Middle Name"
-                {...register("middleName", { required: false })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md`}
+                {...register("middleName", { required: true })}
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
+                  errors.middleName ? " border border-red-500" : ""
+                }`}
               />
+              {errors.middleName && (
+                <p className="text-red-500 mt-2">Middle Name is required</p>
+              )}
             </div>
-            <div>
+            <div className="flex sm:justify-start justify-center sm:items-start items-center">
               <input
                 type="text"
                 placeholder="Last Name"
                 {...register("lastName", { required: true })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.lastName ? " border border-red-500" : ""
                 }`}
               />
@@ -61,26 +66,26 @@ const Guide = () => {
                 <p className="text-red-500 mt-2">Last Name is required</p>
               )}
             </div>
-            <div>
+            <div className="flex sm:justify-start justify-center sm:items-start items-center">
               <input
                 type="date"
                 placeholder="Date of Birth"
                 {...register("dob", { required: true })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.dob ? " border border-red-500" : ""
                 }`}
               />
               {errors.dob && (
-                <p className="text-red-500 mt-2">Date of Birth is required</p>
+                <p className="text-red-500 mt-2">Age is required</p>
               )}
             </div>
-            <div>
+            <div className="flex sm:justify-start justify-center sm:items-start items-center">
               <select
                 title="gender"
                 id="gender"
                 {...register("gender", { required: true })}
                 defaultValue={"Gender"}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.gender ? " border border-red-500" : ""
                 }`}
               >
@@ -95,17 +100,17 @@ const Guide = () => {
           </div>
         </div>
         <hr />
-        <div className="flex py-10 justify-around items-start w-full px-4 mb-8">
-          <div className="font-poppins text-2xl font-[500] mr-8 w-2/6">
+        <div className="flex lg:flex-row flex-col py-10 justify-around items-start w-full px-4 mb-8">
+          <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
             Contact Information
           </div>
-          <div className="grid grid-cols-3 gap-x-20 gap-y-4 w-4/6">
-            <div>
+          <div className="grid content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 w-full lg:w-4/6">
+            <div className="flex sm:justify-start justify-center sm:items-start items-center">
               <input
                 type="email"
                 placeholder="Email"
                 {...register("email", { required: true })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.email ? " border border-red-500" : ""
                 }`}
               />
@@ -113,12 +118,12 @@ const Guide = () => {
                 <p className="text-red-500 mt-2">Email is required</p>
               )}
             </div>
-            <div>
+            <div className="flex sm:justify-start justify-center sm:items-start items-center">
               <input
                 type="text"
                 placeholder="Mobile Number"
                 {...register("phone", { required: true })}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.phone ? " border border-red-500" : ""
                 }`}
               />
@@ -129,11 +134,11 @@ const Guide = () => {
           </div>
         </div>
         <hr />
-        <div className="flex py-10 justify-around items-start w-full px-4 mb-8">
+        <div className="flex lg:flex-row flex-col py-10 justify-around items-start w-full px-4 mb-8">
           <div className="font-poppins text-2xl font-[500] mr-8 w-2/6">
             EXPERIENCE
           </div>
-          <div className="grid grid-cols-3 gap-x-20 gap-y-4 w-4/6">
+          <div className="grid grid-cols-1 gap-x-20 gap-y-4 w-4/6">
             <div>
               <select
                 title="condition"

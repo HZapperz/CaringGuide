@@ -1,31 +1,29 @@
-import React, { useRef } from "react";
+import React from "react";
 import DashboardCard from "../components/dashboardGuideCard";
-import Nav from "@/components/nav";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import DashboardCareCard from "@/components/dashboardCareCard";
 
 const Dashboard: React.FC = () => {
   return (
-    <main className="min-h-screen bg-white w-screen">
-      <div className="flex p-10 h-full w-full">
-        <div className="mr-2">
+    <main className="bg-white w-full">
+      <div className="flex flex-col lg:flex-row items-center lg:items-start p-10 h-full xl:w-full">
+        <div className="lg:mr-2 mb-2 lg:mb-0">
           <DashboardCard />
         </div>
-        <div className="container flex flex-col justify-start items-start min-h-full rounded-xl border-2 border-[#ECEEED p-4 w-full overflow-auto">
-          <div className="flex justify-between items-center font-poppins text-[#4E4E4E] text-2xl font-medium mb-4">
+        <div className="flex flex-col justify-center items-center lg:justify-start lg:items-start min-h-fit rounded-xl border-2 border-[#ECEEED p-4 w-fit lg:w-full overflow-auto">
+          <div className="flex justify-between items-center font-poppins text-[#4E4E4E] text-2xl font-medium mb-4 h-fit">
             <div>MY CAREGIVERS</div>
           </div>
-          <div className="container flex justify-start items-center w-full overflow-auto">
-            <div className="mr-2">
+          <div className="flex flex-col lg:flex-row justify-start items-center h-full w-full overflow-auto">
+            <div className="lg:mr-2 mr-0 mb-2 lg:mb-0 w-full">
               <DashboardCareCard />
             </div>
-            <div className="mr-2">
+            <div className="lg:mr-2 mr-0 mb-2 lg:mb-0 w-full">
               <DashboardCareCard />
             </div>
-            <div className="mr-2">
+            <div className="lg:mr-2 mr-0 mb-2 lg:mb-0 w-full">
               <DashboardCareCard />
             </div>
-            <div className="mr-2">
+            <div className="lg:mr-2 mr-0 mb-2 lg:mb-0 w-full">
               <DashboardCareCard />
             </div>
           </div>

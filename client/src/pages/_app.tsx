@@ -16,7 +16,7 @@ const theme = createTheme({
       primary: "#08291e",
       secondary: "#ab1d41",
       tertiary: "#142850",
-      background: "#f2f2f2",
+      background: "#ffffff",
       text: "#333",
       white: "#fff",
       black: "#000",
@@ -58,12 +58,12 @@ function App({ Component, pageProps }: AppProps) {
       <NextUIProvider theme={theme}>
         <NextUIProvider theme={theme}>
           {!shouldApplyLayout ? (
-            <div className="flex flex-col w-screen h-screen bg-white">
+            <div className="flex flex-col w-screen min-h-screen h-screen bg-white">
               <NavbarComp />
               <Component {...pageProps} />
             </div>
           ) : (
-            <div className="flex flex-col w-screen h-screen bg-white">
+            <div className="flex flex-col w-screen min-h-screen h-screen bg-white">
               <Nav />
               <Component {...pageProps} />
             </div>

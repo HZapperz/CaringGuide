@@ -2,7 +2,7 @@ import React from "react";
 
 const DashboardCareCard = (props: any) => {
   return (
-    <main className="container mx-auto w-96">
+    <main className="container mx-auto w-full lg:w-96">
       <div className="max-w-md mx-auto rounded-xl overflow-hidden bg-[#ECEEED] border-2 border-white">
         <div className="flex justify-between items-center p-4 w-full">
           <div className="w-[40%]">

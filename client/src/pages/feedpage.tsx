@@ -2,16 +2,13 @@ import * as React from "react";
 import { useState } from "react";
 import { Navbar, Text, Image, Button, Input } from "@nextui-org/react";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import Link from "next/link";
 import links from "../assets/links";
 import FeedCard from "@/components/feed";
-import Nav from "@/components/nav";
 
 const Feedpage = () => {
   const [value, setValue] = useState(0);
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+  const [selected, setSelected] = useState<string[]>([]);
+
   const a11yProps = (index: number) => {
     return {
       "id": `tab-${index}`,
@@ -19,6 +16,7 @@ const Feedpage = () => {
     };
   };
   const filters = [
+    "All",
     "Scientific Journal",
     "Support Group",
     "Non-Profit",
@@ -35,7 +33,6 @@ const Feedpage = () => {
     "emotion",
   ];
 
-  const [selected, setSelected] = useState<string[]>([]);
   const handleButtonClick = (value: string) => {
     if (selected.includes(value)) {
       setSelected(selected.filter((item) => item !== value));
@@ -64,7 +61,7 @@ const Feedpage = () => {
               >
                 {label}
                 <div className="ml-2 w-5">
-                  {selected.includes(label) ? <PlusIcon /> : <XMarkIcon />}
+                  {!selected.includes(label) ? <PlusIcon /> : <XMarkIcon />}
                 </div>
               </button>
             ))}
@@ -77,6 +74,8 @@ const Feedpage = () => {
               selected.includes(item.sub) &&
               item.category === tabLabels[value]
             ) {
+              return <FeedCard key={index} data={item} />;
+            } else if (selected.includes("All")) {
               return <FeedCard key={index} data={item} />;
             }
             return null;
