@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 
-const EditProfileGiver: React.FC = () => {
+const EditProfileGiver = (props: any) => {
   const [showPopup, setShowPopup] = useState(false);
+  const [age, setAge] = useState<number>();
+
+  useEffect(() => {
+    const today = new Date();
+    const dobDate = new Date(props.user.dob);
+    const age = today.getFullYear() - dobDate.getFullYear();
+    setAge(age);
+  }, [age]);
 
   const togglePopup = () => {
     setShowPopup((prevState) => !prevState);
@@ -34,19 +42,19 @@ const EditProfileGiver: React.FC = () => {
                 <div className="flex flex-col justify-center items-start w-[60%]">
                   <div className="flex justify-start items-center ">
                     <h2 className="text-[20px] lg:text-[30px] font-poppins mr-1 font-medium">
-                      Tanner Myers
+                      {props.user.firstName + " " + props.user.lastName}
                     </h2>
                     <p className="text-[#4E4E4E] opacity-50 text-[10px] lg:text-[16px] ml-2 font-poppins">
-                      (he/him)
+                      ({props.user.gender === "male" ? "he/him" : "she/her"})
                     </p>
                   </div>
                   <div className="flex justify-start items-center font-poppins">
                     <p className="text-[#4E4E4E] text-[15px] lg:text-[20px] font-[300] mr-2">
-                      30 Years
+                      {age} Years
                     </p>
                     <div className="w-1 bg-black aspect-square rounded-full"></div>
                     <p className="text-[#4E4E4E] text-[15px] lg:text-[20px] font-[300] ml-2">
-                      {"Alzheimer’s"}
+                      {props.user.condition}
                     </p>
                   </div>
                   <div className="flex justify-start items-center font-poppins">
@@ -67,7 +75,7 @@ const EditProfileGiver: React.FC = () => {
               <div>
                 <h3 className="text-xl lg:text-2xl font-poppins mb-2">About</h3>
                 <p className="text-[#4E4E4E] text-[16px] lg:text-[20px] font-[300] p-4 rounded-xl font-poppins bg-[#ECEEED] h-fit max-h-60 lg:h-60 overflow-auto">
-                  {`Hi, I'm Tanner Myers, a caregiver for 7 years, specializing in Alzheimer's. With extensive knowledge, I'll share tips to provide better care for your loved one. Let me help improve the quality of care by sharing my expertise with you.`}
+                  {props.user.synopsis}
                 </p>
               </div>
               <div className="font-poppins">
@@ -77,12 +85,14 @@ const EditProfileGiver: React.FC = () => {
                 <div className="text-[#4E4E4E] p-4 rounded-xl bg-[#ECEEED] h-fit max-h-60 lg:h-60">
                   <div className="text-[#4E4E4E]">
                     <p className="opacity-50 text-[15px]">PHONE NUMBER</p>
-                    <p className="text-[18px] font-[300]">469-570-8561</p>
+                    <p className="text-[18px] font-[300]">
+                      {props.user.phone ? props.user.phone : "Not Provided"}
+                    </p>
                   </div>
                   <div className="text-[#4E4E4E] mt-4">
                     <p className="opacity-50 text-[15px]">Email</p>
                     <p className="text-[18px] font-[300]">
-                      tannermyers@gmail.com
+                      {props.user.email ? props.user.email : "Not Provided"}
                     </p>
                   </div>
                 </div>
@@ -96,17 +106,28 @@ const EditProfileGiver: React.FC = () => {
                     <p className="opacity-50 text-[15px]">
                       PATIENT RELATIONSHIP
                     </p>
-                    <p className="text-[18px] font-[300]">Son</p>
+                    <p className="text-[18px] font-[300]">
+                      {props.user.relationShipToPatient}
+                    </p>
                   </div>
                   <div className="text-[#4E4E4E] mt-4">
                     <p className="opacity-50 text-[15px]">PATIENT CONDITION</p>
-                    <p className="text-[18px] font-[300]">Early (0-2 years)</p>
+                    <p className="text-[18px] font-[300]">
+                      {props.user.condition}
+                    </p>
                   </div>
                   <div className="text-[#4E4E4E] mt-4">
                     <p className="opacity-50 text-[15px]">
                       YEAR(S) AS CAREGIVER
                     </p>
-                    <p className="text-[18px] font-[300]">0 years</p>
+                    <p className="text-[18px] font-[300]">
+                      {props.user.experience === "LESS_THAN_2"
+                        ? "0 - 2 "
+                        : props.user.experience === "BETWEEN_2_AND_4"
+                        ? "2 - 4 "
+                        : "4+ "}{" "}
+                      years
+                    </p>
                   </div>
                 </div>
               </div>

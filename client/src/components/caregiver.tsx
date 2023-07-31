@@ -19,6 +19,7 @@ const Caregiver = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
+      console.log(data);
       const response = await fetch("/api/on-boarding", {
         method: "POST",
         headers: {
@@ -176,23 +177,19 @@ const Caregiver = () => {
                 <select
                   title="condition"
                   id="condition"
-                  defaultValue={"Loved One Condition"}
+                  {...register("condition", { required: true })}
+                  defaultValue={"Condition of Patient"}
                   className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
-                    errors.conditions ? " border border-red-500" : ""
+                    errors.condition ? " border border-red-500" : ""
                   }`}
-                  {...register("conditions", { required: true })}
                 >
-                  <option value="Multiple Myeloma">Multiple Myeloma</option>
-                  <option value="Alzheimer’s Disease">
-                    Alzheimer’s Disease
-                  </option>
-                  <option value="Parkinson’s Disease">
-                    Parkinson’s Disease
-                  </option>
-                  <option value="Stroke">Stroke</option>
-                  <option value="ALS">ALS</option>
+                  <option value="myeloma">Multiple Myeloma</option>
+                  <option value="alzheimer">Alzheimer’s Disease</option>
+                  <option value="parkinson">Parkinson’s Disease</option>
+                  <option value="stroke">Stroke</option>
+                  <option value="als">ALS</option>
                 </select>
-                {errors.conditions && (
+                {errors.condition && (
                   <p className="text-red-500 mt-2">Condition is required</p>
                 )}
               </div>
@@ -218,32 +215,59 @@ const Caregiver = () => {
                 )}
               </div>
             </div>
+
             <div className="w-full col-span-3">
               <div className="text-[#5E5E5E] text-[16px] font-poppins font-[600] mb-2">
                 Years of Caregiving
               </div>
               <div className="flex justify-between items-center mt-2">
                 <div className="flex justify-center items-center">
-                  <input type="checkbox" name="2" id="two" className="mr-2" />
-                  <label htmlFor="two">0 - 2 Years</label>
-                </div>
-                <div className="flex justify-center items-center">
-                  <input type="checkbox" name="4" id="four" className="mr-2" />
-                  <label htmlFor="four">2 - 4 Years</label>
+                  <input
+                    type="radio"
+                    id="0-2"
+                    title="experience"
+                    value="LESS_THAN_2"
+                    {...register("experience", { required: true })}
+                    className={`mr-2 ${
+                      errors.experience ? "border border-red-500" : ""
+                    }`}
+                  />
+                  <label htmlFor="0-2">0 - 2 Years</label>
                 </div>
                 <div className="flex justify-center items-center">
                   <input
-                    type="checkbox"
-                    name="6"
-                    id="plus"
+                    type="radio"
+                    id="2-4"
+                    title="experience"
+                    value="BETWEEN_2_AND_4"
+                    {...register("experience", { required: true })}
                     className={`mr-2 ${
-                      errors.dob ? " border border-red-500" : ""
+                      errors.experience ? "border border-red-500" : ""
                     }`}
                   />
-                  <label htmlFor="plus">4+ Years</label>
+                  <label htmlFor="2-4">2 - 4 Years</label>
+                </div>
+                <div className="flex justify-center items-center">
+                  <input
+                    type="radio"
+                    id="4+"
+                    title="experience"
+                    value="MORE_THAN_4"
+                    {...register("experience", { required: true })}
+                    className={`mr-2 ${
+                      errors.experience ? "border border-red-500" : ""
+                    }`}
+                  />
+                  <label htmlFor="4+">4+ Years</label>
                 </div>
               </div>
+              {errors.experience && (
+                <p className="text-red-500 mt-2">
+                  Years of Caregiving is required
+                </p>
+              )}
             </div>
+
             <div className="col-span-3 mt-4">
               <div className="text-[#5E5E5E] text-[16px] font-poppins font-[600] mb-2">
                 Synopsis of Patient Condition

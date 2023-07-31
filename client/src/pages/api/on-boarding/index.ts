@@ -14,6 +14,8 @@ export default isLoggedIn(async (req, res, user) => {
         },
       });
 
+      console.log(existingProfile, user.id);
+
       if (existingProfile) {
         return res.status(409).json({
           message: "User profile already exists!",
@@ -33,7 +35,7 @@ export default isLoggedIn(async (req, res, user) => {
             gender: data.role,
             phone: data.phone,
             experience: data.experience,
-            conditions: data.conditions,
+            condition: data.condition,
             about: data.role === "MENTOR" ? data.about : undefined,
             synopsis: data.role === "MENTEE" ? data.synopsis : undefined,
             relationShipToPatient:
@@ -45,11 +47,11 @@ export default isLoggedIn(async (req, res, user) => {
         const match = await prisma.profile.findFirst({
           where: {
             role: data.role === "MENTEE" ? "MENTOR" : "MENTEE",
-            conditions: {
-              hasSome: data.conditions,
-            },
+            condition: data.condition,
           },
         });
+
+        console.log(match);
 
         if (match) {
           const menteeId = data.role === "MENTEE" ? user.id : match.id;

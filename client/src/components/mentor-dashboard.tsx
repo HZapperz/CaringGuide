@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DashboardCard from "../components/dashboardGuideCard";
 import DashboardCareCard from "@/components/dashboardCareCard";
-import MenteeDashBoard from "@/components/mentee-dashboard";
 
 interface UserProfile {
   id: string;
@@ -24,8 +23,7 @@ interface UserProfile {
   updatedAt: string;
 }
 
-const Dashboard: React.FC = () => {
-  const [loader, setLoader] = useState<boolean>(false);
+const DashboardMentor: React.FC = (props: any) => {
   const [user, setUser] = useState<UserProfile>({
     id: "",
     firstName: "",
@@ -47,30 +45,10 @@ const Dashboard: React.FC = () => {
     updatedAt: "",
   });
 
-  const getUserProfileData = async () => {
-    setLoader(true);
-    try {
-      setLoader(true);
-      await fetch("/api/profiles/get")
-        .then((res) => res.json())
-        .then((data) => {
-          setUser(data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-    setLoader(false);
-  };
-
   useEffect(() => {
-    getUserProfileData();
-  }, []);
-
-  if (loader) return <h3>{"Loading..."}</h3>;
-
-  if (user.role === "MENTEE") {
-    return <MenteeDashBoard user={user} />;
-  }
+    setUser(props.user);
+    console.log(user);
+  }, [user]);
 
   return (
     <main className="bg-white w-full">
@@ -102,4 +80,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardMentor;

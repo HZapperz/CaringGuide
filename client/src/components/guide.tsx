@@ -12,11 +12,32 @@ const Guide = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({
+    defaultValues: {
+      role: "MENTOR",
+    },
     resolver: zodResolver(mentorOnboardingSchema),
   });
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
+  const onSubmit = async (data: FormValues) => {
+    try {
+      console.log(data);
+      const response = await fetch("/api/on-boarding", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...data }),
+      });
+
+      if (response.ok) {
+        const newMentor = await response.json();
+        console.log("New Mentor:", newMentor);
+      } else {
+        console.error("Error creating mentor:", response);
+      }
+    } catch (error) {
+      console.error("Error creating mentor:", error);
+    }
   };
 
   return (
@@ -143,52 +164,74 @@ const Guide = () => {
               <select
                 title="condition"
                 id="condition"
-                {...register("conditions", { required: true })}
+                {...register("condition", { required: true })}
                 defaultValue={"Loved One Condition"}
                 className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
-                  errors.conditions ? " border border-red-500" : ""
+                  errors.condition ? " border border-red-500" : ""
                 }`}
               >
                 <option value="good">Good</option>
                 <option value="bad">Bad</option>
                 <option value="worse">Worse</option>
               </select>
-              {errors.conditions && (
+              {errors.condition && (
                 <p className="text-red-500 mt-2">Condition is required</p>
               )}
             </div>
             <div>
               <div className="w-full col-span-3">
-                <div>Years of Caregiving</div>
-                <div className="flex justify-between items-center mt-4">
-                  <div className="flex justify-center items-center">
-                    <input type="checkbox" name="2" id="two" className="mr-2" />
-                    <label htmlFor="two">0 - 2 Years</label>
-                  </div>
+                <div className="text-[#5E5E5E] text-[16px] font-poppins font-[600] mb-2">
+                  Years of Caregiving
+                </div>
+                <div className="flex justify-between items-center mt-2">
                   <div className="flex justify-center items-center">
                     <input
-                      type="checkbox"
-                      name="4"
-                      id="four"
-                      className="mr-2"
-                    />
-                    <label htmlFor="four">2 - 4 Years</label>
-                  </div>
-                  <div className="flex justify-center items-center">
-                    <input
-                      type="checkbox"
-                      name="6"
-                      id="plus"
+                      type="radio"
+                      id="0-2"
+                      title="experience"
+                      value="LESS_THAN_2"
+                      {...register("experience", { required: true })}
                       className={`mr-2 ${
-                        errors.experience ? " border border-red-500" : ""
+                        errors.experience ? "border border-red-500" : ""
                       }`}
                     />
-                    <label htmlFor="plus">4+ Years</label>
+                    <label htmlFor="0-2">0 - 2 Years</label>
+                  </div>
+                  <div className="flex justify-center items-center">
+                    <input
+                      type="radio"
+                      id="2-4"
+                      title="experience"
+                      value="BETWEEN_2_AND_4"
+                      {...register("experience", { required: true })}
+                      className={`mr-2 ${
+                        errors.experience ? "border border-red-500" : ""
+                      }`}
+                    />
+                    <label htmlFor="2-4">2 - 4 Years</label>
+                  </div>
+                  <div className="flex justify-center items-center">
+                    <input
+                      type="radio"
+                      id="4+"
+                      title="experience"
+                      value="MORE_THAN_4"
+                      {...register("experience", { required: true })}
+                      className={`mr-2 ${
+                        errors.experience ? "border border-red-500" : ""
+                      }`}
+                    />
+                    <label htmlFor="4+">4+ Years</label>
                   </div>
                 </div>
+                {errors.experience && (
+                  <p className="text-red-500 mt-2">
+                    Years of Caregiving is required
+                  </p>
+                )}
               </div>
               <div className="col-span-3">
-                <div className="text-[#5E5E5E] text-[16px] font-poppins font-[400] mb-2">
+                <div className="text-[#5E5E5E] text-[16px] font-poppins font-[600] mt-4 mb-2">
                   Short About Section
                 </div>
                 <div className="w-full">

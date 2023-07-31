@@ -18,7 +18,7 @@ const OnBoarding = () => {
               setRole("MENTEE");
             }}
             className={
-              "w-full h-56 p-8 text-center border-2 rounded-2xl flex flex-col justify-center items-center cursor-pointer mr-2 md:mr-10" +
+              "w-full max-w-[400px] h-56 p-8 text-center border-2 rounded-2xl flex flex-col justify-center items-center cursor-pointer mr-2 md:mr-10" +
               (role === "MENTEE"
                 ? " border-2 border-caring"
                 : " border-2 border-inactive")
@@ -36,7 +36,7 @@ const OnBoarding = () => {
               setRole("MENTOR");
             }}
             className={
-              "w-full h-56 p-8 text-center border-2 rounded-2xl flex flex-col justify-center items-center cursor-pointer" +
+              "w-full max-w-[400px] h-56 p-8 text-center border-2 rounded-2xl flex flex-col justify-center items-center cursor-pointer" +
               (role === "MENTOR"
                 ? " border-2 border-caring"
                 : " border-2 border-inactive")

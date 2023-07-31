@@ -22,16 +22,16 @@ const MenteeDashBoard = (props: any) => {
                 <div className="flex flex-col justify-center items-start w-[60%]">
                   <div className="flex flex-col justify-start items-start ">
                     <h2 className="text-2xl font-poppins mr-1 font-medium">
-                      MARK SMITH
+                      {props.user.firstName + " " + props.user.lastName}
                     </h2>
-                    <EditProfileGiver />
+                    <EditProfileGiver user={props.user} />
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div>
-            <DashboardCard />
+            <DashboardCard user={props.user} />
           </div>
         </div>
         <div className="ml-0 sm:ml-2 xl:ml-0 flex xl:flex-row flex-col justify-center xl:items-start items-center w-full min-h-full">

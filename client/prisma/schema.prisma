@@ -22,7 +22,7 @@ model Profile {
   avatar                String?
   // Common Details
   experience            Experience
-  conditions            String[]
+  condition             String?
   // Mentor
   about                 String?
   // Mentee
@@ -44,6 +44,14 @@ model MentorMenteeMatch {
   id       String @id @default(uuid())
   mentorId String
   menteeId String
+}
+
+model Journal {
+  jId         String @id @default(uuid())
+  id          String
+  title       String
+  description String
+  time        DateTime @default(now())
 }
 
 enum Role {

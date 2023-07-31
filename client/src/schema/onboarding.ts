@@ -1,4 +1,4 @@
-import { Experience, Role } from "@prisma/client";
+import { Role, Experience } from "@prisma/client";
 import { z } from "zod";
 
 const commonDetailsSchema = z.object({
@@ -7,7 +7,6 @@ const commonDetailsSchema = z.object({
   lastName: z.string().min(2).max(50),
   dob: z.coerce.date(),
   gender: z.string(),
-  conditions: z.string().array(),
   experience: z.nativeEnum(Experience),
 
   email: z.string().email(),
@@ -17,10 +16,12 @@ const commonDetailsSchema = z.object({
 const menteeInformationSchema = z.object({
   patientName: z.string(),
   relation: z.string(),
+  condition: z.string(),
   synopsis: z.string(),
 });
 
 const mentorInformationSchema = z.object({
+  condition: z.string(),
   about: z.string(),
 });
 
