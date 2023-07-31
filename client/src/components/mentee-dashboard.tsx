@@ -1,14 +1,51 @@
-import Articles from "@/components/articles";
 import ArticlesCard from "@/components/articlesCard";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import DashboardCard from "@/components/dashboardGuideCard";
 import JournalCard from "@/components/journalCard";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import EditProfileGiver from "@/components/editProfileGiver";
 
+interface JournalData {
+  jId: string;
+  id: string;
+  title: string;
+  description: string;
+  time: string;
+}
+
 const MenteeDashBoard = (props: any) => {
+  const [loader, setLoader] = useState<boolean>(false);
+  const [journals, setJournals] = useState<JournalData[]>([]);
+  const getAllJournals = async () => {
+    setLoader(true);
+    try {
+      const response = await fetch("/api/journals", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        const journalsData = await response.json();
+        setJournals(journalsData);
+      } else {
+        console.error("Error getting Journals:", response);
+      }
+    } catch (error) {
+      console.error("Error getting Journals:", error);
+    }
+    setLoader(false);
+  };
+
+  useEffect(() => {
+    getAllJournals();
+  }, []);
+
   const router = useRouter();
+
+  if (loader) return <h3>Loading....</h3>;
+
   return (
     <>
       <div className="flex lg:flex-row flex-col justify-center lg:justify-between items-center lg:items-start p-10 w-full min-h-screen">
@@ -70,18 +107,11 @@ const MenteeDashBoard = (props: any) => {
                 </div>
               </div>
               <div className="container grid grid-cols-1 md:grid-cols-2 place-items-center lg:grid-cols-1 gap-y-4 w-full overflow-auto">
-                <div className="mr-2">
-                  <JournalCard />
-                </div>
-                <div className="mr-2">
-                  <JournalCard />
-                </div>
-                <div className="mr-2">
-                  <JournalCard />
-                </div>
-                <div className="mr-2">
-                  <JournalCard />
-                </div>
+                {journals.map((journal, index) => (
+                  <div className="mr-2" key={index}>
+                    <JournalCard data={journal} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>

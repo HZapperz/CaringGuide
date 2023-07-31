@@ -10,12 +10,14 @@ interface JournalData {
 
 interface JournalCardProps {
   data: JournalData;
-  onEdit: (journal: JournalData) => void;
+  onEdit?: (journal: JournalData) => void;
 }
 
 const JournalCard: React.FC<JournalCardProps> = ({ data, onEdit }) => {
   const handleEditClick = () => {
-    onEdit(data);
+    if (onEdit) {
+      onEdit(data);
+    }
   };
 
   return (

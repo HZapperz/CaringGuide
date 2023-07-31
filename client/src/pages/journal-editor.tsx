@@ -35,12 +35,16 @@ const JournalEditor: React.FC = () => {
   const onSubmit = async (data: FormValues) => {
     try {
       if (selectedJournal) {
-        const response = await fetch(`/api/journals/${selectedJournal?.jId}`, {
+        let newData = {
+          ...data,
+          jId: selectedJournal?.jId,
+        };
+        const response = await fetch(`/api/journals`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(newData),
         });
 
         if (response.ok) {
