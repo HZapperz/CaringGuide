@@ -26,13 +26,6 @@ export default isLoggedIn(async (req, res, user) => {
       }
     }
 
-    case "POST": {
-      // Your existing POST endpoint code here
-      // ...
-    }
-
-    // Add other cases for different HTTP methods if needed
-
     default:
       return res.status(405).json({
         message: "Method not allowed for this endpoint.",

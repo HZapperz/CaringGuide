@@ -5,39 +5,76 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
+interface JournalData {
+  jId: string;
+  id: string;
+  title: string;
+  description: string;
+  time: string;
+}
+
 type FormValues = z.infer<typeof journalSchema>;
 
-const JournalEditor = () => {
-  const [journals, setJournals] = useState([]);
+const JournalEditor: React.FC = () => {
+  const [journals, setJournals] = useState<JournalData[]>([]);
   const [loader, setLoader] = useState<boolean>(false);
   const [fresh, setRefresh] = useState<boolean>(false);
   const {
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm<FormValues>({
     resolver: zodResolver(journalSchema),
   });
 
+  const [selectedJournal, setSelectedJournal] = useState<JournalData | null>(
+    null
+  );
+
   const onSubmit = async (data: FormValues) => {
     try {
-      const response = await fetch("/api/journals", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...data }),
-      });
+      if (selectedJournal) {
+        const response = await fetch(`/api/journals/${selectedJournal?.jId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
 
-      if (response.ok) {
-        await response.json();
-        setRefresh(!fresh);
+        if (response.ok) {
+          setRefresh(!fresh);
+        } else {
+          console.error("Error updating Journal:", response);
+        }
       } else {
-        console.error("Error creating Journal:", response);
+        const response = await fetch("/api/journals", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          setRefresh(!fresh);
+        } else {
+          console.error("Error creating Journal:", response);
+        }
       }
     } catch (error) {
-      console.error("Error creating Journal:", error);
+      console.error("Error creating/updating Journal:", error);
     }
+  };
+
+  const handleEditJournal = (journal: JournalData) => {
+    setSelectedJournal(journal);
+  };
+
+  const handleCancelEdit = () => {
+    setSelectedJournal(null);
+    reset();
   };
 
   const getAllJournals = async () => {
@@ -49,10 +86,9 @@ const JournalEditor = () => {
           "Content-Type": "application/json",
         },
       });
-      let journals;
       if (response.ok) {
-        journals = await response.json();
-        setJournals(journals);
+        const journalsData = await response.json();
+        setJournals(journalsData);
       } else {
         console.error("Error getting Journals:", response);
       }
@@ -78,7 +114,7 @@ const JournalEditor = () => {
           <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 w-full md:w-80 overflow-auto">
             {journals.map((journal, index) => (
               <div key={index}>
-                <JournalCard data={journal} />
+                <JournalCard data={journal} onEdit={handleEditJournal} />
               </div>
             ))}
           </div>
@@ -93,12 +129,13 @@ const JournalEditor = () => {
               name="title"
               control={control}
               rules={{ required: "Title is required" }}
+              defaultValue={selectedJournal?.title || ""}
               render={({ field }) => (
                 <>
                   <input
                     {...field}
                     type="text"
-                    placeholder="Title"
+                    placeholder={selectedJournal?.title || "Title"}
                     className="font-poppins text-[30px] text-[#4E4E4E] font-[500] w-full mb-2"
                   />
                   {errors.title && (
@@ -111,11 +148,12 @@ const JournalEditor = () => {
               name="description"
               control={control}
               rules={{ required: "Description is required" }}
+              defaultValue={selectedJournal?.description || ""}
               render={({ field }) => (
                 <>
                   <textarea
                     {...field}
-                    placeholder="Start typing"
+                    placeholder={selectedJournal?.description || "Start typing"}
                     className="font-poppins text-[20px] resize-none w-full h-full text-[#4E4E4E] font-[300]"
                   />
                   {errors.description && (
@@ -126,12 +164,23 @@ const JournalEditor = () => {
                 </>
               )}
             />
-            <button
-              type="submit"
-              className="bg-[#114D38] text-white rounded-lg px-4 py-2 mt-4"
-            >
-              Save
-            </button>
+            <div className="flex mt-4">
+              {selectedJournal ? (
+                <button
+                  type="button"
+                  onClick={handleCancelEdit}
+                  className="bg-[#F87171] text-white rounded-lg px-4 py-2 mr-2"
+                >
+                  Cancel
+                </button>
+              ) : null}
+              <button
+                type="submit"
+                className="bg-[#114D38] text-white rounded-lg px-4 py-2"
+              >
+                {selectedJournal ? "Update" : "Save"}
+              </button>
+            </div>
           </form>
         </div>
       </div>
