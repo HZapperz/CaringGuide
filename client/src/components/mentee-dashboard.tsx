@@ -5,6 +5,7 @@ import JournalCard from "@/components/journalCard";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import EditProfileGiver from "@/components/editProfileGiver";
+import { Loading } from "@nextui-org/react";
 
 interface JournalData {
   jId: string;
@@ -44,7 +45,12 @@ const MenteeDashBoard = (props: any) => {
 
   const router = useRouter();
 
-  if (loader) return <h3>Loading....</h3>;
+if (loader)
+  return (
+    <div className="w-full h-full flex justify-center items-center">
+      <Loading />
+    </div>
+  );
 
   return (
     <>

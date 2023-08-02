@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DashboardCard from "../components/dashboardGuideCard";
 import DashboardCareCard from "@/components/dashboardCareCard";
 import MenteeDashBoard from "@/components/mentee-dashboard";
+import { Loading } from "@nextui-org/react";
 
 interface UserProfile {
   id: string;
@@ -66,7 +67,12 @@ const Dashboard: React.FC = () => {
     getUserProfileData();
   }, []);
 
-  if (loader) return <h3>{"Loading..."}</h3>;
+if (loader)
+  return (
+    <div className="w-full h-full flex justify-center items-center">
+      <Loading />
+    </div>
+  );
 
   if (user.role === "MENTEE") {
     return <MenteeDashBoard user={user} />;

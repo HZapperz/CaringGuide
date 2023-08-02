@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Text } from "@nextui-org/react";
+import { Loading, Text } from "@nextui-org/react";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import FeedCard from "@/components/feed";
 
@@ -68,10 +68,15 @@ const Feedpage = () => {
     getAllResources();
   }, []);
 
-  if (loader) return <h3>Loading...</h3>;
+  if (loader)
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <Loading />
+      </div>
+    );
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="h-full bg-white">
       <div className="flex lg:flex-row flex-col justify-start items-start">
         <div className="lg:w-fit w-full p-6">
           <Text className="text-center font-poppins text-[30px] font-[500]">

@@ -4,6 +4,7 @@ import { journalSchema } from "@/schema/journal";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { Loading } from "@nextui-org/react";
 
 interface JournalData {
   jId: string;
@@ -109,7 +110,12 @@ const JournalEditor: React.FC = () => {
     getAllJournals();
   }, [fresh]);
 
-  if (loader) return <h3>Loading....</h3>;
+  if (loader)
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <Loading />
+      </div>
+    );
 
   return (
     <main className="p-10 flex flex-col bg-white w-full h-full">
