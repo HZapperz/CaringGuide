@@ -131,7 +131,6 @@ const SettingsPage = () => {
               placeholder="City"
               color="secondary"
               name="city"
-              control={control}
             />
             <Spacer x={4} />
             <Text size={15}>State</Text>
@@ -143,7 +142,6 @@ const SettingsPage = () => {
               placeholder="State"
               color="secondary"
               name="state"
-              control={control}
             />
           </Container>
           <Spacer y={0.5} />

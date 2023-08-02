@@ -12,9 +12,6 @@ export default async function handler(
     case "POST":
       try {
         const data = resourcesSchema.parse(req.body);
-
-        console.log(data);
-
         const createdResource = await prisma.resources.create({
           data: {
             imgsrc: data.imgsrc,
@@ -42,6 +39,7 @@ export default async function handler(
           error: error,
         });
       }
+      break;
     default:
       return res.status(405).json({ message: "Method not allowed" });
   }
