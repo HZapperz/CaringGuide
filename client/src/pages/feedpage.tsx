@@ -101,7 +101,7 @@ const Feedpage = () => {
           {links.map((item, index) => {
             if (
               selected.includes(item.sub) &&
-              item.category === tabLabels[value]
+              item.category.toUpperCase() === tabLabels[value].toUpperCase()
             ) {
               return <FeedCard key={index} data={item} />;
             } else if (selected.includes("All")) {
