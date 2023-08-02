@@ -110,8 +110,8 @@ const Guide = () => {
                   errors.gender ? " border border-red-500" : ""
                 }`}
               >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                <option value="male">he/him</option>
+                <option value="female">she/her</option>
                 <option value="rather">Rather not Say</option>
               </select>
               {errors.gender && (
@@ -160,19 +160,21 @@ const Guide = () => {
             EXPERIENCE
           </div>
           <div className="grid grid-cols-1 gap-x-20 gap-y-4 w-4/6">
-            <div>
+            <div className="flex sm:justify-start justify-center sm:items-start items-center">
               <select
                 title="condition"
                 id="condition"
                 {...register("condition", { required: true })}
-                defaultValue={"Loved One Condition"}
-                className={`font-poppins bg-[#ECEEED] p-1 h-fit rounded-md ${
+                defaultValue={"Condition of Patient"}
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.condition ? " border border-red-500" : ""
                 }`}
               >
-                <option value="good">Good</option>
-                <option value="bad">Bad</option>
-                <option value="worse">Worse</option>
+                <option value="myeloma">Multiple Myeloma</option>
+                <option value="alzheimer">Alzheimer’s Disease</option>
+                <option value="parkinson">Parkinson’s Disease</option>
+                <option value="stroke">Stroke</option>
+                <option value="als">ALS</option>
               </select>
               {errors.condition && (
                 <p className="text-red-500 mt-2">Condition is required</p>
