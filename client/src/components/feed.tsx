@@ -19,10 +19,12 @@ const FeedCard = (props: any) => {
       rel="noopener noreferrer"
     >
       <Image
-        className="rounded-2xl md:h-48 md:w-48 w-full h-full object-cover"
         src={props.data.imgsrc}
         alt="image"
         aria-required
+        width={200}
+        height={200}
+        className="rounded-2xl md:h-48 md:w-48 w-full h-full object-cover"
       />
       <div className="flex flex-col justify-between p-4 leading-normal">
         <h5 className="-mt-4 text-2xl text-gray-500 font-semibold tracking-tight dark:text-gray-500">

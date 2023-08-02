@@ -1,12 +1,13 @@
 import * as React from "react";
-import { useState } from "react";
-import { Navbar, Text, Image, Button, Input } from "@nextui-org/react";
+import { useState, useEffect } from "react";
+import { Text } from "@nextui-org/react";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import links from "../assets/links";
 import FeedCard from "@/components/feed";
 
 const Feedpage = () => {
   const [value, setValue] = useState(0);
+  const [loader, setLoader] = useState(false);
+  const [links, setLinks] = useState<any[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
 
   const a11yProps = (index: number) => {
@@ -41,6 +42,34 @@ const Feedpage = () => {
     }
   };
 
+  const getAllResources = async () => {
+    setLoader(true);
+    try {
+      const response = await fetch("/api/resources", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("response:", response);
+      if (response.ok) {
+        const data = await response.json();
+        setLinks(data);
+      } else {
+        console.error("Error fetching resources:", response);
+      }
+    } catch (error) {
+      console.error("Error fetching resources:", error);
+    }
+    setLoader(false);
+  };
+
+  useEffect(() => {
+    getAllResources();
+  }, []);
+
+  if (loader) return <h3>Loading...</h3>;
+
   return (
     <main className="min-h-screen bg-white">
       <div className="flex lg:flex-row flex-col justify-start items-start">
@@ -68,7 +97,7 @@ const Feedpage = () => {
           </div>
         </div>
 
-        <div className="max-w-screen-5xl grid grid-cols-1 2xl:grid-cols-2 gap-4 p-8">
+        <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4 p-8">
           {links.map((item, index) => {
             if (
               selected.includes(item.sub) &&

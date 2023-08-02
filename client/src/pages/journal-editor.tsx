@@ -49,6 +49,7 @@ const JournalEditor: React.FC = () => {
 
         if (response.ok) {
           setRefresh(!fresh);
+          reset();
         } else {
           console.error("Error updating Journal:", response);
         }
@@ -63,6 +64,7 @@ const JournalEditor: React.FC = () => {
 
         if (response.ok) {
           setRefresh(!fresh);
+          reset();
         } else {
           console.error("Error creating Journal:", response);
         }
@@ -74,6 +76,7 @@ const JournalEditor: React.FC = () => {
 
   const handleEditJournal = (journal: JournalData) => {
     setSelectedJournal(journal);
+    reset();
   };
 
   const handleCancelEdit = () => {

@@ -54,6 +54,26 @@ model Journal {
   time        DateTime @default(now())
 }
 
+model Resources {
+  id          String @id @default(uuid())
+  imgsrc      String
+  category    String
+  title       String
+  sub         String
+  text        String
+  link        String
+  favorite    Boolean
+}
+
+model UserFavourites {
+  id         String @id @default(uuid())
+  userId     String
+  resourceId String
+  isStarred  Boolean
+  isLiked    Boolean
+  isDisliked Boolean
+}
+
 enum Role {
   MENTOR
   MENTEE
