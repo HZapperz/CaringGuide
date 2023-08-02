@@ -67,5 +67,47 @@ export default isLoggedIn(async (req, res, user) => {
         message: "User profile created!",
       });
     }
+    case "PATCH": {
+      const { firstName, middleName, lastName } = req.body;
+
+      if (!firstName) {
+        return res.status(400).json({
+          message: "First name is required for update.",
+        });
+      }
+
+      if (!lastName) {
+        return res.status(400).json({
+          message: "Last name is required for update.",
+        });
+      }
+
+      const existingProfile = await prisma.profile.findUnique({
+        where: {
+          id: user.id,
+        },
+      });
+
+      if (!existingProfile) {
+        return res.status(404).json({
+          message: "User profile not found.",
+        });
+      }
+
+      await prisma.profile.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          firstName: firstName,
+          middleName: middleName ? middleName : null,
+          lastName: lastName,
+        },
+      });
+
+      return res.status(200).json({
+        message: "Details updated successfully!",
+      });
+    }
   }
 });

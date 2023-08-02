@@ -39,6 +39,12 @@ export const menteeOnboardingSchema = z
   .merge(commonDetailsSchema)
   .merge(menteeInformationSchema);
 
+export const updateDetail = z.object({
+  firstName: z.string().min(2).max(50),
+  middleName: z.string().optional(),
+  lastName: z.string().min(2).max(50),
+});
+
 export const onBoardingSchema = z.union([
   menteeOnboardingSchema,
   mentorOnboardingSchema,

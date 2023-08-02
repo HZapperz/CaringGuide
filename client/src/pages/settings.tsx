@@ -2,7 +2,7 @@ import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Text, Input, Container, Spacer, Textarea } from "@nextui-org/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { onBoardingSchema } from "@/schema/onboarding";
+import { updateDetail } from "@/schema/onboarding";
 
 const SettingsPage = () => {
   const {
@@ -10,11 +10,29 @@ const SettingsPage = () => {
     control,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(onBoardingSchema),
+    resolver: zodResolver(updateDetail),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    try {
+      console.log(data);
+      const response = await fetch("/api/on-boarding", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...data }),
+      });
+
+      if (response.ok) {
+        const newMentor = await response.json();
+        console.log(newMentor);
+      } else {
+        console.error("Error creating mentor:", response);
+      }
+    } catch (error) {
+      console.error("Error creating mentor:", error);
+    }
   };
 
   return (
