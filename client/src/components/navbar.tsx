@@ -39,14 +39,14 @@ const NavbarComp = () => {
           </Navbar.Link>
           <Navbar.Link
             color="primary"
-            href="/dashboard"
+            href="/journal"
             className="font-poppins text-[25px] font-[400]"
           >
             JOURNAL
           </Navbar.Link>
           <Navbar.Link
             color="primary"
-            href="/feedpage"
+            href="/resources"
             className="font-poppins text-[25px] font-[400]"
           >
             RESOURCES
@@ -91,10 +91,10 @@ const NavbarComp = () => {
                     <Link href="/dashboard">DASHBOARD</Link>
                   </Dropdown.Item>
                   <Dropdown.Item key="journal" color="secondary">
-                    <Link href="/dashboard">JOURNAL</Link>
+                    <Link href="/journal">JOURNAL</Link>
                   </Dropdown.Item>
                   <Dropdown.Item key="resources" color="secondary">
-                    <Link href="/feedpage">RESOURCES</Link>
+                    <Link href="/resources">RESOURCES</Link>
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>

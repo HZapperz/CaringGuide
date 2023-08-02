@@ -1,88 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import DashboardCard from "../components/dashboardGuideCard";
 import DashboardCareCard from "@/components/dashboardCareCard";
 import MenteeDashBoard from "@/components/mentee-dashboard";
-import { Loading } from "@nextui-org/react";
-
-interface UserProfile {
-  id: string;
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  dob: string;
-  gender: string;
-  avatar: string;
-  experience: string;
-  condition: string;
-  about: string;
-  patientName: string;
-  synopsis: string;
-  relationShipToPatient: string;
-  email: string;
-  phone: string;
-  role: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { WithOnBoarding } from "@/components/WithOnboarding";
+import { useApp } from "@/context/app";
 
 const Dashboard: React.FC = () => {
-  const [loader, setLoader] = useState<boolean>(false);
-  const [user, setUser] = useState<UserProfile>({
-    id: "",
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    dob: "",
-    gender: "",
-    avatar: "",
-    experience: "",
-    condition: "",
-    about: "",
-    patientName: "",
-    synopsis: "",
-    relationShipToPatient: "",
-    email: "",
-    phone: "",
-    role: "",
-    createdAt: "",
-    updatedAt: "",
-  });
+  const data = useApp();
+  const profile = data.profile!;
 
-  const getUserProfileData = async () => {
-    setLoader(true);
-    try {
-      setLoader(true);
-      await fetch("/api/profiles/get")
-        .then((res) => res.json())
-        .then((data) => {
-          setUser(data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-    setLoader(false);
-  };
-
-  useEffect(() => {
-    getUserProfileData();
-  }, []);
-
-if (loader)
-  return (
-    <div className="w-full h-full flex justify-center items-center">
-      <Loading />
-    </div>
-  );
-
-  if (user.role === "MENTEE") {
-    return <MenteeDashBoard user={user} />;
+  if (profile.role === "MENTEE") {
+    return <MenteeDashBoard user={profile} />;
   }
 
   return (
     <main className="bg-white w-full">
       <div className="flex flex-col lg:flex-row items-center lg:items-start p-10 h-full xl:w-full">
         <div className="lg:mr-2 mb-2 lg:mb-0">
-          <DashboardCard user={user} />
+          <DashboardCard user={profile} />
         </div>
         <div className="flex flex-col justify-center items-center lg:justify-start lg:items-start min-h-fit rounded-xl border-2 border-[#ECEEED p-4 w-fit lg:w-full overflow-auto">
           <div className="flex justify-between items-center font-poppins text-[#4E4E4E] text-2xl font-medium mb-4 h-fit">
@@ -108,4 +43,10 @@ if (loader)
   );
 };
 
-export default Dashboard;
+export default function Page() {
+  return (
+    <WithOnBoarding>
+      <Dashboard />
+    </WithOnBoarding>
+  );
+}

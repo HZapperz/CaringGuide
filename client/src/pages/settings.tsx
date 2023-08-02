@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Text, Input, Container, Spacer, Textarea } from "@nextui-org/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateDetail } from "@/schema/onboarding";
+import { WithOnBoarding } from "@/components/WithOnboarding";
 
 const SettingsPage = () => {
   const {
@@ -206,4 +207,10 @@ const SettingsPage = () => {
   );
 };
 
-export default SettingsPage;
+export default function Page() {
+  return (
+    <WithOnBoarding>
+      <SettingsPage />
+    </WithOnBoarding>
+  );
+}

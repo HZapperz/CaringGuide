@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { useRouter } from "next/router";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 

@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { registerSchema } from "../schema/auth";

@@ -1,5 +1,6 @@
 import Streams from "../components/streams";
 import Articles from "../components/articles";
+import { WithOnBoarding } from "@/components/WithOnboarding";
 
 const FeedPage = () => {
   return (
@@ -10,4 +11,10 @@ const FeedPage = () => {
   );
 };
 
-export default FeedPage;
+export default function Page() {
+  return (
+    <WithOnBoarding>
+      <FeedPage />
+    </WithOnBoarding>
+  );
+}

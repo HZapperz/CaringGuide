@@ -1,10 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Caregiver from "../components/caregiver";
 import Guide from "../components/guide";
 import { Role } from "@prisma/client";
+import { useRouter } from "next/router";
+import { useApp } from "@/context/app";
+import Loader from "@/components/loader";
 
 const OnBoarding = () => {
   const [role, setRole] = useState<Role>(Role.MENTEE);
+  const { isLoading, user, profile } = useApp();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (!user) router.replace("signin");
+    if (profile) {
+      router.push("/dashboard");
+    }
+  }, [isLoading, profile]);
+
+  if (isLoading || !user || profile) return <Loader />;
 
   return (
     <>

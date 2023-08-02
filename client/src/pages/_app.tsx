@@ -8,6 +8,8 @@ import { env } from "../env.mjs";
 import { useRouter } from "next/router";
 import Nav from "@/components/nav";
 import NavbarComp from "@/components/navbar";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AppProvider } from "@/context/app";
 
 const theme = createTheme({
   type: "light", // it could be "light" or "dark"
@@ -42,7 +44,7 @@ function App({ Component, pageProps }: AppProps) {
   const pagesWithoutLayout = ["/signin", "/signup", "/login"];
   const router = useRouter();
   const shouldApplyLayout = pagesWithoutLayout.includes(router.pathname);
-
+  const [queryClient] = useState(() => new QueryClient());
   const [supabaseClient] = useState(() =>
     createPagesBrowserClient({
       supabaseKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -55,21 +57,23 @@ function App({ Component, pageProps }: AppProps) {
       supabaseClient={supabaseClient}
       initialSession={pageProps.initialSession}
     >
-      <NextUIProvider theme={theme}>
-        <NextUIProvider theme={theme}>
-          {!shouldApplyLayout ? (
-            <div className="flex flex-col w-screen min-h-screen h-screen bg-white">
-              <NavbarComp />
-              <Component {...pageProps} />
-            </div>
-          ) : (
-            <div className="flex flex-col w-screen min-h-screen h-screen bg-white">
-              <Nav />
-              <Component {...pageProps} />
-            </div>
-          )}
-        </NextUIProvider>
-      </NextUIProvider>
+      <QueryClientProvider client={queryClient}>
+        <AppProvider>
+          <NextUIProvider theme={theme}>
+            {!shouldApplyLayout ? (
+              <div className="flex flex-col w-screen min-h-screen h-screen bg-white">
+                <NavbarComp />
+                <Component {...pageProps} />
+              </div>
+            ) : (
+              <div className="flex flex-col w-screen min-h-screen h-screen bg-white">
+                <Nav />
+                <Component {...pageProps} />
+              </div>
+            )}
+          </NextUIProvider>
+        </AppProvider>
+      </QueryClientProvider>
     </SessionContextProvider>
   );
 }

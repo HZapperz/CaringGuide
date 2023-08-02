@@ -13,8 +13,6 @@ export default isLoggedIn(async (req, res, user) => {
         },
       });
 
-      console.log(existingProfile, user.id);
-
       if (existingProfile) {
         return res.status(409).json({
           message: "User profile already exists!",
@@ -48,8 +46,6 @@ export default isLoggedIn(async (req, res, user) => {
           condition: data.condition,
         },
       });
-
-      console.log(match);
 
       if (match) {
         const menteeId = data.role === "MENTEE" ? user.id : match.id;

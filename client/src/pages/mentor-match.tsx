@@ -1,3 +1,4 @@
+import { WithOnBoarding } from "@/components/WithOnboarding";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import React from "react";
 
@@ -60,4 +61,10 @@ const MentorMatch: React.FC = () => {
   );
 };
 
-export default MentorMatch;
+export default function Page() {
+  return (
+    <WithOnBoarding>
+      <MentorMatch />
+    </WithOnBoarding>
+  );
+}
