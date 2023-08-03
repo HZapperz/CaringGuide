@@ -1,11 +1,15 @@
 import { Profile } from "@prisma/client";
-import { User, useUser } from "@supabase/auth-helpers-react";
+import {
+  Session,
+  useSession,
+  useSupabaseClient,
+} from "@supabase/auth-helpers-react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type AppContext = {
-  user: User | null;
+  session: Session | null;
   profile?: Profile | null;
   isLoading: boolean;
 };
@@ -23,26 +27,45 @@ export const useApp = () => {
 };
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const user = useUser();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState<Session | null>(null);
+  const supabase = useSupabaseClient();
 
   const profileQuery = useQuery(
-    ["profile", user?.id],
+    ["profile", session],
     async () => {
       const res = await fetch(`/api/user/me`);
       const data = await res.json();
       return data as Profile | null;
     },
     {
-      enabled: !!user?.id,
+      enabled: !!session,
     }
   );
 
-  const isLoading = !router.isReady || profileQuery.isLoading;
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const isLoading =
+    !router.isReady || loading || (!!session && profileQuery.isLoading);
 
   return (
     <AppContext.Provider
-      value={{ profile: profileQuery.data, isLoading, user }}
+      value={{ profile: profileQuery.data, isLoading, session }}
     >
       {children}
     </AppContext.Provider>

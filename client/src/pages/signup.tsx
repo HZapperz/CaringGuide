@@ -7,6 +7,7 @@ import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import { useRouter } from "next/router";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { toast } from "react-hot-toast";
 
 type FormData = {
   firstname: string;
@@ -30,21 +31,25 @@ const Welcome = () => {
     try {
       const result = registerSchema.parse(data);
 
-      await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email: result.email,
         password: result.password,
       });
 
+      if (error) {
+        return toast.error(error.message);
+      }
+
       setTimeout(() => {
         router.push("/signin");
       }, 2000);
-    } catch (err) {
-      if (err instanceof AuthApiError) {
-        console.error(err.message);
-      } else if (err instanceof ZodError) {
-        console.error(fromZodError(err).toString());
+    } catch (error) {
+      if (error instanceof AuthApiError) {
+        return toast.error(error.message);
+      } else if (error instanceof ZodError) {
+        return toast.error(fromZodError(error).toString());
       } else {
-        console.error("Something went wrong.");
+        return toast.error("Something went wrong.");
       }
     }
   };

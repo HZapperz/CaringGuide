@@ -10,6 +10,7 @@ import Nav from "@/components/nav";
 import NavbarComp from "@/components/navbar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppProvider } from "@/context/app";
+import { Toaster } from "react-hot-toast";
 
 const theme = createTheme({
   type: "light", // it could be "light" or "dark"
@@ -71,6 +72,7 @@ function App({ Component, pageProps }: AppProps) {
                 <Component {...pageProps} />
               </div>
             )}
+            <Toaster position={"bottom-right"} />
           </NextUIProvider>
         </AppProvider>
       </QueryClientProvider>

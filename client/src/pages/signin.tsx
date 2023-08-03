@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import toast from "react-hot-toast";
 
 type SignInFormValues = {
   email: string;
@@ -20,7 +21,7 @@ const Login = () => {
     });
 
     if (error) {
-      console.log(error);
+      toast.error(error.message);
     } else {
       router.push("/dashboard");
     }
