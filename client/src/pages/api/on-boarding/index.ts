@@ -19,31 +19,44 @@ export default isLoggedIn(async (req, res, user) => {
         });
       }
 
-      await prisma.profile.create({
-        data: {
-          id: user.id,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          middleName: data.middleName,
-          dob: data.dob,
-          role: data.role,
-          email: data.email,
-          gender: data.gender,
-          phone: data.phone,
-          experience: data.experience,
-          condition: data.condition,
-          about: data.role === "MENTOR" ? data.about : undefined,
-          synopsis: data.role === "MENTEE" ? data.synopsis : undefined,
-          relationShipToPatient:
-            data.role === "MENTEE" ? data.relation : undefined,
-          patientName: data.role === "MENTEE" ? data.patientName : undefined,
-        },
-      });
+      const [_, mentees] = await Promise.all([
+        prisma.profile.create({
+          data: {
+            id: user.id,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            middleName: data.middleName,
+            dob: data.dob,
+            role: data.role,
+            email: data.email,
+            gender: data.gender,
+            phone: data.phone,
+            experience: data.experience,
+            condition: data.condition,
+            about: data.role === "MENTOR" ? data.about : undefined,
+            synopsis: data.role === "MENTEE" ? data.synopsis : undefined,
+            relationShipToPatient:
+              data.role === "MENTEE" ? data.relation : undefined,
+            patientName: data.role === "MENTEE" ? data.patientName : undefined,
+          },
+        }),
+        prisma.mentorMenteeMatch.findMany({
+          select: {
+            menteeId: true,
+          },
+        }),
+      ]);
 
       const match = await prisma.profile.findFirst({
         where: {
           role: data.role === "MENTEE" ? "MENTOR" : "MENTEE",
           condition: data.condition,
+          id:
+            data.role === "MENTOR"
+              ? {
+                  notIn: mentees.map((mentee) => mentee.menteeId),
+                }
+              : undefined,
         },
       });
 
