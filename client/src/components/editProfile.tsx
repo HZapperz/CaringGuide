@@ -13,7 +13,7 @@ const EditProfile = (props: any) => {
 
   useEffect(() => {
     const today = new Date();
-    const dobDate = new Date(props.user.dob);
+    const dobDate = new Date(props.user?.dob);
     const age = today.getFullYear() - dobDate.getFullYear();
     setAge(age);
   }, [age]);
@@ -43,10 +43,10 @@ const EditProfile = (props: any) => {
                 <div className="flex flex-col justify-center items-start w-[60%]">
                   <div className="flex justify-start items-center ">
                     <h2 className="text-[20px] lg:text-[30px] font-poppins mr-1 font-medium">
-                      {props.user.firstName + " " + props.user.lastName}
+                      {props.user?.firstName + " " + props.user?.lastName}
                     </h2>
                     <p className="text-[#4E4E4E] opacity-50 text-[10px] lg:text-[16px] ml-2 font-poppins">
-                      ({props.user.gender === "male" ? "he/him" : "she/her"})
+                      ({props.user?.gender === "male" ? "he/him" : "she/her"})
                     </p>
                   </div>
                   <div className="flex justify-start items-center font-poppins">
@@ -55,17 +55,17 @@ const EditProfile = (props: any) => {
                     </p>
                     <div className="w-1 bg-black aspect-square rounded-full"></div>
                     <p className="text-[#4E4E4E] text-[15px] lg:text-[20px] font-[300] ml-2">
-                      {props.user.condition}
+                      {props.user?.condition}
                     </p>
                   </div>
                   <div className="flex justify-start items-center font-poppins">
                     <p className="text-[#4E4E4E] text-[15px] lg:text-[20px] font-[300] mr-2">
-                      {props.user.experience === "LESS_THAN_2"
+                      {props.user?.experience === "LESS_THAN_2"
                         ? "0 - 2 "
-                        : props.user.experience === "BETWEEN_2_AND_4"
+                        : props.user?.experience === "BETWEEN_2_AND_4"
                         ? "2 - 4 "
                         : "4+ "}
-                      years of caregiving experience
+                      years of Guiding experience
                     </p>
                   </div>
                 </div>
@@ -81,7 +81,7 @@ const EditProfile = (props: any) => {
               <div>
                 <h3 className="text-xl lg:text-2xl font-poppins mb-2">About</h3>
                 <p className="text-[#4E4E4E] text-[16px] lg:text-[20px] font-[300] p-4 rounded-xl font-poppins bg-[#ECEEED] h-fit max-h-60 lg:h-60 overflow-auto">
-                  {props.user.about}
+                  {props.user?.about}
                 </p>
               </div>
               <div className="font-poppins">
@@ -92,13 +92,13 @@ const EditProfile = (props: any) => {
                   <div className="text-[#4E4E4E]">
                     <p className="opacity-50 text-[15px]">PHONE NUMBER</p>
                     <p className="text-[18px] font-[300]">
-                      {props.user.phone ? props.user.phone : "Not Provided"}
+                      {props.user?.phone ? props.user?.phone : "Not Provided"}
                     </p>
                   </div>
                   <div className="text-[#4E4E4E] mt-4">
                     <p className="opacity-50 text-[15px]">Email</p>
                     <p className="text-[18px] font-[300]">
-                      {props.user.email ? props.user.email : "Not Provided"}
+                      {props.user?.email ? props.user?.email : "Not Provided"}
                     </p>
                   </div>
                 </div>

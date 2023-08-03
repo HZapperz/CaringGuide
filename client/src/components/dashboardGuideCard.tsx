@@ -6,7 +6,7 @@ const DashboardCard = (props: any) => {
 
   useEffect(() => {
     const today = new Date();
-    const dobDate = new Date(props.user.dob);
+    const dobDate = new Date(props.user?.dob);
     const age = today.getFullYear() - dobDate.getFullYear();
     setAge(age);
   }, [age]);
@@ -21,16 +21,16 @@ const DashboardCard = (props: any) => {
           <div className="flex flex-col justify-center items-start w-[60%]">
             <div className="flex justify-start items-start ">
               <h2 className="text-xl font-poppins mr-1 font-medium">
-                {props.user.firstName + " " + props.user.lastName}
+                {props.user?.firstName + " " + props.user?.lastName}
               </h2>
               <p className="text-[#4E4E4E] opacity-50 text-[11px] ml-2 font-poppins">
-                ({props.user.gender === "male" ? "he/him" : "she/her"})
+                ({props.user?.gender === "male" ? "he/him" : "she/her"})
               </p>
             </div>
             <div className="flex justify-start items-center font-poppins">
               <p className="text-[#4E4E4E] mr-2">{age} Years</p>
               <div className="w-1 bg-black aspect-square rounded-full"></div>
-              <p className="text-[#4E4E4E] ml-2">{props.user.condition}</p>
+              <p className="text-[#4E4E4E] ml-2">{props.user?.condition}</p>
             </div>
           </div>
         </div>
@@ -38,7 +38,7 @@ const DashboardCard = (props: any) => {
           <div className="mt-0">
             <h3 className="text-lg font-poppins mb-2">About</h3>
             <p className="text-[#4E4E4E] text-[13px] font-[300] p-4 rounded-xl font-poppins bg-[#ECEEED]">
-              {props.user.about}
+              {props.user?.about}
             </p>
           </div>
           <div className="mt-4 font-poppins">
@@ -47,13 +47,13 @@ const DashboardCard = (props: any) => {
               <div className="text-[#4E4E4E]">
                 <p className="opacity-50 text-[10px]">PHONE NUMBER</p>
                 <p className="text-[15px] font-[300]">
-                  {props.user.phone ? props.user.phone : "Not Provided"}
+                  {props.user?.phone ? props.user?.phone : "Not Provided"}
                 </p>
               </div>
               <div className="text-[#4E4E4E]">
                 <p className="opacity-50 text-[10px]">Email</p>
                 <p className="text-[15px] font-[300]">
-                  {props.user.email ? props.user.email : "Not Provided"}
+                  {props.user?.email ? props.user?.email : "Not Provided"}
                 </p>
               </div>
             </div>
@@ -63,9 +63,9 @@ const DashboardCard = (props: any) => {
             <h3 className="text-lg mb-2">Caregiving Experience</h3>
             <div className="text-[#4E4E4E] p-4 rounded-xl bg-[#ECEEED]">
               <p className="text-[#4E4E4E]">
-                {props.user.experience === "LESS_THAN_2"
+                {props.user?.experience === "LESS_THAN_2"
                   ? "0 - 2 "
-                  : props.user.experience === "BETWEEN_2_AND_4"
+                  : props.user?.experience === "BETWEEN_2_AND_4"
                   ? "2 - 4 "
                   : "4+ "}
                 years
