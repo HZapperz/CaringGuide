@@ -86,7 +86,7 @@ const Dashboard: React.FC = () => {
           <div className="flex justify-between items-center font-poppins text-[#4E4E4E] text-2xl font-medium mb-4 h-fit">
             <div>MY CAREGIVERS</div>
           </div>
-          <div className="flex flex-col lg:flex-row justify-start items-center h-full w-full overflow-auto">
+          <div className="flex flex-col lg:flex-row justify-start items-center h-full w-fit overflow-auto">
             {mentees.map((mentee, index) => (
               <div key={index} className="lg:mr-2 mr-0 mb-2 lg:mb-0 w-full">
                 <DashboardCareCard user={mentee} />

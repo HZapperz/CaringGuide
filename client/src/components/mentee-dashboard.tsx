@@ -18,6 +18,7 @@ interface JournalData {
 const MenteeDashBoard = (props: any) => {
   const [loader, setLoader] = useState<boolean>(false);
   const [journals, setJournals] = useState<JournalData[]>([]);
+  const [favouriteResources, setFavouriteResources] = useState<any[]>([]);
   const getAllJournals = async () => {
     setLoader(true);
     try {
@@ -39,8 +40,29 @@ const MenteeDashBoard = (props: any) => {
     setLoader(false);
   };
 
+  async function handleApiResponse(response: Response) {
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+    return response.json();
+  }
+
+  async function fetchUserFavorites() {
+    try {
+      const response = await fetch(`/api/userFavourites`);
+      return handleApiResponse(response);
+    } catch (error) {
+      console.error("Error fetching user favorites:", error);
+      throw error;
+    }
+  }
+
   useEffect(() => {
     getAllJournals();
+    fetchUserFavorites().then((data) => {
+      setFavouriteResources(data);
+    });
   }, []);
 
   const router = useRouter();
@@ -84,18 +106,14 @@ const MenteeDashBoard = (props: any) => {
                 <div>FAVORITE RESOURCES</div>
               </div>
               <div className="container grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 content-center w-full overflow-auto">
-                <div className="mr-0 sm:mr-2 w-full flex justify-center items-center">
-                  <ArticlesCard />
-                </div>
-                <div className="mr-0 sm:mr-2 w-full flex justify-center items-center">
-                  <ArticlesCard />
-                </div>
-                <div className="mr-0 sm:mr-2 w-full flex justify-center items-center">
-                  <ArticlesCard />
-                </div>
-                <div className="mr-0 sm:mr-2 w-full flex justify-center items-center">
-                  <ArticlesCard />
-                </div>
+                {favouriteResources.map((data, index) => (
+                  <div
+                    key={index}
+                    className="mr-0 sm:mr-2 w-full flex justify-center items-center"
+                  >
+                    <ArticlesCard data={data} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
