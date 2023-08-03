@@ -29,7 +29,15 @@ const EditProfileGiver = (props: any) => {
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
           <div className="flex flex-col bg-white p-6 rounded-2xl shadow-lg w-[70%]">
-            <div className="flex justify-end items-end">
+            <div className="flex justify-between items-end">
+              <div>
+                <Link
+                  href={"/settings"}
+                  className="text-end w-[200px] font-poppins text-[10px] lg:text-[20px] ml-4 font-medium text-[#BE1347] cursor-pointer"
+                >
+                  edit profile
+                </Link>
+              </div>
               <div className="w-10 cursor-pointer" onClick={togglePopup}>
                 <XMarkIcon />
               </div>
@@ -64,12 +72,6 @@ const EditProfileGiver = (props: any) => {
                   </div>
                 </div>
               </div>
-              <Link
-                href={"/settings"}
-                className="text-end w-[200px] font-poppins text-[10px] lg:text-[20px] font-medium text-[#BE1347] cursor-pointer"
-              >
-                edit profile
-              </Link>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 mt-4">
               <div>

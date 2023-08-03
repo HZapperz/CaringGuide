@@ -71,27 +71,6 @@ const Nav = () => {
           Caring Guide
         </Text>
       </Navbar.Brand>
-      <Navbar.Content hideIn="xs" variant="underline">
-        <Navbar.Link
-          activeColor="secondary"
-          isActive={activeLink === "section-1"}
-          color="primary"
-          onClick={handleScrollToSection1}
-        >
-          <p className=" text-bold relative group">
-            <span className="">Section 1</span>
-            <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
-          </p>
-        </Navbar.Link>
-        <Navbar.Link
-          activeColor="secondary"
-          isActive={activeLink === "section-2"}
-          color="primary"
-          onClick={handleScrollToSection2}
-        >
-          Section 2
-        </Navbar.Link>
-      </Navbar.Content>
       {user ? (
         <Navbar.Content>
           <Navbar.Item>

@@ -9,11 +9,11 @@ const Feedpage = () => {
   const [value, setValue] = useState(0);
   const [loader, setLoader] = useState(false);
   const [links, setLinks] = useState<any[]>([]);
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>(["All"]);
 
   const a11yProps = (index: number) => {
     return {
-      id: `tab-${index}`,
+      "id": `tab-${index}`,
       "aria-controls": `tabpanel-${index}`,
     };
   };
