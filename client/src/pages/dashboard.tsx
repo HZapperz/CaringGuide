@@ -46,8 +46,8 @@ const Dashboard: React.FC = () => {
       if (response.ok) {
         const matchData = await response.json();
         if (profile.role === "MENTEE") {
-          console.log(matchData.match);
-          await getDetailById(matchData.match.mentorId);
+          console.log(matchData.match[0]);
+          await getDetailById(matchData.match[0].mentorId);
         } else {
           console.log(matchData);
           setMentees(matchData.match);

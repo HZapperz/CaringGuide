@@ -6,19 +6,11 @@ export default isLoggedIn(async (req, res, user) => {
     switch (req.method) {
       case "GET": {
         let match;
-        if (user.role === "MENTEE") {
-          match = await prisma.mentorMenteeMatch.findFirst({
-            where: {
-              OR: [{ mentorId: user.id }, { menteeId: user.id }],
-            },
-          });
-        } else {
-          match = await prisma.mentorMenteeMatch.findMany({
-            where: {
-              OR: [{ mentorId: user.id }, { menteeId: user.id }],
-            },
-          });
-        }
+        match = await prisma.mentorMenteeMatch.findMany({
+          where: {
+            OR: [{ mentorId: user.id }, { menteeId: user.id }],
+          },
+        });
 
         if (match) {
           return res.status(200).json({

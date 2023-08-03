@@ -81,7 +81,7 @@ const MenteeDashBoard = (props: any) => {
           <div className="w-full flex justify-start sm:justify-center items-center xl:w-[70%] mx-0 lg:mx-1 h-full mb-2 mt-2 lg:mt-0 xl:mb-0">
             <div className="container flex flex-col justify-start items-start min-h-full rounded-xl border-2 border-[#ECEEED p-4 w-full overflow-auto">
               <div className="flex justify-between items-center font-poppins text-[#4E4E4E] text-2xl font-medium mb-4">
-                <div>FAVORITE ARTICLES</div>
+                <div>FAVORITE RESOURCES</div>
               </div>
               <div className="container grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 content-center w-full overflow-auto">
                 <div className="mr-0 sm:mr-2 w-full flex justify-center items-center">
