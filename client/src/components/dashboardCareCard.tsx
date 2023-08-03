@@ -1,5 +1,6 @@
 import { Loading } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
+import SkeletonLoader from "./shared/cardSkeletonLoader";
 
 const DashboardCareCard = (props: any) => {
   const [age, setAge] = useState<number>();
@@ -57,12 +58,7 @@ const DashboardCareCard = (props: any) => {
     getDetailById(props.user?.menteeId);
   }, []);
 
-  if (loading)
-    return (
-      <div className="w-full h-full flex justify-center items-center">
-        <Loading />
-      </div>
-    );
+  if (loading) return <SkeletonLoader />;
   return (
     <main className="container mx-auto w-full lg:w-96">
       <div className="max-w-md mx-auto rounded-xl overflow-hidden bg-[#ECEEED] border-2 border-white">
