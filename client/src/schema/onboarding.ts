@@ -43,6 +43,9 @@ export const updateDetail = z.object({
   firstName: z.string().min(2).max(50),
   middleName: z.string().optional(),
   lastName: z.string().min(2).max(50),
+  location: z.string().optional(),
+  state: z.string().optional(),
+  about: z.string().optional(),
 });
 
 export const onBoardingSchema = z.union([

@@ -77,7 +77,8 @@ export default isLoggedIn(async (req, res, user) => {
       });
     }
     case "PATCH": {
-      const { firstName, middleName, lastName } = req.body;
+      const { firstName, middleName, lastName, location, state, about } =
+        req.body;
 
       if (!firstName) {
         return res.status(400).json({
@@ -111,6 +112,9 @@ export default isLoggedIn(async (req, res, user) => {
           firstName: firstName,
           middleName: middleName ? middleName : null,
           lastName: lastName,
+          location: location ? location : null,
+          state: state ? state : null,
+          about: about ? about : null,
         },
       });
 

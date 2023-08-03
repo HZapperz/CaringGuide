@@ -4,8 +4,12 @@ import { Text, Input, Container, Spacer, Textarea } from "@nextui-org/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateDetail } from "@/schema/onboarding";
 import { WithOnBoarding } from "@/components/WithOnboarding";
+import { useApp } from "@/context/app";
 
 const SettingsPage = () => {
+  const data = useApp();
+  const profile = data.profile!;
+
   const {
     handleSubmit,
     control,
@@ -83,7 +87,7 @@ const SettingsPage = () => {
                   {...field}
                   bordered
                   size="sm"
-                  placeholder="First Name"
+                  placeholder={profile.firstName}
                   color="secondary"
                 />
               )}
@@ -106,7 +110,7 @@ const SettingsPage = () => {
                   {...field}
                   bordered
                   size="sm"
-                  placeholder="Middle Name"
+                  placeholder={profile.middleName || "Middle Name"}
                   color="secondary"
                 />
               )}
@@ -129,7 +133,7 @@ const SettingsPage = () => {
                   {...field}
                   bordered
                   size="sm"
-                  placeholder="Last Name"
+                  placeholder={profile.lastName}
                   color="secondary"
                 />
               )}
@@ -144,23 +148,34 @@ const SettingsPage = () => {
             <Spacer x={12} />
             <Text size={15}>Location</Text>
             <Spacer x={5.7} />
-            <Input
-              bordered
-              size="sm"
-              placeholder="City"
-              color="secondary"
-              name="city"
+            <Controller
+              name="location"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  bordered
+                  size="sm"
+                  placeholder={profile.location || "Location"}
+                  color="secondary"
+                />
+              )}
             />
             <Spacer x={4} />
             <Text size={15}>State</Text>
             <Spacer x={3} />
-            <Input
-              bordered
-              width="120px"
-              size="sm"
-              placeholder="State"
-              color="secondary"
+            <Controller
               name="state"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  bordered
+                  size="sm"
+                  placeholder={profile.state || "State"}
+                  color="secondary"
+                />
+              )}
             />
           </Container>
           <Spacer y={0.5} />
@@ -173,10 +188,16 @@ const SettingsPage = () => {
             <Text size={15}>Your Bio</Text>
             <Spacer x={5.7} />
             <Controller
-              name="bio"
+              name="about"
               control={control}
               render={({ field }) => (
-                <Textarea {...field} bordered color="secondary" width="500px" />
+                <Textarea
+                  {...field}
+                  bordered
+                  color="secondary"
+                  placeholder={profile.about || "About Me"}
+                  width="500px"
+                />
               )}
             />
           </Container>
@@ -196,6 +217,7 @@ const SettingsPage = () => {
             <Spacer x={2} />
             <button
               type="button"
+              onClick={() => (window.location.href = "/")}
               className="w-24 text-sm rounded-lg bg-transparent text-gray-800 hover:bg-gray-200 hover:border-transparent py-2 px-4 border-2 border-gray-300"
             >
               Cancel

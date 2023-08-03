@@ -29,6 +29,8 @@ model Profile {
   patientName           String?
   synopsis              String?
   relationShipToPatient String?
+  location              String?
+  state                 String?
 
   // Contact Details
   email String
