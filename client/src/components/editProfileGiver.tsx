@@ -44,8 +44,8 @@ const EditProfileGiver = (props: any) => {
             </div>
             <div className="flex justify-between items-start mt-2">
               <div className="flex justify-start items-center p-4 w-full">
-                <div className="w-[25%] mr-4">
-                  <div className="w-[100%] aspect-square rounded-full bg-gray-300"></div>
+                <div className="w-[20%] mr-4">
+                  <div className="w-[80%] aspect-square rounded-full bg-gray-300"></div>
                 </div>
                 <div className="flex flex-col justify-center items-start w-[60%]">
                   <div className="flex justify-start items-center ">
