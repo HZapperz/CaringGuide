@@ -2,10 +2,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { menteeOnboardingSchema } from "@/schema/onboarding";
 import { z } from "zod";
+import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 type FormValues = z.infer<typeof menteeOnboardingSchema>;
 
 const Caregiver = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -19,7 +22,6 @@ const Caregiver = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      console.log(data);
       const response = await fetch("/api/on-boarding", {
         method: "POST",
         headers: {
@@ -29,13 +31,12 @@ const Caregiver = () => {
       });
 
       if (response.ok) {
-        const newMentor = await response.json();
-        console.log("New Mentor:", newMentor);
-      } else {
-        console.error("Error creating mentor:", response);
+        await response.json();
+        toast.success("Onboarding Completed");
+        router.push("/dashboard");
       }
     } catch (error) {
-      console.error("Error creating mentor:", error);
+      toast.error((error as Error).message);
     }
   };
 

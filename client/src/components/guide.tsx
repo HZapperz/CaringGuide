@@ -1,12 +1,15 @@
 import { mentorOnboardingSchema } from "@/schema/onboarding";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { z } from "zod";
 
 type FormValues = z.infer<typeof mentorOnboardingSchema>;
 
 const Guide = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -30,13 +33,12 @@ const Guide = () => {
       });
 
       if (response.ok) {
-        const newMentor = await response.json();
-        console.log("New Mentor:", newMentor);
-      } else {
-        console.error("Error creating mentor:", response);
+        await response.json();
+        toast.success("Onboarding Completed Successfully");
+        router.push("/dashboard");
       }
     } catch (error) {
-      console.error("Error creating mentor:", error);
+      toast.error("Something went wrong");
     }
   };
 
