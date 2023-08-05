@@ -42,7 +42,7 @@ const theme = createTheme({
 });
 
 function App({ Component, pageProps }: AppProps) {
-  const pagesWithoutLayout = ["/signin", "/signup", "/login"];
+  const pagesWithoutLayout = ["/signin", "/signup", "/login", "/"];
   const router = useRouter();
   const shouldApplyLayout = pagesWithoutLayout.includes(router.pathname);
   const [queryClient] = useState(() => new QueryClient());

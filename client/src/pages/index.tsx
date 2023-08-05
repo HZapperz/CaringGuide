@@ -1,16 +1,16 @@
 import Image from "next/image";
 import home1 from "../../public/images/Home1.png";
-import faq1 from "../../public/images/faq1.png";
-import faq2 from "../../public/images/faq2.png";
-import faq3 from "../../public/images/faq3.png";
+import faq1 from "../../public/images/faq1.jpg";
+import faq2 from "../../public/images/faq2.jpg";
+import faq3 from "../../public/images/faq3.jpg";
 import HomeStats from "../components/homeStats";
 import people from "../../public/svgs/people.svg";
 import care from "../../public/svgs/care.svg";
 import crowd from "../../public/svgs/crowd.svg";
 import time from "../../public/svgs/time.svg";
-import handShake from "../../public/images/handShake.png";
-import think from "../../public/images/think.png";
-import doc from "../../public/images/doc.png";
+import handShake from "../../public/images/handShake.jpg";
+import think from "../../public/images/think.jpg";
+import doc from "../../public/images/doc.jpg";
 import brains from "../../public/svgs/brain.svg";
 import shield from "../../public/svgs/shield.svg";
 import bookmark from "../../public/svgs/bookmark.svg";
@@ -73,14 +73,17 @@ const Home = () => {
     {
       image: brains,
       question: "How do I find the best guide for me?",
+      answer: "lorem ipsum",
     },
     {
       image: shield,
       question: "How are to guide verified?",
+      answer: "lorem ipsum",
     },
     {
       image: bookmark,
       question: "How can I find more resources?",
+      answer: "lorem ipsum",
     },
   ];
   return (
@@ -88,7 +91,11 @@ const Home = () => {
       <main>
         <div className="relative inline-block overflow-hidden w-full px-1 bg-white">
           <div>
-            <Image src={home1} alt="Your Image" className="w-full" />
+            <Image
+              src={home1}
+              alt="Your Image"
+              className="w-full rounded-b-[16px] lg:rounded-b-[48px]"
+            />
             <div className="absolute bottom-0 left-1 right-1 top-0 bg-black opacity-50 rounded-b-[16px] lg:rounded-b-[48px]"></div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 top-0 rounded-lg flex items-center w-[80%] lg:w-[70%] xl:w-[50%] p-10 lg:p-20">
@@ -176,16 +183,28 @@ const Home = () => {
           ))}
         </div>
         <div>
-          <div className="relative inline-block overflow-hidden w-full bg-white">
+          <div className="relative inline-block overflow-hidden w-full h-fit bg-white">
             <div>
-              <div className="flex w-full">
-                <Image src={faq1} alt="Your Image" className="w-[33%]" />
-                <Image src={faq2} alt="Your Image" className="w-[34%]" />
-                <Image src={faq3} alt="Your Image" className="w-[33%]" />
+              <div className="flex w-full min-h-[550px]">
+                <Image
+                  src={faq1}
+                  alt="Your Image"
+                  className="w-[50%] 2xl:w-[33%]"
+                />
+                <Image
+                  src={faq2}
+                  alt="Your Image"
+                  className="w-[50%] 2xl:w-[34%]"
+                />
+                <Image
+                  src={faq3}
+                  alt="Your Image"
+                  className="w-[33%] 2xl:block hidden"
+                />
               </div>
               <div className="absolute bottom-0 left-0 right-0 top-0 bg-black opacity-50"></div>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 top-0 rounded-lg flex flex-col lg:items-center lg:justify-center p-6 overflow-auto">
+            <div className="absolute bottom-0 left-0 right-0 top-0 rounded-lg flex flex-col lg:items-center justify-center 2xl:justify-start p-6 overflow-auto">
               <h1 className="text-white text-center font-poppins text-[30px] xl:text-[40px] mt-10 xl:mt-0 font-semibold">
                 Frequently Asked Questions
               </h1>
@@ -194,6 +213,7 @@ const Home = () => {
                   key={index}
                   image={items.image}
                   question={items.question}
+                  answer={items.answer}
                 />
               ))}
             </div>
