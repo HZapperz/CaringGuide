@@ -31,7 +31,7 @@ export default async function handler(
       break;
     case "GET":
       try {
-        const resources = await prisma.resources.findMany();
+        const resources = await prisma.resources.findMany({});
         res.status(200).json(resources);
       } catch (error) {
         res.status(500).json({
