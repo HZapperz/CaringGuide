@@ -11,8 +11,7 @@ datasource db {
 }
 
 model Profile {
-  id String @id
-
+  id                    String     @id
   // personal Details
   firstName             String
   middleName            String?
@@ -36,7 +35,8 @@ model Profile {
   email String
   phone String
 
-  role Role
+  role      Role
+  favorites UserFavourites[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -57,14 +57,14 @@ model Journal {
 }
 
 model Resources {
-  id       String  @id @default(uuid())
-  imgsrc   String
-  category String
+  id       String @id @default(uuid())
   title    String
   sub      String
-  text     String
   link     String
-  favorite Boolean
+  category String
+  imgsrc   String
+
+  favoritedBy UserFavourites[]
 }
 
 model UserFavourites {
@@ -74,11 +74,15 @@ model UserFavourites {
   isStarred  Boolean
   isLiked    Boolean
   isDisliked Boolean
+
+  user     Profile   @relation(fields: [userId], references: [id])
+  resource Resources @relation(fields: [resourceId], references: [id])
 }
 
 enum Role {
   MENTOR
   MENTEE
+  ADMIN
 }
 
 enum Experience {

@@ -1,7 +1,7 @@
 import { Role, Experience } from "@prisma/client";
 import { z } from "zod";
 
-const commonDetailsSchema = z.object({
+export const commonDetailsSchema = z.object({
   firstName: z.string().min(2).max(50),
   middleName: z.string().optional(),
   lastName: z.string().min(2).max(50),

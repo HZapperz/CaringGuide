@@ -13,7 +13,7 @@ const Feedpage = () => {
 
   const a11yProps = (index: number) => {
     return {
-      "id": `tab-${index}`,
+      id: `tab-${index}`,
       "aria-controls": `tabpanel-${index}`,
     };
   };
@@ -26,6 +26,7 @@ const Feedpage = () => {
     "Website",
     "Article",
   ];
+
   const tabLabels = [
     "general",
     "finances",
@@ -52,7 +53,6 @@ const Feedpage = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log("response:", response);
       if (response.ok) {
         const data = await response.json();
         setLinks(data);

@@ -64,31 +64,67 @@ export function ResourcesDataTable() {
 
   const fetchResources = useQuery(
     ["resources", query, pageIndex, pageSize],
-    () => {
-      return {
-        items: [] as Resources[],
-        pageCount: 1,
-      };
+    async () => {
+      const data: {
+        items: Resources[];
+        pageCount: number;
+      } = await fetch("/api/admin/resources").then((res) => res.json());
+
+      return data;
     }
   );
 
-  const deleteResources = useMutation(async (ids: Resources["id"][]) => {
-    // asasas
+  const deleteResources = useMutation(
+    async (ids: Resources["id"][]) => {
+      const data: {
+        message: string;
+        count: number;
+      } = await fetch("/api/admin/resources", {
+        method: "DELETE",
+        body: JSON.stringify({
+          ids,
+        }),
+      }).then((res) => res.json());
 
-    return true;
-  }, {});
+      return data;
+    },
+    {
+      onSuccess: () => {},
+      onError: () => {},
+    }
+  );
 
-  const createMutation = useMutation(async (data: Omit<Resources, "id">) => {
-    // asasas
+  const createMutation = useMutation(
+    async (body: Omit<Resources, "id">) => {
+      const data: {
+        message: string;
+      } = await fetch("/api/admin/resources", {
+        method: "POST",
+        body: JSON.stringify(body),
+      }).then((res) => res.json());
+    },
+    {
+      onSuccess: () => {},
+      onError: () => {},
+    }
+  );
 
-    return true;
-  }, {});
+  const updateMutation = useMutation(
+    async (body: Resources) => {
+      const data: {
+        message: string;
+      } = await fetch(`/api/admin/resources/${selected?.id}`, {
+        method: "PATCH",
+        body: JSON.stringify(body),
+      }).then((res) => res.json());
 
-  const updateMutation = useMutation(async (data: Resources) => {
-    // asasas
-
-    return true;
-  }, {});
+      return data;
+    },
+    {
+      onSuccess: () => {},
+      onError: () => {},
+    }
+  );
 
   const handleFormSubmit = async (data: ResourcesFormValues) => {
     if (mode === "create") {
@@ -96,7 +132,7 @@ export function ResourcesDataTable() {
     } else if (mode === "edit" && selected) {
       await updateMutation.mutateAsync({
         id: selected.id,
-        data,
+        ...data
       });
     }
 

@@ -3,8 +3,15 @@ import { Navbar, Text, Image, Dropdown, Avatar, Grid } from "@nextui-org/react";
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const NavbarComp = () => {
+  const router = useRouter();
+
+  if (router.pathname.includes("/admin")) {
+    return null;
+  }
+
   return (
     <Navbar
       isBordered

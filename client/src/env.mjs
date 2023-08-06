@@ -7,6 +7,7 @@ dotenv.config();
 export const env = createEnv({
   server: {
     DATABASE_URL: z.string().url(),
+    NEXT_SUPABASE_SERVICE_KEY: z.string(),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),

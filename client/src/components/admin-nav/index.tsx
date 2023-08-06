@@ -14,8 +14,9 @@ import {
   User2Icon,
 } from "lucide-react";
 import Image from "next/image";
+import { Text } from "@nextui-org/react";
 
-export default function UserDashboard({ children }: PropsWithChildren) {
+export default function AdminDashboard({ children }: PropsWithChildren) {
   const router = useRouter();
   const route = router.route;
 
@@ -27,8 +28,17 @@ export default function UserDashboard({ children }: PropsWithChildren) {
         )}
       >
         <div className="space-y-4 py-4">
-          <div className="mr-1 flex justify-between px-3">
-            Caring Guide Logo Here
+          <div className="mr-1 flex justify-center px-3">
+            <Image src="/logo.png" alt="Logo" width={40} height={40} />
+            <Text
+              h4
+              weight="bold"
+              css={{
+                textGradient: "45deg, $green900 -10%, $red800 50%",
+              }}
+            >
+              Caring Guide
+            </Text>
           </div>
 
           <div className="px-3 py-2">
