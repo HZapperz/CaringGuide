@@ -59,7 +59,10 @@ const Nav = () => {
         $$navbarBlurBackgroundColor: "#FFFFFF80",
       }}
     >
-      <Navbar.Brand>
+      <Navbar.Brand
+        onClick={() => (window.location.href = "/")}
+        className="cursor-pointer"
+      >
         <Image src="/logo.png" alt="Logo" width={40} height={40} />
         <Text
           h2

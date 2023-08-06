@@ -40,9 +40,9 @@ export const menteeOnboardingSchema = z
   .merge(menteeInformationSchema);
 
 export const updateDetail = z.object({
-  firstName: z.string().min(2).max(50),
+  firstName: z.string().min(2).max(50).optional(),
   middleName: z.string().optional(),
-  lastName: z.string().min(2).max(50),
+  lastName: z.string().min(2).max(50).optional(),
   location: z.string().optional(),
   state: z.string().optional(),
   about: z.string().optional(),

@@ -80,18 +80,6 @@ export default isLoggedIn(async (req, res, user) => {
       const { firstName, middleName, lastName, location, state, about } =
         req.body;
 
-      if (!firstName) {
-        return res.status(400).json({
-          message: "First name is required for update.",
-        });
-      }
-
-      if (!lastName) {
-        return res.status(400).json({
-          message: "Last name is required for update.",
-        });
-      }
-
       const existingProfile = await prisma.profile.findUnique({
         where: {
           id: user.id,
@@ -110,11 +98,11 @@ export default isLoggedIn(async (req, res, user) => {
         },
         data: {
           firstName: firstName,
-          middleName: middleName ? middleName : null,
+          middleName: middleName,
           lastName: lastName,
-          location: location ? location : null,
-          state: state ? state : null,
-          about: about ? about : null,
+          location: location,
+          state: state,
+          about: about,
         },
       });
 

@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Text, Input, Container, Spacer, Textarea } from "@nextui-org/react";
+import {
+  Text,
+  Input,
+  Container,
+  Spacer,
+  Textarea,
+  Loading,
+} from "@nextui-org/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateDetail } from "@/schema/onboarding";
 import { WithOnBoarding } from "@/components/WithOnboarding";
+import { Snackbar } from "@mui/material";
 import { useApp } from "@/context/app";
 
 const SettingsPage = () => {
+  const [open, setOpen] = useState(false);
+  const [saveButton, setSaveButton] = useState(<p>Save</p>);
   const data = useApp();
   const profile = data.profile!;
 
@@ -19,6 +29,7 @@ const SettingsPage = () => {
   });
 
   const onSubmit = async (data: any) => {
+    setSaveButton(<Loading color={"white"} />);
     try {
       console.log(data);
       const response = await fetch("/api/on-boarding", {
@@ -30,8 +41,11 @@ const SettingsPage = () => {
       });
 
       if (response.ok) {
-        const newMentor = await response.json();
-        console.log(newMentor);
+        const editedMentor = await response.json();
+        console.log(editedMentor);
+        setOpen(true);
+        setSaveButton(<p>Save</p>);
+        window.location.href = "/settings";
       } else {
         console.error("Error creating mentor:", response);
       }
@@ -43,6 +57,12 @@ const SettingsPage = () => {
   return (
     <>
       <section>
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+          open={open}
+          message="Profile Updated"
+          key={"bottom" + "left"}
+        />
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="relative">
             <div className="h-72">
@@ -54,21 +74,6 @@ const SettingsPage = () => {
                 width={192}
                 height={192}
               />
-              <div className="pr-48 pt-12 flex md:flex md:flex-grow flex-row justify-end space-x-1">
-                <button
-                  type="submit"
-                  className="text-sm w-24 bg-green-900 border-2 hover:bg-green-800 text-white py-2 px-4 rounded-lg border-green-900"
-                >
-                  Save
-                </button>
-                <Spacer x={2} />
-                <button
-                  type="button"
-                  className="w-24 text-sm rounded-lg bg-transparent text-gray-800 hover:bg-gray-200 hover:border-transparent py-2 px-4 border-2 border-gray-300"
-                >
-                  Cancel
-                </button>
-              </div>
             </div>
           </div>
         </form>
@@ -210,9 +215,9 @@ const SettingsPage = () => {
             <Spacer x={12} />
             <button
               type="submit"
-              className="text-sm w-24 bg-green-900 border-2 hover:bg-green-800 text-white py-2 px-4 rounded-lg border-green-900"
+              className="text-sm w-24 h-12 bg-green-900 border-2 hover:bg-green-800 text-white py-2 px-4 rounded-lg border-green-900"
             >
-              Save
+              {saveButton}
             </button>
             <Spacer x={2} />
             <button
