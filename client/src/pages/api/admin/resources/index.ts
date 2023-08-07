@@ -8,7 +8,10 @@ import { fromZodError } from "zod-validation-error";
 import { ZodError } from "zod";
 import { paginationSchema } from "@/schema/common";
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     switch (req.method) {
       case "GET": {
@@ -34,8 +37,8 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
         const item = await prisma.resources.create({
           data: {
             title: data.title,
-            sub: data.description,
-            imgsrc: data.image,
+            description: data.description,
+            image: data.image,
             link: data.link,
             category: data.category,
           },

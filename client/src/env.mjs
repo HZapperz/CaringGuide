@@ -8,6 +8,9 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.string().url(),
     NEXT_SUPABASE_SERVICE_KEY: z.string(),
+    NODE_ENV: z
+      .enum(["development", "production", "test"])
+      .default("development"),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),

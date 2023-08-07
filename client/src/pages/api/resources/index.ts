@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { resourcesSchema } from "@/schema/resources";
-
-const prisma = new PrismaClient();
+import { resourceSchema } from "@/schema/resources";
+import { prisma } from "@/lib/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,16 +9,15 @@ export default async function handler(
   switch (req.method) {
     case "POST":
       try {
-        const data = resourcesSchema.parse(req.body);
+        const data = resourceSchema.parse(req.body);
+
         const createdResource = await prisma.resources.create({
           data: {
-            imgsrc: data.imgsrc,
+            image: data.image,
             category: data.category,
             title: data.title,
-            sub: data.sub,
-            text: data.text,
+            description: data.description,
             link: data.link,
-            favorite: data.favorite === "true",
           },
         });
 
@@ -31,7 +28,7 @@ export default async function handler(
       break;
     case "GET":
       try {
-        const resources = await prisma.resources.findMany({});
+        const resources = await prisma.resources.findMany();
         res.status(200).json(resources);
       } catch (error) {
         res.status(500).json({

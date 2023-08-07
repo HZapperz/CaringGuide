@@ -57,12 +57,12 @@ model Journal {
 }
 
 model Resources {
-  id       String @id @default(uuid())
-  title    String
-  sub      String
-  link     String
-  category String
-  imgsrc   String
+  id          String @id @default(uuid())
+  title       String
+  description String
+  link        String
+  category    String
+  image       String
 
   favoritedBy UserFavourites[]
 }

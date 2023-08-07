@@ -4,7 +4,10 @@ import { prisma } from "@/lib/client";
 import { fromZodError } from "zod-validation-error";
 import { ZodError } from "zod";
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     switch (req.method) {
       case "PATCH": {

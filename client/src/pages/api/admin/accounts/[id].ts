@@ -6,12 +6,15 @@ import { fromZodError } from "zod-validation-error";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { env } from "@/env.mjs";
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     switch (req.method) {
       case "PATCH": {
         const id = req.query.id as string;
-        const data = updateAccountSchema.parse(req.body);
+        const data = updateAccountSchema.parse(JSON.parse(req.body));
         const supabase = createPagesServerClient(
           {
             req,

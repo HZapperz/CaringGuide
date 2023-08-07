@@ -29,11 +29,13 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import AccountForm, { AccountFormValues as ResourcesFormValues } from "./form";
+import AccountForm, { FormValues as ResourcesFormValues } from "./form";
 import Page from "../page";
 import { DataTable } from "@/components/data-table/data-table";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Resources } from "@prisma/client";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const Content: {
   [key: string]: {
@@ -68,7 +70,15 @@ export function ResourcesDataTable() {
       const data: {
         items: Resources[];
         pageCount: number;
-      } = await fetch("/api/admin/resources").then((res) => res.json());
+      } = (
+        await axios.get("/api/admin/resources", {
+          params: {
+            query: !!query ? query : undefined,
+            skip: pageIndex * pageSize,
+            take: pageSize,
+          },
+        })
+      ).data;
 
       return data;
     }
@@ -79,17 +89,21 @@ export function ResourcesDataTable() {
       const data: {
         message: string;
         count: number;
-      } = await fetch("/api/admin/resources", {
-        method: "DELETE",
-        body: JSON.stringify({
-          ids,
-        }),
-      }).then((res) => res.json());
+      } = (
+        await axios.delete("/api/admin/resources", {
+          data: {
+            ids,
+          },
+        })
+      ).data;
 
       return data;
     },
     {
-      onSuccess: () => {},
+      onSuccess: (data) => {
+        toast.success(data.message);
+        fetchResources.refetch();
+      },
       onError: () => {},
     }
   );
@@ -98,13 +112,15 @@ export function ResourcesDataTable() {
     async (body: Omit<Resources, "id">) => {
       const data: {
         message: string;
-      } = await fetch("/api/admin/resources", {
-        method: "POST",
-        body: JSON.stringify(body),
-      }).then((res) => res.json());
+      } = await axios.post("/api/admin/resources", body);
+
+      return data;
     },
     {
-      onSuccess: () => {},
+      onSuccess: (data) => {
+        toast.success(data.message);
+        fetchResources.refetch();
+      },
       onError: () => {},
     }
   );
@@ -113,15 +129,15 @@ export function ResourcesDataTable() {
     async (body: Resources) => {
       const data: {
         message: string;
-      } = await fetch(`/api/admin/resources/${selected?.id}`, {
-        method: "PATCH",
-        body: JSON.stringify(body),
-      }).then((res) => res.json());
+      } = await axios.patch(`/api/admin/resources/${selected?.id}`, body);
 
       return data;
     },
     {
-      onSuccess: () => {},
+      onSuccess: (data) => {
+        toast.success(data.message);
+        fetchResources.refetch();
+      },
       onError: () => {},
     }
   );
@@ -132,7 +148,7 @@ export function ResourcesDataTable() {
     } else if (mode === "edit" && selected) {
       await updateMutation.mutateAsync({
         id: selected.id,
-        ...data
+        ...data,
       });
     }
 
@@ -174,6 +190,7 @@ export function ResourcesDataTable() {
         pageIndex,
       },
     },
+    getRowId: (row) => row.id,
     enableRowSelection: true,
     manualPagination: true,
     pageCount: fetchResources.data?.pageCount ?? 0,

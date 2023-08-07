@@ -7,7 +7,10 @@ import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { env } from "@/env.mjs";
 import { createAccountSchema } from "@/schema/accounts";
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     switch (req.method) {
       case "GET": {
@@ -28,7 +31,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
 
       case "POST": {
-        const data = createAccountSchema.parse(req.body);
+        const data = createAccountSchema.parse(JSON.parse(req.body));
 
         const supabase = createPagesServerClient(
           {

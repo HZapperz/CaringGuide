@@ -8,8 +8,6 @@ export default isLoggedIn(async (req, res, user) => {
       {
         const data = journalSchema.parse(req.body);
 
-        console.log(user.id, data);
-
         await prisma.$transaction(async (tx) => {
           await prisma.journal.create({
             data: {

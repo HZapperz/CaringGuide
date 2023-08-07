@@ -4,7 +4,7 @@ export const resourceSchema = z.object({
   title: z.string(),
   description: z.string(),
   link: z.string().url(),
-  image: z.string().url(),
+  image: z.string(),
   category: z.string(),
 });
 

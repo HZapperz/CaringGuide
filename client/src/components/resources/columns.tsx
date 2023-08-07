@@ -42,13 +42,14 @@ export function getColumns({
       enableHiding: false,
     },
     {
-      accessorKey: "imgsrc",
+      accessorKey: "image",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Image" />
       ),
       cell: ({ row }) => <div>{row.getValue("image")}</div>,
     },
     {
+      enableSorting: false,
       accessorKey: "title",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Title" />
@@ -56,13 +57,25 @@ export function getColumns({
       cell: ({ row }) => <div>{row.getValue("title")}</div>,
     },
     {
-      accessorKey: "sub",
+      enableSorting: false,
+      accessorKey: "description",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Sub title" />
+        <DataTableColumnHeader column={column} title="Description" />
       ),
-      cell: ({ row }) => <div>{row.getValue("title")}</div>,
+      cell: ({ row }) => (
+        <div>{(row.getValue("description") as string).slice(0, 60)}</div>
+      ),
     },
     {
+      enableSorting: false,
+      accessorKey: "link",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Link" />
+      ),
+      cell: ({ row }) => <div>{row.getValue("link")}</div>,
+    },
+    {
+      enableSorting: false,
       accessorKey: "category",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Category" />
@@ -70,21 +83,6 @@ export function getColumns({
       cell: ({ row }) => <div>{row.getValue("category")}</div>,
     },
 
-    {
-      accessorKey: "link",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Link" />
-      ),
-      cell: ({ row }) => {
-        const isVerified = row.getValue("link");
-
-        return (
-          <Badge variant={isVerified ? "outline" : "secondary"}>
-            {isVerified ? "Verified" : "Pending"}
-          </Badge>
-        );
-      },
-    },
     {
       id: "actions",
       enableSorting: false,
