@@ -7,47 +7,6 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 const Nav = () => {
   const user = useUser();
   const supabase = useSupabaseClient();
-  const [activeLink, setActiveLink] = useState("");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const section1 = document.getElementById("section-1");
-      const section2 = document.getElementById("section-2");
-      if (section1 && window.scrollY < section1.offsetTop - 100) {
-        setActiveLink("");
-      } else if (section2 && window.scrollY >= section2.offsetTop - 100) {
-        setActiveLink("section-2");
-      } else {
-        setActiveLink("section-1");
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  const handleScrollToSection1 = () => {
-    const section1 = document.getElementById("section-1");
-    if (section1) {
-      window.scrollTo({
-        top: section1.offsetTop - 90,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const handleScrollToSection2 = () => {
-    const section2 = document.getElementById("section-2");
-    if (section2) {
-      window.scrollTo({
-        top: section2.offsetTop - 90,
-        behavior: "smooth",
-      });
-    }
-  };
 
   return (
     <Navbar

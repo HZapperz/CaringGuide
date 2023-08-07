@@ -96,7 +96,7 @@ const MenteeDashBoard = (props: any) => {
             </div>
           </div>
           <div>
-            <DashboardCard user={props.mentorData} />
+            <DashboardCard user={props.mentorData} care={false} />
           </div>
         </div>
         <div className="ml-0 sm:ml-2 xl:ml-0 flex xl:flex-row flex-col justify-start xl:items-start items-center w-full min-w-[385px] sm:h-full">

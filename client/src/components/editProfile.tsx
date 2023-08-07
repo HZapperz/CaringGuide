@@ -25,20 +25,24 @@ const EditProfile = (props: any) => {
         onClick={togglePopup}
         className="flex justify-center items-center border-2 border-[#ECEEED] rounded-2xl text-[#4E4E4E] px-4 py-2 lg:px-8 lg:py-4 mt-2 font-poppins font-[400] text-[16px] tracking-normal text-center w-full"
       >
-        Edit Profile
+        {props?.care ? "Edit Profile" : "See Profile"}
       </button>
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
           <div className="flex flex-col bg-white p-6 rounded-2xl shadow-lg w-[70%]">
             <div className="flex justify-between items-end">
-              <div>
-                <Link
-                  href={"/settings"}
-                  className="text-end w-[200px] font-poppins text-[10px] lg:text-[20px] ml-4 font-medium text-[#BE1347] cursor-pointer"
-                >
-                  edit profile
-                </Link>
-              </div>
+              {props?.care ? (
+                <div>
+                  <Link
+                    href={"/settings"}
+                    className="text-end w-[200px] font-poppins text-[10px] lg:text-[20px] ml-4 font-medium text-[#BE1347] cursor-pointer"
+                  >
+                    edit profile
+                  </Link>
+                </div>
+              ) : (
+                <div></div>
+              )}
               <div className="w-10 cursor-pointer" onClick={togglePopup}>
                 <XMarkIcon />
               </div>

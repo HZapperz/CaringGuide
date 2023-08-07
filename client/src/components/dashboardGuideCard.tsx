@@ -73,7 +73,7 @@ const DashboardCard = (props: any) => {
             </div>
           </div>
           <div className="mt-4">
-            <EditProfile user={props.user} />
+            <EditProfile user={props.user} care={props?.care} />
           </div>
         </div>
       </div>

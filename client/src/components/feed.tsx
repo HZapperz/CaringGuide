@@ -148,12 +148,12 @@ const FeedCard = (props: any) => {
       });
   }, [props.data.id]);
 
- if (loader)
-   return (
-     <div className="w-full h-full flex justify-center items-center">
-       <Loading />
-     </div>
-   );
+  if (loader)
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <Loading />
+      </div>
+    );
 
   return (
     <Link
@@ -183,17 +183,6 @@ const FeedCard = (props: any) => {
       </div>
       <div className="absolute top-1 right-1">
         <div className="flex">
-          {isDisliked ? (
-            <ThumbDownAltRounded
-              className="h-10 w-10 text-green-800 cursor-pointer"
-              onClick={(event) => handleDislikeClick(event, false)}
-            />
-          ) : (
-            <ThumbDownSharp
-              className="h-10 w-10 text-gray-500 cursor-pointer"
-              onClick={(event) => handleDislikeClick(event, true)}
-            />
-          )}
           {isLiked ? (
             <ThumbUpAltRounded
               className="h-10 w-10 text-green-800 cursor-pointer"
@@ -203,6 +192,17 @@ const FeedCard = (props: any) => {
             <ThumbUpSharp
               className="h-10 w-10 text-gray-500 cursor-pointer"
               onClick={(event) => handleLikeClick(event, true)}
+            />
+          )}
+          {isDisliked ? (
+            <ThumbDownAltRounded
+              className="h-10 w-10 text-green-800 cursor-pointer"
+              onClick={(event) => handleDislikeClick(event, false)}
+            />
+          ) : (
+            <ThumbDownSharp
+              className="h-10 w-10 text-gray-500 cursor-pointer"
+              onClick={(event) => handleDislikeClick(event, true)}
             />
           )}
         </div>
