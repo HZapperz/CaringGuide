@@ -9,79 +9,65 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Resources } from "@prisma/client";
+import { Profile } from "@prisma/client";
 
 type Props = {
-  onEdit: (d: Resources) => void;
-  onDelete: (d: Resources) => void;
+  onEdit: (d: Profile) => void;
+  onDelete: (d: Profile) => void;
 };
 
-export function getColumns({
-  onEdit,
-  onDelete,
-}: Props): ColumnDef<Resources>[] {
-  const columns: ColumnDef<Resources>[] = [
+export function getColumns({ onEdit, onDelete }: Props): ColumnDef<Profile>[] {
+  const columns: ColumnDef<Profile>[] = [
     {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={table.getIsAllPageRowsSelected()}
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
+      accessorKey: "firstName",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="FirstName" />
+      ),
+      cell: ({ row }) => <div>{row.getValue("firstName")}</div>,
+      enableSorting: false,
+    },
+    {
+      enableSorting: false,
+      accessorKey: "lastName",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="LastName" />
+      ),
+      cell: ({ row }) => <div>{row.getValue("lastName")}</div>,
+    },
+    {
+      enableSorting: false,
+      accessorKey: "email",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="email" />
+      ),
+      cell: ({ row }) => <div>{row.getValue("email") as string}</div>,
+    },
+    {
+      enableSorting: false,
+      accessorKey: "phone",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Phone" />
+      ),
+      cell: ({ row }) => <div>{row.getValue("phone")}</div>,
+    },
+    {
+      enableSorting: false,
+      accessorKey: "role",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Role" />
+      ),
+      cell: ({ row }) => <div>{row.getValue("role")}</div>,
+    },
+    {
+      enableSorting: false,
+      accessorKey: "dob",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Date of Birth" />
       ),
       cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
-      accessorKey: "image",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Image" />
-      ),
-      cell: ({ row }) => <div>{row.getValue("image")}</div>,
-    },
-    {
-      enableSorting: false,
-      accessorKey: "title",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Title" />
-      ),
-      cell: ({ row }) => <div>{row.getValue("title")}</div>,
-    },
-    {
-      enableSorting: false,
-      accessorKey: "description",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Description" />
-      ),
-      cell: ({ row }) => (
-        <div>{(row.getValue("description") as string).slice(0, 60)}</div>
+        <div>{new Date(row.getValue("dob")).toDateString()}</div>
       ),
     },
-    {
-      enableSorting: false,
-      accessorKey: "link",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Link" />
-      ),
-      cell: ({ row }) => <div>{row.getValue("link")}</div>,
-    },
-    {
-      enableSorting: false,
-      accessorKey: "category",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Category" />
-      ),
-      cell: ({ row }) => <div>{row.getValue("category")}</div>,
-    },
-
     {
       id: "actions",
       enableSorting: false,

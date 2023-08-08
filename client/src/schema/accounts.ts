@@ -18,39 +18,19 @@ export const accountSchema = z.union([
   menteeOnboardingSchema.merge(
     z.object({
       password,
-      primaryEmail: z.string().email(),
     })
   ),
   mentorOnboardingSchema.merge(
     z.object({
       password,
-      primaryEmail: z.string().email(),
     })
   ),
   adminOnboardingSchema.merge(
     z.object({
       password,
-      primaryEmail: z.string().email(),
     })
   ),
 ]);
 
 export const createAccountSchema = accountSchema;
-
-export const updateAccountSchema = z.union([
-  menteeOnboardingSchema.merge(
-    z.object({
-      password: password.optional(),
-    })
-  ),
-  mentorOnboardingSchema.merge(
-    z.object({
-      password: password.optional(),
-    })
-  ),
-  adminOnboardingSchema.merge(
-    z.object({
-      password: password.optional(),
-    })
-  ),
-]);
+export const updateAccountSchema = accountSchema;

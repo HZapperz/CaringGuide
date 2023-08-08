@@ -32,6 +32,12 @@ export default async function handler(
           });
         }
 
+        if (data.email) {
+          await supabase.auth.admin.updateUserById(id, {
+            email: data.email,
+          });
+        }
+
         await prisma.profile.update({
           where: {
             id,
