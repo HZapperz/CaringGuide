@@ -18,7 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { createAccountSchema } from "@/schema/accounts";
+import { mutateSchema } from "@/schema/accounts";
 import { Role } from "@prisma/client";
 import {
   Popover,
@@ -32,7 +32,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "../ui/scroll-area";
 
-const formSchema = createAccountSchema;
+const formSchema = mutateSchema;
 
 export type FormValues = z.infer<typeof formSchema>;
 
@@ -49,8 +49,15 @@ export default function AccountForm({
 }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: defaultValues,
+    defaultValues,
   });
+
+  const type = form.watch("role");
+  const values = form.watch();
+
+  function handleSubmit(values: FormValues) {
+    onSubmit(values);
+  }
 
   return (
     <Form {...form}>
@@ -62,6 +69,32 @@ export default function AccountForm({
         <div className="h-px flex-1 basis-0 flex-col">
           <ScrollArea className="h-full w-full overflow-hidden -mr-2">
             <div className="grid w-full px-4 grid-cols-1 gap-2">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="firstName"
@@ -118,7 +151,7 @@ export default function AccountForm({
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              format(new Date(field.value), "PPP")
                             ) : (
                               <span>Pick a date</span>
                             )}
@@ -130,7 +163,9 @@ export default function AccountForm({
                         <Calendar
                           mode="single"
                           selected={field.value}
-                          onSelect={field.onChange}
+                          onSelect={(e) => {
+                            field.onChange(e?.toISOString());
+                          }}
                           disabled={(date) =>
                             date > new Date() || date < new Date("1900-01-01")
                           }
@@ -147,39 +182,27 @@ export default function AccountForm({
                 name="gender"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Role</FormLabel>
+                    <FormLabel>Gender</FormLabel>
                     <Select
                       defaultValue={field.value}
                       onValueChange={field.onChange}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select Role" />
+                          <SelectValue placeholder="Select Gender" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value={Role.ADMIN}>Admin</SelectItem>
-                        <SelectItem value={Role.MENTOR}>Mentor</SelectItem>
-                        <SelectItem value={Role.MENTEE}>Mentee</SelectItem>
+                        <SelectItem value={"male"}>Male</SelectItem>
+                        <SelectItem value={"female"}>Female</SelectItem>
+                        <SelectItem value={"rather"}>Other</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
               <FormField
                 control={form.control}
                 name="phone"
@@ -195,7 +218,7 @@ export default function AccountForm({
               />
               <FormField
                 control={form.control}
-                name="experience"
+                name="role"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Role</FormLabel>
@@ -205,7 +228,7 @@ export default function AccountForm({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select Role" />
+                          <SelectValue placeholder="Select" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -218,70 +241,150 @@ export default function AccountForm({
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="condition"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Role</FormLabel>
-                    <Select
-                      defaultValue={field.value}
-                      onValueChange={field.onChange}
-                    >
+
+              {(type === "MENTOR" || type === "MENTEE") && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="experience"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Experience</FormLabel>
+                        <Select
+                          defaultValue={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value={"LESS_THAN_2"}>
+                              LESS_THAN_2
+                            </SelectItem>
+                            <SelectItem value={"BETWEEN_2_AND_4"}>
+                              BETWEEN_2_AND_4
+                            </SelectItem>
+                            <SelectItem value={"MORE_THAN_4"}>
+                              MORE_THAN_4
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="condition"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Condition</FormLabel>
+                        <Select
+                          defaultValue={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="myeloma">
+                              Multiple Myeloma
+                            </SelectItem>
+                            <SelectItem value="alzheimer">
+                              Alzheimer’s Disease
+                            </SelectItem>
+                            <SelectItem value="parkinson">
+                              Parkinson’s Disease
+                            </SelectItem>
+                            <SelectItem value="stroke">Stroke</SelectItem>
+                            <SelectItem value="als">ALS</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+              {type === "MENTOR" && (
+                <FormField
+                  control={form.control}
+                  name="about"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>About</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Role" />
-                        </SelectTrigger>
+                        <Input {...field} />
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value={Role.ADMIN}>Admin</SelectItem>
-                        <SelectItem value={Role.MENTOR}>Mentor</SelectItem>
-                        <SelectItem value={Role.MENTEE}>Mentee</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="about"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>About</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="patientName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Patient Name</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="synopsis"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Synopsis</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+              {type === "MENTEE" && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="patientName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Patient Name</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="synopsis"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Synopsis</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="relation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Relation</FormLabel>
+                        <FormControl>
+                          <Select
+                            defaultValue={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select Role" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="mother">Mother</SelectItem>
+                              <SelectItem value="father">Father</SelectItem>
+                              <SelectItem value="son">Son</SelectItem>
+                              <SelectItem value="daughter">Daughter</SelectItem>
+                              <SelectItem value="wife">Wife</SelectItem>
+                              <SelectItem value="husband">Husband</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
             </div>
           </ScrollArea>
         </div>

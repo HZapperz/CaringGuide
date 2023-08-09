@@ -31,7 +31,7 @@ export default async function handler(
       }
 
       case "POST": {
-        const data = createAccountSchema.parse(JSON.parse(req.body));
+        const { password, ...data } = createAccountSchema.parse(req.body);
 
         const supabase = createPagesServerClient(
           {
@@ -45,12 +45,12 @@ export default async function handler(
         );
 
         const { data: supaData, error } = await supabase.auth.admin.createUser({
-          email: data.primaryEmail,
-          password: data.password,
+          email: data.email,
+          password,
         });
 
         if (error) {
-          res.status(400).json({
+          return res.status(400).json({
             message: error.message,
           });
         }

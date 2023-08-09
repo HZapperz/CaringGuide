@@ -149,6 +149,7 @@ export function AccountsDataTable() {
       await updateMutation.mutateAsync({
         id: selected.id,
         ...data,
+        password: data.password === "$$_pwd_$$" ? undefined : data.password,
       });
     }
 
@@ -270,7 +271,11 @@ export function AccountsDataTable() {
             }
             onSubmit={handleFormSubmit}
             // @ts-ignore
-            defaultValues={selected}
+            defaultValues={
+              selected ?? {
+                password: "$$_pwd_$$",
+              }
+            }
           />
         </SheetContent>
       </Sheet>

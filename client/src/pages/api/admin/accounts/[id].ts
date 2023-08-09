@@ -14,7 +14,7 @@ export default async function handler(
     switch (req.method) {
       case "PATCH": {
         const id = req.query.id as string;
-        const data = updateAccountSchema.parse(JSON.parse(req.body));
+        const data = updateAccountSchema.parse(req.body);
         const supabase = createPagesServerClient(
           {
             req,
