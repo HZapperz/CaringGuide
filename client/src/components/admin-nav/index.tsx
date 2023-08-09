@@ -24,21 +24,21 @@ export default function AdminDashboard({ children }: PropsWithChildren) {
 
   const { profile, session, isLoading } = useApp();
 
-  useEffect(() => {
-    if (isLoading) return;
+  // useEffect(() => {
+  //   if (isLoading) return;
 
-    if (!session) {
-      router.push("/login");
-    }
+  //   if (!session) {
+  //     router.push("/signin");
+  //   }
 
-    if (!profile) {
-      router.push("/onboarding");
-    }
+  //   if (!profile) {
+  //     router.push("/onboarding");
+  //   }
 
-    if (profile?.role !== Role.ADMIN) {
-      router.push("/");
-    }
-  }, [profile, isLoading, session]);
+  //   if (profile?.role !== Role.ADMIN) {
+  //     router.push("/");
+  //   }
+  // }, [profile, isLoading, session]);
 
   return (
     <div className="flex min-h-screen bg-background">

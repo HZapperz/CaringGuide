@@ -62,7 +62,7 @@ export function getColumns({
         <DataTableColumnHeader column={column} title="Description" />
       ),
       cell: ({ row }) => (
-        <div>{(row.getValue("description") as string).slice(0, 60)}</div>
+        <div>{(row.getValue("description") as string)?.slice(0, 60)}</div>
       ),
     },
     {
