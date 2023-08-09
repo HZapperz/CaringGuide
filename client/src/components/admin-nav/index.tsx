@@ -16,10 +16,29 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { Text } from "@nextui-org/react";
+import { useApp } from "@/context/app";
 
 export default function AdminDashboard({ children }: PropsWithChildren) {
   const router = useRouter();
   const route = router.route;
+
+  const { profile, session, isLoading } = useApp();
+
+  useEffect(() => {
+    if (isLoading) return;
+
+    if (!session) {
+      router.push("/login");
+    }
+
+    if (!profile) {
+      router.push("/onboarding");
+    }
+
+    if (profile?.role !== Role.ADMIN) {
+      router.push("/");
+    }
+  }, [profile, isLoading, session]);
 
   return (
     <div className="flex min-h-screen bg-background">
