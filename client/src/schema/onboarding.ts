@@ -7,37 +7,34 @@ export const commonDetailsSchema = z.object({
   lastName: z.string().min(2).max(50),
   dob: z.coerce.date(),
   gender: z.string(),
-  experience: z.nativeEnum(Experience),
 
   email: z.string().email(),
   phone: z.string(),
 });
 
 const menteeInformationSchema = z.object({
+  role: z.literal(Role.MENTEE),
   patientName: z.string(),
   relation: z.string(),
   condition: z.string(),
   synopsis: z.string(),
+  experience: z.nativeEnum(Experience),
 });
 
 const mentorInformationSchema = z.object({
+  role: z.literal(Role.MENTOR),
   condition: z.string(),
   about: z.string(),
+  experience: z.nativeEnum(Experience),
 });
 
-export const mentorOnboardingSchema = z
-  .object({
-    role: z.literal(Role.MENTOR),
-  })
-  .merge(commonDetailsSchema)
-  .merge(mentorInformationSchema);
+export const mentorOnboardingSchema = commonDetailsSchema.merge(
+  mentorInformationSchema
+);
 
-export const menteeOnboardingSchema = z
-  .object({
-    role: z.literal(Role.MENTEE),
-  })
-  .merge(commonDetailsSchema)
-  .merge(menteeInformationSchema);
+export const menteeOnboardingSchema = commonDetailsSchema.merge(
+  menteeInformationSchema
+);
 
 export const updateDetail = z.object({
   firstName: z.string().min(2).max(50).optional(),

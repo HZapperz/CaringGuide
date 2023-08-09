@@ -10,21 +10,41 @@ import {
   LayoutTemplateIcon,
   MailIcon,
   PieChartIcon,
+  Tag,
   TagIcon,
   User2Icon,
 } from "lucide-react";
 import Image from "next/image";
 import { Text } from "@nextui-org/react";
+import { useApp } from "@/context/app";
 
 export default function AdminDashboard({ children }: PropsWithChildren) {
   const router = useRouter();
   const route = router.route;
 
+  const { profile, session, isLoading } = useApp();
+
+  // useEffect(() => {
+  //   if (isLoading) return;
+
+  //   if (!session) {
+  //     router.push("/signin");
+  //   }
+
+  //   if (!profile) {
+  //     router.push("/onboarding");
+  //   }
+
+  //   if (profile?.role !== Role.ADMIN) {
+  //     router.push("/");
+  //   }
+  // }, [profile, isLoading, session]);
+
   return (
     <div className="flex min-h-screen bg-background">
       <nav
         className={cn(
-          "hidden max-w-[18rem] border-r border-zinc-200 pb-12 dark:border-zinc-900 md:block"
+          "hidden w-full max-w-[18rem] border-r border-zinc-200 pb-12 dark:border-zinc-900 md:block"
         )}
       >
         <div className="space-y-4 py-4">
@@ -43,7 +63,7 @@ export default function AdminDashboard({ children }: PropsWithChildren) {
 
           <div className="px-3 py-2">
             <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-              Users
+              Dashboard
             </h2>
             <div className="space-y-1">
               <Button
@@ -59,13 +79,11 @@ export default function AdminDashboard({ children }: PropsWithChildren) {
               <Button
                 className="w-full justify-start"
                 variant={
-                  route.startsWith("/admin/subscriptions")
-                    ? "secondary"
-                    : "ghost"
+                  route.startsWith("/admin/resources") ? "secondary" : "ghost"
                 }
-                onClick={() => router.push("/admin/subscriptions")}
+                onClick={() => router.push("/admin/resources")}
               >
-                <DollarSignIcon className="mr-2 h-4 w-4" />
+                <Tag className="mr-2 h-4 w-4" />
                 Resources
               </Button>
             </div>

@@ -6,7 +6,10 @@ import { fromZodError } from "zod-validation-error";
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { env } from "@/env.mjs";
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     switch (req.method) {
       case "PATCH": {
@@ -26,6 +29,12 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
         if (data.password) {
           await supabase.auth.admin.updateUserById(id, {
             password: data.password,
+          });
+        }
+
+        if (data.email) {
+          await supabase.auth.admin.updateUserById(id, {
+            email: data.email,
           });
         }
 

@@ -29,13 +29,14 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import AccountForm, { FormValues as ResourcesFormValues } from "./form";
+import AccountForm, { FormValues as AccountFormValues } from "./form";
 import Page from "../page";
 import { DataTable } from "@/components/data-table/data-table";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Resources } from "@prisma/client";
+import { Profile } from "@prisma/client";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { ScrollArea } from "../ui/scroll-area";
 
 const Content: {
   [key: string]: {
@@ -44,34 +45,35 @@ const Content: {
   };
 } = {
   create: {
-    title: "Create resource",
-    description: "Create a new resoruce.",
+    title: "Create account",
+    description: "Create a new account.",
   },
   edit: {
-    title: "Edit resource",
-    description: "Edit an existing resource.",
+    title: "Edit account",
+    description: "Edit an existing account.",
   },
 };
 
-export function ResourcesDataTable() {
+export function AccountsDataTable() {
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   const [pageIndex, setPageIndex] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(25);
 
-  const [selected, setSelected] = React.useState<Resources>();
-  const [mode, setMode] = React.useState<
-    "view" | "edit" | "delete" | "create" | "bulk_delete"
-  >("view");
+  const [selected, setSelected] = React.useState<Profile>();
+  const [mode, setMode] = React.useState<"view" | "edit" | "delete" | "create">(
+    "view"
+  );
+
   const [query, setQuery] = React.useState("");
 
-  const fetchResources = useQuery(
+  const fetchAccounts = useQuery(
     ["resources", query, pageIndex, pageSize],
     async () => {
       const data: {
-        items: Resources[];
+        items: Profile[];
         pageCount: number;
       } = (
-        await axios.get("/api/admin/resources", {
+        await axios.get("/api/admin/accounts", {
           params: {
             query: !!query ? query : undefined,
             skip: pageIndex * pageSize,
@@ -84,84 +86,83 @@ export function ResourcesDataTable() {
     }
   );
 
-  const deleteResources = useMutation(
-    async (ids: Resources["id"][]) => {
+  const deleteAccount = useMutation(
+    async (id: Profile["id"]) => {
       const data: {
         message: string;
         count: number;
-      } = (
-        await axios.delete("/api/admin/resources", {
-          data: {
-            ids,
-          },
-        })
-      ).data;
+      } = (await axios.delete(`/api/admin/resources/${id}`)).data;
 
       return data;
     },
     {
       onSuccess: (data) => {
         toast.success(data.message);
-        fetchResources.refetch();
+        fetchAccounts.refetch();
       },
       onError: () => {},
     }
   );
 
   const createMutation = useMutation(
-    async (body: Omit<Resources, "id">) => {
+    async (body: AccountFormValues) => {
       const data: {
         message: string;
-      } = await axios.post("/api/admin/resources", body);
+      } = await axios.post("/api/admin/accounts", body);
 
       return data;
     },
     {
       onSuccess: (data) => {
         toast.success(data.message);
-        fetchResources.refetch();
+        fetchAccounts.refetch();
       },
       onError: () => {},
     }
   );
 
   const updateMutation = useMutation(
-    async (body: Resources) => {
+    async (
+      body: AccountFormValues & {
+        id: Profile["id"];
+      }
+    ) => {
       const data: {
         message: string;
-      } = await axios.patch(`/api/admin/resources/${selected?.id}`, body);
+      } = await axios.patch(`/api/admin/accounts/${selected?.id}`, body);
 
       return data;
     },
     {
       onSuccess: (data) => {
         toast.success(data.message);
-        fetchResources.refetch();
+        fetchAccounts.refetch();
       },
       onError: () => {},
     }
   );
 
-  const handleFormSubmit = async (data: ResourcesFormValues) => {
+  const handleFormSubmit = async (data: AccountFormValues) => {
     if (mode === "create") {
       await createMutation.mutateAsync(data);
     } else if (mode === "edit" && selected) {
       await updateMutation.mutateAsync({
         id: selected.id,
         ...data,
+        password: data.password === "$$_pwd_$$" ? undefined : data.password,
       });
     }
 
     clearSelection();
   };
 
-  const handleEdit = (resource: Resources) => {
-    setSelected(resource);
+  const handleEdit = (account: Profile) => {
+    setSelected(account);
     setMode("edit");
   };
 
-  const handleDelete = (resource: Resources) => {
-    setSelected(resource);
+  const handleDelete = (account: Profile) => {
+    setSelected(account);
     setMode("delete");
   };
 
@@ -181,7 +182,7 @@ export function ResourcesDataTable() {
   );
 
   const table = useReactTable({
-    data: fetchResources.data?.items ?? [],
+    data: fetchAccounts.data?.items ?? [],
     columns,
     state: {
       rowSelection,
@@ -193,7 +194,7 @@ export function ResourcesDataTable() {
     getRowId: (row) => row.id,
     enableRowSelection: true,
     manualPagination: true,
-    pageCount: fetchResources.data?.pageCount ?? 0,
+    pageCount: fetchAccounts.data?.pageCount ?? 0,
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -206,7 +207,6 @@ export function ResourcesDataTable() {
     <DataTableToolbar
       table={table}
       onCreate={() => setMode("create")}
-      onDelete={() => setMode("bulk_delete")}
       query={query}
       setQuery={setQuery}
     />
@@ -222,14 +222,14 @@ export function ResourcesDataTable() {
 
   return (
     <Page
-      title="Resources"
-      isLoading={fetchResources.isInitialLoading}
+      title="Accounts"
+      isLoading={fetchAccounts.isInitialLoading}
       toolbar={toolbar}
       footer={footer}
     >
       <DataTable table={table} />
       <AlertDialog
-        open={mode === "delete" || mode === "bulk_delete"}
+        open={mode === "delete"}
         onOpenChange={(open) => {
           if (!open) clearSelection();
         }}
@@ -246,11 +246,9 @@ export function ResourcesDataTable() {
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={() =>
-                deleteResources.mutate(
-                  mode === "delete" && !!selected
-                    ? [selected.id]
-                    : table.getSelectedRowModel().rows.map((r) => r.id)
-                )
+                mode === "delete" &&
+                !!selected &&
+                deleteAccount.mutate(selected.id)
               }
             >
               Delete
@@ -262,20 +260,23 @@ export function ResourcesDataTable() {
         open={mode === "create" || mode === "edit"}
         onOpenChange={(open) => !open && clearSelection()}
       >
-        <SheetContent>
-          <SheetHeader>
+        <SheetContent className="flex h-full w-full flex-col p-0 py-4">
+          <SheetHeader className="px-4">
             <SheetTitle>{Content[mode]?.title}</SheetTitle>
             <SheetDescription>{Content[mode]?.description}</SheetDescription>
           </SheetHeader>
-          <div className="grid gap-4 py-4">
-            <AccountForm
-              isSubmitting={
-                updateMutation?.isLoading || createMutation?.isLoading
+          <AccountForm
+            isSubmitting={
+              updateMutation?.isLoading || createMutation?.isLoading
+            }
+            onSubmit={handleFormSubmit}
+            // @ts-ignore
+            defaultValues={
+              selected ?? {
+                password: "$$_pwd_$$",
               }
-              onSubmit={handleFormSubmit}
-              defaultValues={selected}
-            />
-          </div>
+            }
+          />
         </SheetContent>
       </Sheet>
     </Page>

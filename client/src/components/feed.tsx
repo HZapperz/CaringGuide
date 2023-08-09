@@ -8,12 +8,15 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import Image from "next/image";
 import Link from "next/link";
 import { Loading } from "@nextui-org/react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const FeedCard = (props: any) => {
   const [isStarred, setIsStarred] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>();
+  const supabase = useSupabaseClient();
 
   async function handleApiResponse(response: Response) {
     if (!response.ok) {
@@ -130,6 +133,12 @@ const FeedCard = (props: any) => {
   };
 
   useEffect(() => {
+    const { data } = supabase.storage
+      .from("resource-images")
+      .getPublicUrl(props.data.image);
+
+    setImageUrl(data?.publicUrl);
+
     fetchUserFavorites()
       .then((userFavorites) => {
         const matchingFavorite = userFavorites.find(
@@ -162,13 +171,13 @@ const FeedCard = (props: any) => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <Image
-        src={props.data.imgsrc}
+      <img
+        src={imageUrl ?? ""}
         alt="image"
         aria-required
         width={200}
         height={200}
-        className="rounded-2xl md:h-48 md:w-48 w-full h-full object-cover"
+        className="rounded-2xl md:h-48 md:w-48 w-full h-full object-cover object-center"
       />
       <div className="flex flex-col justify-between p-4 leading-normal">
         <h5 className="-mt-4 text-2xl text-gray-500 font-semibold tracking-tight dark:text-gray-500">

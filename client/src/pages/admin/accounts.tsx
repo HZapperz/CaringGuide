@@ -1,10 +1,10 @@
 import AdminDashboard from "@/components/admin-nav";
-import { ResourcesDataTable } from "@/components/resources/data-table";
+import { AccountsDataTable } from "@/components/accounts/data-table";
 
-export default function Resources() {
+export default function Accounts() {
   return (
     <AdminDashboard>
-      <ResourcesDataTable />
+      <AccountsDataTable />
     </AdminDashboard>
   );
 }

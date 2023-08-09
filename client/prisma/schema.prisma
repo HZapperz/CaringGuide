@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Profile {
-  id                    String     @id
+  id                    String      @id
   // personal Details
   firstName             String
   middleName            String?
@@ -20,7 +20,7 @@ model Profile {
   gender                String
   avatar                String?
   // Common Details
-  experience            Experience
+  experience            Experience?
   condition             String?
   // Mentor
   about                 String?
@@ -57,12 +57,12 @@ model Journal {
 }
 
 model Resources {
-  id       String @id @default(uuid())
-  title    String
-  sub      String
-  link     String
-  category String
-  imgsrc   String
+  id          String @id @default(uuid())
+  title       String
+  description String
+  link        String
+  category    String
+  image       String
 
   favoritedBy UserFavourites[]
 }

@@ -18,15 +18,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Role } from "@prisma/client";
-import { resourcesSchema } from "@/schema/resources";
+import { resourceSchema } from "@/schema/resources";
+import { useState } from "react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { nanoid } from "nanoid";
 
-const formSchema = resourcesSchema;
+const formSchema = resourceSchema;
 
-export type AccountFormValues = z.infer<typeof formSchema>;
+export type FormValues = z.infer<typeof formSchema>;
 
 interface Props {
-  defaultValues?: Partial<AccountFormValues>;
+  defaultValues?: Partial<FormValues>;
   onSubmit: (values: z.infer<typeof formSchema>) => void;
   isSubmitting: boolean;
 }
@@ -36,17 +38,35 @@ export default function AccountForm({
   onSubmit,
   isSubmitting,
 }: Props) {
+  const supabase = useSupabaseClient();
+  const [file, setFile] = useState<File | null>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,
   });
 
+  async function handleSubmit(formValues: FormValues) {
+    if (file) {
+      const { data, error } = await supabase.storage
+        .from("resource-images")
+        .upload(formValues.image, file);
+
+      if (!data) {
+        return;
+      }
+    }
+
+    if (formValues.image) {
+      onSubmit(formValues);
+    }
+  }
+
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
         autoComplete="off"
         className="space-y-4"
+        onSubmit={form.handleSubmit(handleSubmit)}
       >
         <FormField
           control={form.control}
@@ -63,25 +83,12 @@ export default function AccountForm({
         />
         <FormField
           control={form.control}
-          name="sub"
+          name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Sub Title</FormLabel>
+              <FormLabel>Description</FormLabel>
               <FormControl>
                 <Input placeholder="subtitle" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="text"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Content</FormLabel>
-              <FormControl>
-                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -121,9 +128,31 @@ export default function AccountForm({
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isSubmitting}>
-          Submit
-        </Button>
+        <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Image</FormLabel>
+              <FormControl>
+                <Input
+                  accept="image/*"
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+
+                    if (file) {
+                      setFile(file);
+                      field.onChange(nanoid());
+                    }
+                  }}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button disabled={isSubmitting}>Submit</Button>
       </form>
     </Form>
   );
