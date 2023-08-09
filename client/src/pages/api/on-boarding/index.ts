@@ -77,7 +77,7 @@ export default isLoggedIn(async (req, res, user) => {
       });
     }
     case "PATCH": {
-      const { firstName, middleName, lastName, location, state, about } =
+      const { firstName, middleName, lastName, location, state, about, url } =
         req.body;
 
       const existingProfile = await prisma.profile.findUnique({
@@ -103,6 +103,7 @@ export default isLoggedIn(async (req, res, user) => {
           location: location,
           state: state,
           about: about,
+          avatar: url,
         },
       });
 

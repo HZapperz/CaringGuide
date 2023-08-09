@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import EditProfileGiver from "@/components/editProfileGiver";
 import { Loading } from "@nextui-org/react";
+import { useApp } from "@/context/app";
 
 interface JournalData {
   jId: string;
@@ -19,6 +20,9 @@ const MenteeDashBoard = (props: any) => {
   const [loader, setLoader] = useState<boolean>(false);
   const [journals, setJournals] = useState<JournalData[]>([]);
   const [favouriteResources, setFavouriteResources] = useState<any[]>([]);
+  const app = useApp();
+  const profile = app.profile;
+  
   const getAllJournals = async () => {
     setLoader(true);
     try {
@@ -82,7 +86,15 @@ const MenteeDashBoard = (props: any) => {
             <div className="max-w-md mx-auto rounded-xl overflow-hidden bg-white border-2 border-[#ECEEED] mb-2 w-full">
               <div className="flex justify-between items-center p-4 w-full min-w-[385px]">
                 <div className="w-[40%]">
-                  <div className="w-24 h-24 rounded-full bg-gray-300"></div>
+                  {profile?.avatar ? (
+                    <img
+                      src={profile?.avatar}
+                      alt="profile"
+                      className="w-[80%] aspect-square rounded-full"
+                    />
+                  ) : (
+                    <div className="w-[80%] aspect-square rounded-full bg-gray-300"></div>
+                  )}
                 </div>
                 <div className="flex flex-col justify-center items-start w-[60%]">
                   <div className="flex flex-col justify-start items-start ">

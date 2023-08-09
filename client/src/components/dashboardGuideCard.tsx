@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import EditProfile from "./editProfile";
+import { useApp } from "@/context/app";
 
 const DashboardCard = (props: any) => {
   const [age, setAge] = useState<number>();
+  const app = useApp();
+  const profile = app.profile;
 
   useEffect(() => {
     const today = new Date();
@@ -16,7 +19,15 @@ const DashboardCard = (props: any) => {
       <div className="max-w-md mx-auto rounded-xl overflow-hidden bg-white border-2 border-[#ECEEED]">
         <div className="flex justify-between items-center p-4 w-full">
           <div className="w-[40%]">
-            <div className="w-24 h-24 rounded-full bg-gray-300"></div>
+            {profile?.avatar ? (
+              <img
+                src={profile?.avatar}
+                alt="profile"
+                className="w-[80%] aspect-square rounded-full"
+              />
+            ) : (
+              <div className="w-[80%] aspect-square rounded-full bg-gray-300"></div>
+            )}
           </div>
           <div className="flex flex-col justify-center items-start w-[60%]">
             <div className="flex justify-start items-start ">

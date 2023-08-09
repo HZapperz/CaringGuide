@@ -78,6 +78,11 @@ model UserFavourites {
   user     Profile   @relation(fields: [userId], references: [id])
   resource Resources @relation(fields: [resourceId], references: [id])
 }
+model Image {
+  id    Int     @id @default(autoincrement())
+  url   String
+}
+
 
 enum Role {
   MENTOR
