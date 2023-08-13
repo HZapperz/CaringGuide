@@ -6,6 +6,7 @@ export default isLoggedIn(async (req, res, user) => {
     switch (req.method) {
       case "GET": {
         let match;
+
         match = await prisma.mentorMenteeMatch.findMany({
           where: {
             OR: [{ mentorId: user.id }, { menteeId: user.id }],

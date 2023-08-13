@@ -1,5 +1,6 @@
 import { mentorOnboardingSchema } from "@/schema/onboarding";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -250,12 +251,7 @@ const Guide = () => {
                 </div>
               </div>
               <div className="mt-8 col-span-3 text-center">
-                <button
-                  type="submit"
-                  className="px-8 py-2 bg-caring font-poppins font-medium text-white text-2xl rounded-lg"
-                >
-                  Complete Onboarding
-                </button>
+                <Button type="submit">Complete Onboarding</Button>
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import { menteeOnboardingSchema } from "@/schema/onboarding";
 import { z } from "zod";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
+import { Button } from "@nextui-org/react";
 
 type FormValues = z.infer<typeof menteeOnboardingSchema>;
 
@@ -285,12 +286,7 @@ const Caregiver = () => {
               </div>
             </div>
             <div className="mt-8 col-span-3 text-center">
-              <button
-                type="submit"
-                className="px-8 py-2 bg-caring font-poppins font-medium text-white text-2xl rounded-lg"
-              >
-                Complete Onboarding
-              </button>
+              <Button type="submit">Complete Onboarding</Button>
             </div>
           </div>
         </div>
