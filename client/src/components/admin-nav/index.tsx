@@ -3,42 +3,38 @@ import { PropsWithChildren, useEffect } from "react";
 import { Role } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  DollarSignIcon,
-  GraduationCapIcon,
-  GroupIcon,
-  LayoutTemplateIcon,
-  MailIcon,
-  PieChartIcon,
-  Tag,
-  TagIcon,
-  User2Icon,
-} from "lucide-react";
+import { Tag, User2Icon } from "lucide-react";
 import Image from "next/image";
 import { Text } from "@nextui-org/react";
 import { useApp } from "@/context/app";
+import { useLocalStorage } from "usehooks-ts";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export default function AdminDashboard({ children }: PropsWithChildren) {
   const router = useRouter();
   const route = router.route;
-
+  const [adminPass, setAdminPass] = useLocalStorage("adminPass", "");
   const { profile, session, isLoading } = useApp();
+  const supabase = useSupabaseClient();
 
-  // useEffect(() => {
-  //   if (isLoading) return;
+  useEffect(() => {
+    if (isLoading) return;
 
-  //   if (!session) {
-  //     router.push("/signin");
-  //   }
+    if (!session) {
+      router.push("/signin");
+      return;
+    }
 
-  //   if (!profile) {
-  //     router.push("/onboarding");
-  //   }
+    if (!profile) {
+      router.push("/onboarding");
+      return;
+    }
 
-  //   if (profile?.role !== Role.ADMIN) {
-  //     router.push("/");
-  //   }
-  // }, [profile, isLoading, session]);
+    if (profile?.role !== Role.ADMIN) {
+      router.push("/dashboard");
+      return;
+    }
+  }, [profile, isLoading, session]);
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -85,6 +81,16 @@ export default function AdminDashboard({ children }: PropsWithChildren) {
               >
                 <Tag className="mr-2 h-4 w-4" />
                 Resources
+              </Button>
+              <Button
+                className="w-full justify-start"
+                variant={
+                  route.startsWith("/admin/resources") ? "secondary" : "ghost"
+                }
+                onClick={() => supabase.auth.signOut()}
+              >
+                <Tag className="mr-2 h-4 w-4" />
+                Logout
               </Button>
             </div>
           </div>

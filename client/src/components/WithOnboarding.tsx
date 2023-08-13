@@ -9,13 +9,25 @@ export function WithOnBoarding({ children }: PropsWithChildren) {
 
   useEffect(() => {
     if (isLoading) return;
+
     if (!session) {
       router.replace("/signin");
       return;
     }
-    if (session && !profile) router.replace("/onboarding");
+
+    if (session && !profile) {
+      router.replace("/onboarding");
+      return;
+    }
+
+    if (profile?.role === "ADMIN") {
+      router.replace("/admin/accounts");
+      return;
+    }
+
     if (session && profile && router.pathname === "/onboarding") {
       router.replace("/dashboard");
+      return;
     }
   }, [isLoading, profile, session]);
 
