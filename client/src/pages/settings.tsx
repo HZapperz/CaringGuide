@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   Text,
@@ -13,10 +13,12 @@ import { updateDetail } from "@/schema/onboarding";
 import { WithOnBoarding } from "@/components/WithOnboarding";
 import { Snackbar } from "@mui/material";
 import { useApp } from "@/context/app";
+import ImageUploader from "@/components/imageUploader";
 
 const SettingsPage = () => {
   const [open, setOpen] = useState(false);
   const [saveButton, setSaveButton] = useState(<p>Save</p>);
+  const [url, setUrl] = useState("");
   const data = useApp();
   const profile = data.profile!;
 
@@ -31,6 +33,8 @@ const SettingsPage = () => {
   const onSubmit = async (data: any) => {
     setSaveButton(<Loading color={"white"} />);
     try {
+      console.log(data);
+      data.url = url;
       console.log(data);
       const response = await fetch("/api/on-boarding", {
         method: "PATCH",
@@ -54,6 +58,13 @@ const SettingsPage = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(profile.avatar);
+    if (profile.avatar) {
+      setUrl(profile.avatar);
+    }
+  }, []);
+
   return (
     <>
       <section>
@@ -67,13 +78,27 @@ const SettingsPage = () => {
           <div className="relative">
             <div className="h-72">
               <div className="h-36 w-full bg-gradient-to-r from-green-100 to-pink-200"></div>
-              <img
-                className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500"
-                src="default.jpeg"
-                alt="default jpeg"
-                width={192}
-                height={192}
-              />
+              {profile.avatar ? (
+                <img
+                  className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500"
+                  src={profile.avatar}
+                  alt="default jpeg"
+                  width={192}
+                  height={192}
+                />
+              ) : (
+                <img
+                  className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500"
+                  src="default.jpeg"
+                  alt="default jpeg"
+                  width={192}
+                  height={192}
+                />
+              )}
+              <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
+                <Spacer x={20} y={12} />
+                <ImageUploader setUrl={setUrl} />
+              </Container>
             </div>
           </div>
         </form>

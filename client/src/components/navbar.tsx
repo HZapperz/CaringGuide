@@ -4,9 +4,12 @@ import { Bars3Icon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useApp } from "@/context/app";
 
 const NavbarComp = () => {
   const router = useRouter();
+  const data = useApp();
+  const profile = data.profile!;
 
   if (router.pathname.includes("/admin")) {
     return null;
@@ -65,13 +68,23 @@ const NavbarComp = () => {
             <Grid>
               <Dropdown placement="bottom-left">
                 <Dropdown.Trigger>
-                  <Avatar
-                    bordered
-                    size="lg"
-                    as="button"
-                    color="secondary"
-                    src="default.jpeg"
-                  />
+                  {profile?.avatar ? (
+                    <Avatar
+                      bordered
+                      size="lg"
+                      as="button"
+                      color="secondary"
+                      src={profile.avatar}
+                    />
+                  ) : (
+                    <Avatar
+                      bordered
+                      size="lg"
+                      as="button"
+                      color="secondary"
+                      src="default.jpeg"
+                    />
+                  )}
                 </Dropdown.Trigger>
                 <Dropdown.Menu color="secondary" aria-label="Avatar Actions">
                   <Dropdown.Item key="settings">

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import { useApp } from "@/context/app";
 
 const EditProfileGiver = (props: any) => {
   const [showPopup, setShowPopup] = useState(false);
   const [age, setAge] = useState<number>();
+  const app = useApp();
+  const profile = app.profile;
 
   useEffect(() => {
     const today = new Date();
@@ -45,7 +48,15 @@ const EditProfileGiver = (props: any) => {
             <div className="flex justify-between items-start mt-2">
               <div className="flex justify-start items-center p-4 w-full">
                 <div className="w-[20%] mr-4">
-                  <div className="w-[80%] aspect-square rounded-full bg-gray-300"></div>
+                  {profile?.avatar ? (
+                    <img
+                      src={profile?.avatar}
+                      alt="profile"
+                      className="w-[80%] aspect-square rounded-full"
+                    />
+                  ) : (
+                    <div className="w-[80%] aspect-square rounded-full bg-gray-300"></div>
+                  )}
                 </div>
                 <div className="flex flex-col justify-center items-start w-[60%]">
                   <div className="flex justify-start items-center ">
