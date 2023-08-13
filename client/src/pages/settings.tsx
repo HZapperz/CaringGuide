@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   Text,
@@ -14,6 +14,7 @@ import { WithOnBoarding } from "@/components/WithOnboarding";
 import { Snackbar } from "@mui/material";
 import { useApp } from "@/context/app";
 import ImageUploader from "@/components/imageUploader";
+import useHandleErrors from "@/hooks/useHandleErrors";
 
 const SettingsPage = () => {
   const [open, setOpen] = useState(false);
@@ -30,12 +31,13 @@ const SettingsPage = () => {
     resolver: zodResolver(updateDetail),
   });
 
+  const handleErrors = useHandleErrors();
+
   const onSubmit = async (data: any) => {
     setSaveButton(<Loading color={"white"} />);
     try {
-      console.log(data);
       data.url = url;
-      console.log(data);
+
       const response = await fetch("/api/on-boarding", {
         method: "PATCH",
         headers: {
@@ -44,22 +46,14 @@ const SettingsPage = () => {
         body: JSON.stringify({ ...data }),
       });
 
-      if (response.ok) {
-        const editedMentor = await response.json();
-        console.log(editedMentor);
-        setOpen(true);
-        setSaveButton(<p>Save</p>);
-        window.location.href = "/settings";
-      } else {
-        console.error("Error creating mentor:", response);
-      }
+      setOpen(true);
+      setSaveButton(<p>Save</p>);
     } catch (error) {
-      console.error("Error creating mentor:", error);
+      handleErrors(error);
     }
   };
 
   useEffect(() => {
-    console.log(profile.avatar);
     if (profile.avatar) {
       setUrl(profile.avatar);
     }

@@ -37,6 +37,7 @@ import { Profile } from "@prisma/client";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { ScrollArea } from "../ui/scroll-area";
+import useHandleErrors from "@/hooks/useHandleErrors";
 
 const Content: {
   [key: string]: {
@@ -64,10 +65,11 @@ export function AccountsDataTable() {
     "view"
   );
 
+  const handleErrors = useHandleErrors();
   const [query, setQuery] = React.useState("");
 
   const fetchAccounts = useQuery(
-    ["resources", query, pageIndex, pageSize],
+    ["accounts", query, pageIndex, pageSize],
     async () => {
       const data: {
         items: Profile[];
@@ -91,16 +93,16 @@ export function AccountsDataTable() {
       const data: {
         message: string;
         count: number;
-      } = (await axios.delete(`/api/admin/resources/${id}`)).data;
+      } = (await axios.delete(`/api/admin/accounts/${id}`)).data;
 
       return data;
     },
     {
       onSuccess: (data) => {
-        toast.success(data.message);
+        toast.success("Account deleted.");
         fetchAccounts.refetch();
       },
-      onError: () => {},
+      onError: handleErrors,
     }
   );
 
@@ -114,10 +116,10 @@ export function AccountsDataTable() {
     },
     {
       onSuccess: (data) => {
+        toast.success("Account created.");
         toast.success(data.message);
-        fetchAccounts.refetch();
       },
-      onError: () => {},
+      onError: handleErrors,
     }
   );
 
@@ -135,10 +137,10 @@ export function AccountsDataTable() {
     },
     {
       onSuccess: (data) => {
-        toast.success(data.message);
+        toast.success("Account updated.");
         fetchAccounts.refetch();
       },
-      onError: () => {},
+      onError: handleErrors,
     }
   );
 

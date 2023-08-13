@@ -23,6 +23,7 @@ const Login = () => {
     if (error) {
       toast.error(error.message);
     } else {
+      toast.success("Login successful! Redirecting...");
       router.push("/dashboard");
     }
   }

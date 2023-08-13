@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Loading } from "@nextui-org/react";
 import { WithOnBoarding } from "@/components/WithOnboarding";
+import useHandleErrors from "@/hooks/useHandleErrors";
 
 interface JournalData {
   jId: string;
@@ -30,6 +31,7 @@ const JournalEditor: React.FC = () => {
     resolver: zodResolver(journalSchema),
   });
 
+  const handleErrors = useHandleErrors();
   const [selectedJournal, setSelectedJournal] = useState<JournalData | null>(
     null
   );
@@ -49,12 +51,8 @@ const JournalEditor: React.FC = () => {
           body: JSON.stringify(newData),
         });
 
-        if (response.ok) {
-          setRefresh(!fresh);
-          reset();
-        } else {
-          console.error("Error updating Journal:", response);
-        }
+        setRefresh(!fresh);
+        reset();
       } else {
         const response = await fetch("/api/journals", {
           method: "POST",
@@ -64,15 +62,11 @@ const JournalEditor: React.FC = () => {
           body: JSON.stringify(data),
         });
 
-        if (response.ok) {
-          setRefresh(!fresh);
-          reset();
-        } else {
-          console.error("Error creating Journal:", response);
-        }
+        setRefresh(!fresh);
+        reset();
       }
     } catch (error) {
-      console.error("Error creating/updating Journal:", error);
+      handleErrors(error);
     }
   };
 

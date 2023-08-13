@@ -36,6 +36,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Resources } from "@prisma/client";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import useHandleErrors from "@/hooks/useHandleErrors";
 
 const Content: {
   [key: string]: {
@@ -57,6 +58,7 @@ export function ResourcesDataTable() {
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   const [pageIndex, setPageIndex] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(25);
+  const handleErrors = useHandleErrors();
 
   const [selected, setSelected] = React.useState<Resources>();
   const [mode, setMode] = React.useState<
@@ -101,10 +103,10 @@ export function ResourcesDataTable() {
     },
     {
       onSuccess: (data) => {
-        toast.success(data.message);
+        toast.success("Resource(s) deleted.");
         fetchResources.refetch();
       },
-      onError: () => {},
+      onError: handleErrors,
     }
   );
 
@@ -118,10 +120,10 @@ export function ResourcesDataTable() {
     },
     {
       onSuccess: (data) => {
-        toast.success(data.message);
+        toast.success("Resource created.");
         fetchResources.refetch();
       },
-      onError: () => {},
+      onError: handleErrors,
     }
   );
 
@@ -135,10 +137,10 @@ export function ResourcesDataTable() {
     },
     {
       onSuccess: (data) => {
-        toast.success(data.message);
+        toast.success("Resource updated.");
         fetchResources.refetch();
       },
-      onError: () => {},
+      onError: handleErrors,
     }
   );
 

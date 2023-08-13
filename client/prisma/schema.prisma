@@ -76,13 +76,13 @@ model UserFavourites {
   isDisliked Boolean
 
   user     Profile   @relation(fields: [userId], references: [id])
-  resource Resources @relation(fields: [resourceId], references: [id])
-}
-model Image {
-  id    Int     @id @default(autoincrement())
-  url   String
+  resource Resources @relation(fields: [resourceId], references: [id], onDelete: Cascade)
 }
 
+model Image {
+  id  Int    @id @default(autoincrement())
+  url String
+}
 
 enum Role {
   MENTOR

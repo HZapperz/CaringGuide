@@ -1,13 +1,11 @@
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { registerSchema } from "../schema/auth";
-import { AuthApiError } from "@supabase/supabase-js";
 import { useForm } from "react-hook-form";
-import { ZodError } from "zod";
-import { fromZodError } from "zod-validation-error";
 import { useRouter } from "next/router";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { toast } from "react-hot-toast";
+import useHandleErrors from "@/hooks/useHandleErrors";
 
 type FormData = {
   firstname: string;
@@ -26,6 +24,7 @@ const Welcome = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
+  const handleErrors = useHandleErrors();
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -38,19 +37,15 @@ const Welcome = () => {
 
       if (error) {
         return toast.error(error.message);
+      } else {
+        toast.success("Kindly check your email for verification.");
       }
 
       setTimeout(() => {
         router.push("/signin");
       }, 2000);
     } catch (error) {
-      if (error instanceof AuthApiError) {
-        return toast.error(error.message);
-      } else if (error instanceof ZodError) {
-        return toast.error(fromZodError(error).toString());
-      } else {
-        return toast.error("Something went wrong.");
-      }
+      handleErrors(error);
     }
   };
 

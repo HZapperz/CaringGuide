@@ -1,15 +1,16 @@
-import * as React from "react";
 import { useState, useEffect } from "react";
 import { Loading, Text } from "@nextui-org/react";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import FeedCard from "@/components/feed";
 import { WithOnBoarding } from "@/components/WithOnboarding";
+import useHandleErrors from "@/hooks/useHandleErrors";
 
 const Feedpage = () => {
   const [value, setValue] = useState(0);
   const [loader, setLoader] = useState(false);
   const [links, setLinks] = useState<any[]>([]);
   const [selected, setSelected] = useState<string[]>(["All"]);
+  const handleErrors = useHandleErrors();
 
   const a11yProps = (index: number) => {
     return {
@@ -53,14 +54,11 @@ const Feedpage = () => {
           "Content-Type": "application/json",
         },
       });
-      if (response.ok) {
-        const data = await response.json();
-        setLinks(data);
-      } else {
-        console.error("Error fetching resources:", response);
-      }
+
+      const data = await response.json();
+      setLinks(data);
     } catch (error) {
-      console.error("Error fetching resources:", error);
+      handleErrors(error);
     }
     setLoader(false);
   };

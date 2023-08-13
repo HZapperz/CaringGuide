@@ -5,6 +5,7 @@ import MenteeDashBoard from "@/components/mentee-dashboard";
 import { WithOnBoarding } from "@/components/WithOnboarding";
 import { useApp } from "@/context/app";
 import { Loading } from "@nextui-org/react";
+import useHandleErrors from "@/hooks/useHandleErrors";
 
 const Dashboard: React.FC = () => {
   const data = useApp();
@@ -12,6 +13,7 @@ const Dashboard: React.FC = () => {
   const [mentorData, setMentorData] = useState();
   const [mentees, setMentees] = useState([]);
   const [loader, setLoader] = useState(false);
+  const handleErrors = useHandleErrors();
 
   const getDetailById = async (id: string) => {
     try {
@@ -43,20 +45,15 @@ const Dashboard: React.FC = () => {
           "Content-Type": "application/json",
         },
       });
-      if (response.ok) {
-        const matchData = await response.json();
-        if (profile.role === "MENTEE") {
-          console.log(matchData.match[0]);
-          await getDetailById(matchData.match[0].mentorId);
-        } else {
-          console.log(matchData);
-          setMentees(matchData.match);
-        }
+      const matchData = await response.json();
+
+      if (profile.role === "MENTEE") {
+        await getDetailById(matchData.match[0].mentorId);
       } else {
-        console.error("Error getting Matches:", response);
+        setMentees(matchData.match);
       }
     } catch (error) {
-      console.error("Error getting Matches:", error);
+      handleErrors(error);
     }
     setLoader(false);
   };
