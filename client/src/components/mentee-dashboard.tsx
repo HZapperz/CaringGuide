@@ -22,7 +22,7 @@ const MenteeDashBoard = (props: any) => {
   const [favouriteResources, setFavouriteResources] = useState<any[]>([]);
   const app = useApp();
   const profile = app.profile;
-  
+
   const getAllJournals = async () => {
     setLoader(true);
     try {
@@ -137,7 +137,7 @@ const MenteeDashBoard = (props: any) => {
                   <PlusIcon
                     className="cursor-pointer"
                     onClick={() => {
-                      router.push("/journal-editor");
+                      router.push("/journal");
                     }}
                   />
                 </div>

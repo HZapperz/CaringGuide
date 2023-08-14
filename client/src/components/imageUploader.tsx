@@ -55,13 +55,6 @@ const Page = ({ setUrl }: ImageUploaderProps) => {
         name="image"
         onChange={handleFileSelected}
       />
-      <button
-        type="button"
-        onClick={handleSubmit}
-        className="text-sm w-fit h-12 bg-green-900 border-2 hover:bg-green-800 text-white py-2 px-4 rounded-lg border-green-900 mr-2"
-      >
-        Upload image
-      </button>
     </div>
   );
 };

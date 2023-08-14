@@ -5,11 +5,36 @@ import { useNavigate } from "react-router-dom";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useApp } from "@/context/app";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import useHandleErrors from "@/hooks/useHandleErrors";
 
 const NavbarComp = () => {
   const router = useRouter();
   const data = useApp();
   const profile = data.profile!;
+  const supabase = useSupabaseClient();
+  const handleErrors = useHandleErrors();
+  const [avatar, setAvatar] = useState<string | null>(profile?.avatar);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (!profile.avatar) return;
+
+        const { data, error } = await supabase.storage
+          .from("avatars")
+          .download(profile.avatar);
+        if (error) {
+          throw error;
+        }
+
+        const url = URL.createObjectURL(data);
+        setAvatar(url);
+      } catch (error) {
+        handleErrors(error);
+      }
+    })();
+  }, [profile?.avatar]);
 
   if (router.pathname.includes("/admin")) {
     return null;
@@ -68,13 +93,13 @@ const NavbarComp = () => {
             <Grid>
               <Dropdown placement="bottom-left">
                 <Dropdown.Trigger>
-                  {profile?.avatar ? (
+                  {avatar ? (
                     <Avatar
                       bordered
                       size="lg"
                       as="button"
                       color="secondary"
-                      src={profile.avatar}
+                      src={avatar}
                     />
                   ) : (
                     <Avatar

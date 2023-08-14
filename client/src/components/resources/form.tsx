@@ -22,6 +22,7 @@ import { resourceSchema } from "@/schema/resources";
 import { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { nanoid } from "nanoid";
+import { toast } from "react-hot-toast";
 
 const formSchema = resourceSchema;
 
@@ -51,7 +52,8 @@ export default function AccountForm({
         .from("resource-images")
         .upload(formValues.image, file);
 
-      if (!data) {
+      if (error) {
+        toast.error(error.message);
         return;
       }
     }

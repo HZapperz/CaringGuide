@@ -24,15 +24,10 @@ const Dashboard: React.FC = () => {
         },
         body: JSON.stringify({ id }),
       });
-      if (response.ok) {
-        const mentorData = await response.json();
-        console.log(mentorData);
-        setMentorData(mentorData);
-      } else {
-        console.error("Error getting Matches:", response);
-      }
+      const mentorData = await response.json();
+      setMentorData(mentorData);
     } catch (error) {
-      console.error("Error getting Matches:", error);
+      handleErrors(error);
     }
   };
 

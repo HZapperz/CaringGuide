@@ -1,10 +1,12 @@
 import { Loading } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import SkeletonLoader from "./shared/cardSkeletonLoader";
+import useHandleErrors from "@/hooks/useHandleErrors";
 
 const DashboardCareCard = (props: any) => {
   const [age, setAge] = useState<number>();
   const [loading, setLoading] = useState(false);
+  const handleErrors = useHandleErrors();
   const [data, setData] = useState({
     firstName: "",
     middleName: "",
@@ -28,7 +30,6 @@ const DashboardCareCard = (props: any) => {
   const getDetailById = async (id: string) => {
     setLoading(true);
     try {
-      console.log(id);
       const response = await fetch(`/api/user/userById`, {
         method: "POST",
         headers: {
@@ -36,20 +37,14 @@ const DashboardCareCard = (props: any) => {
         },
         body: JSON.stringify({ id }),
       });
-      console.log(response);
-      if (response.ok) {
-        const dataUser = await response.json();
-        console.log("dataUser", dataUser);
-        const today = new Date();
-        const dobDate = new Date(dataUser?.dob);
-        const age = today.getFullYear() - dobDate.getFullYear();
-        setAge(age);
-        setData(dataUser);
-      } else {
-        console.error("Error getting Matches:", response);
-      }
+      const dataUser = await response.json();
+      const today = new Date();
+      const dobDate = new Date(dataUser?.dob);
+      const age = today.getFullYear() - dobDate.getFullYear();
+      setAge(age);
+      setData(dataUser);
     } catch (error) {
-      console.error("Error getting Matches:", error);
+      handleErrors(error);
     }
     setLoading(false);
   };

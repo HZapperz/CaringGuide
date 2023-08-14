@@ -11,17 +11,19 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateDetail } from "@/schema/onboarding";
 import { WithOnBoarding } from "@/components/WithOnboarding";
-import { Snackbar } from "@mui/material";
 import { useApp } from "@/context/app";
-import ImageUploader from "@/components/imageUploader";
 import useHandleErrors from "@/hooks/useHandleErrors";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { toast } from "react-hot-toast";
 
 const SettingsPage = () => {
   const [open, setOpen] = useState(false);
   const [saveButton, setSaveButton] = useState(<p>Save</p>);
+  const { session, ...data } = useApp();
   const [url, setUrl] = useState("");
-  const data = useApp();
+  const [file, setFile] = useState<File | null>(null);
   const profile = data.profile!;
+  const supabase = useSupabaseClient();
 
   const {
     handleSubmit,
@@ -34,71 +36,94 @@ const SettingsPage = () => {
   const handleErrors = useHandleErrors();
 
   const onSubmit = async (data: any) => {
-    setSaveButton(<Loading color={"white"} />);
     try {
-      data.url = url;
+      if (!session?.user) return;
+
+      if (file) {
+        const { data: avatarData, error: avatarError } = await supabase.storage
+          .from("avatars")
+          .upload(session.user.id, file, { upsert: true });
+      }
+
+      setSaveButton(<Loading color={"white"} />);
 
       const response = await fetch("/api/on-boarding", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...data }),
+        body: JSON.stringify({ ...data, avatar: session.user.id }),
       });
 
       setOpen(true);
       setSaveButton(<p>Save</p>);
+      toast.success("Profile Updated");
     } catch (error) {
       handleErrors(error);
     }
   };
 
   useEffect(() => {
-    if (profile.avatar) {
-      setUrl(profile.avatar);
-    }
-  }, []);
+    (async () => {
+      try {
+        if (!profile.avatar) return;
+
+        const { data, error } = await supabase.storage
+          .from("avatars")
+          .download(profile.avatar);
+        if (error) {
+          throw error;
+        }
+
+        const url = URL.createObjectURL(data);
+        setUrl(url);
+      } catch (error) {
+        handleErrors(error);
+      }
+    })();
+  }, [profile.avatar]);
 
   return (
     <>
       <section>
-        <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-          open={open}
-          message="Profile Updated"
-          key={"bottom" + "left"}
-        />
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="relative">
             <div className="h-72">
-              <div className="h-36 w-full bg-gradient-to-r from-green-100 to-pink-200"></div>
-              {profile.avatar ? (
-                <img
-                  className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500"
-                  src={profile.avatar}
-                  alt="default jpeg"
-                  width={192}
-                  height={192}
+              <div className="h-36 w-full bg-gradient-to-r from-green-100 to-pink-200"></div>{" "}
+              <label>
+                {file || url ? (
+                  <img
+                    className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500"
+                    src={!!file ? URL.createObjectURL(file) : url}
+                    alt="default jpeg"
+                    width={192}
+                    height={192}
+                  />
+                ) : (
+                  <img
+                    className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500"
+                    src="default.jpeg"
+                    alt="default jpeg"
+                    width={192}
+                    height={192}
+                  />
+                )}
+                <input
+                  title="file"
+                  type="file"
+                  name="image"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+
+                    if (file) {
+                      setFile(file);
+                    }
+                  }}
                 />
-              ) : (
-                <img
-                  className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500"
-                  src="default.jpeg"
-                  alt="default jpeg"
-                  width={192}
-                  height={192}
-                />
-              )}
-              <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
-                <Spacer x={20} y={12} />
-                <ImageUploader setUrl={setUrl} />
-              </Container>
+              </label>
             </div>
           </div>
-        </form>
-      </section>
-      <section>
-        <form onSubmit={handleSubmit(onSubmit)}>
           <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
             <Spacer x={12} />
             <Text size={15}>First Name</Text>

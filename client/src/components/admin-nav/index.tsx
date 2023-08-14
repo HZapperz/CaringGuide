@@ -3,7 +3,7 @@ import { PropsWithChildren, useEffect } from "react";
 import { Role } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Tag, User2Icon } from "lucide-react";
+import { PowerIcon, Tag, User2Icon } from "lucide-react";
 import Image from "next/image";
 import { Text } from "@nextui-org/react";
 import { useApp } from "@/context/app";
@@ -89,7 +89,7 @@ export default function AdminDashboard({ children }: PropsWithChildren) {
                 }
                 onClick={() => supabase.auth.signOut()}
               >
-                <Tag className="mr-2 h-4 w-4" />
+                <PowerIcon className="mr-2 h-4 w-4" />
                 Logout
               </Button>
             </div>
