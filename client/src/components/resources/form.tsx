@@ -34,6 +34,15 @@ interface Props {
   isSubmitting: boolean;
 }
 
+const RESOURCE_CATEGORY = [
+  "Scientific Journal",
+  "Support Group",
+  "Non-Profit",
+  "Product",
+  "Website",
+  "Article",
+];
+
 export default function AccountForm({
   defaultValues,
   onSubmit,
@@ -122,8 +131,11 @@ export default function AccountForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value={"active"}>Blocked</SelectItem>
-                  <SelectItem value={"inactive"}>Allowed</SelectItem>
+                  {RESOURCE_CATEGORY.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />

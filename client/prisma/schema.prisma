@@ -51,8 +51,8 @@ model MentorMenteeMatch {
   menteeId String @unique
   mentorId String
 
-  mentor Profile @relation(name: "Mentors", fields: [mentorId], references: [id])
-  mentee Profile @relation(name: "Mentee", fields: [menteeId], references: [id])
+  mentor Profile @relation(name: "Mentors", fields: [mentorId], references: [id], onDelete: Cascade)
+  mentee Profile @relation(name: "Mentee", fields: [menteeId], references: [id], onDelete: Cascade)
 }
 
 model Journal {
@@ -61,7 +61,7 @@ model Journal {
   title       String
   description String
 
-  author Profile  @relation(fields: [authorId], references: [id])
+  author Profile  @relation(fields: [authorId], references: [id], onDelete: Cascade)
   time   DateTime @default(now())
 }
 
@@ -84,13 +84,8 @@ model UserFavourites {
   isLiked    Boolean
   isDisliked Boolean
 
-  user     Profile   @relation(fields: [userId], references: [id])
+  user     Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
   resource Resources @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-}
-
-model Image {
-  id  Int    @id @default(autoincrement())
-  url String
 }
 
 enum Role {
