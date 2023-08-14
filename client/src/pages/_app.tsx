@@ -73,12 +73,12 @@ function App({ Component, pageProps }: AppProps) {
         <AppProvider>
           <NextUIProvider theme={theme}>
             {!shouldApplyLayout ? (
-              <div className="flex flex-col w-screen min-h-screen h-screen bg-white">
+              <div className="flex flex-col w-screen h-screen min-h-screen bg-white">
                 <NavbarComp />
                 <Component {...pageProps} />
               </div>
             ) : (
-              <div className="flex flex-col w-screen min-h-screen h-screen bg-white">
+              <div className="flex flex-col w-screen h-screen min-h-screen bg-white">
                 <Nav />
                 <Component {...pageProps} />
               </div>

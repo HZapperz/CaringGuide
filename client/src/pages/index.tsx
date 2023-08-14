@@ -1,23 +1,25 @@
+import { Grid } from "@nextui-org/react";
 import Image from "next/image";
+import { SocialIcon } from "react-social-icons";
+
+import logo from "../../public/images/Caring-Guide-logo-horiz-color.png";
 import home1 from "../../public/images/Home1.png";
+import doc from "../../public/images/doc.jpg";
 import faq1 from "../../public/images/faq1.jpg";
 import faq2 from "../../public/images/faq2.jpg";
 import faq3 from "../../public/images/faq3.jpg";
-import HomeStats from "../components/homeStats";
-import people from "../../public/svgs/people.svg";
-import care from "../../public/svgs/care.svg";
-import crowd from "../../public/svgs/crowd.svg";
-import time from "../../public/svgs/time.svg";
 import handShake from "../../public/images/handShake.jpg";
 import think from "../../public/images/think.jpg";
-import doc from "../../public/images/doc.jpg";
-import brains from "../../public/svgs/brain.svg";
-import shield from "../../public/svgs/shield.svg";
 import bookmark from "../../public/svgs/bookmark.svg";
+import brains from "../../public/svgs/brain.svg";
+import care from "../../public/svgs/care.svg";
+import crowd from "../../public/svgs/crowd.svg";
+import people from "../../public/svgs/people.svg";
+import shield from "../../public/svgs/shield.svg";
+import time from "../../public/svgs/time.svg";
+
 import FAQComp from "../components/faqComp";
-import { Grid } from "@nextui-org/react";
-import { SocialIcon } from "react-social-icons";
-import logo from "../../public/images/Caring-Guide-logo-horiz-color.png";
+import HomeStats from "../components/homeStats";
 
 const Home = () => {
   const list = [
@@ -89,7 +91,7 @@ const Home = () => {
   return (
     <div className="bg-white">
       <main>
-        <div className="relative inline-block overflow-hidden w-full px-1 bg-white">
+        <div className="relative inline-block w-full px-1 overflow-hidden bg-white">
           <div>
             <Image
               src={home1}
@@ -108,7 +110,7 @@ const Home = () => {
               </p>
               <button
                 type="button"
-                className="flex justify-between items-center bg-caring text-white px-4 py-2 lg:px-8 lg:py-6 mt-2 rounded-lg font-poppins font-medium text-3xl tracking-normal text-left w-80"
+                className="flex items-center justify-between px-4 py-2 mt-2 text-3xl font-medium tracking-normal text-left text-white rounded-lg bg-caring lg:px-8 lg:py-6 font-poppins w-80"
               >
                 Get Started
                 <svg
@@ -129,9 +131,9 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="w-full h-full p-16 flex justify-center items-center">
+        <div className="flex items-center justify-center w-full h-full p-16">
           {list && (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 xl:gap-2">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4 xl:gap-2">
               {list.map((item, index) => (
                 <HomeStats
                   key={index}
@@ -144,10 +146,11 @@ const Home = () => {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 gap-y-20 p-16">
+        <div className="grid grid-cols-1 gap-2 p-16 xl:grid-cols-2 gap-y-20">
           {info.map((item, index) => (
             <>
               <div
+                key={index}
                 className={
                   "flex justify-center items-center" +
                   (index % 2 === 0 ? " hidden" : "")
@@ -183,7 +186,7 @@ const Home = () => {
           ))}
         </div>
         <div>
-          <div className="relative inline-block overflow-hidden w-full h-fit bg-white">
+          <div className="relative inline-block w-full overflow-hidden bg-white h-fit">
             <div>
               <div className="flex w-full min-h-[550px]">
                 <Image
@@ -202,9 +205,9 @@ const Home = () => {
                   className="w-[33%] 2xl:block hidden"
                 />
               </div>
-              <div className="absolute bottom-0 left-0 right-0 top-0 bg-black opacity-50"></div>
+              <div className="absolute top-0 bottom-0 left-0 right-0 bg-black opacity-50"></div>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 top-0 rounded-lg flex flex-col lg:items-center justify-center 2xl:justify-start p-6 overflow-auto">
+            <div className="absolute top-0 bottom-0 left-0 right-0 flex flex-col justify-center p-6 overflow-auto rounded-lg lg:items-center 2xl:justify-start">
               <h1 className="text-white text-center font-poppins text-[30px] xl:text-[40px] mt-10 xl:mt-0 font-semibold">
                 Frequently Asked Questions
               </h1>

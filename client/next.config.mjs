@@ -4,7 +4,7 @@ import "./src/env.mjs";
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ["images.unsplash.com"],
+    domains: ["images.unsplash.com", "i.pravatar.cc"],
   },
 };
 

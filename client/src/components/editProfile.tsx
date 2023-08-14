@@ -26,14 +26,14 @@ const EditProfile = (props: any) => {
       <button
         type="button"
         onClick={togglePopup}
-        className="flex justify-center items-center border-2 border-[#ECEEED] rounded-2xl text-[#4E4E4E] px-4 py-2 lg:px-8 lg:py-4 mt-2 font-poppins font-[400] text-[16px] tracking-normal text-center w-full"
+        className="flex justify-center uppercase items-center border-2 border-[#ECEEED] rounded-2xl text-[#4E4E4E] px-4 py-2 lg:px-8 lg:py-4 mt-2 font-poppins font-[400] text-[16px] tracking-normal text-center w-full"
       >
         {props?.care ? "Edit Profile" : "See Profile"}
       </button>
       {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
+        <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
           <div className="flex flex-col bg-white p-6 rounded-2xl shadow-lg w-[70%]">
-            <div className="flex justify-between items-end">
+            <div className="flex items-end justify-between">
               {props?.care ? (
                 <div>
                   <Link
@@ -50,8 +50,8 @@ const EditProfile = (props: any) => {
                 <XMarkIcon />
               </div>
             </div>
-            <div className="flex justify-between items-start mt-2">
-              <div className="flex justify-start items-center p-4 w-full">
+            <div className="flex items-start justify-between mt-2">
+              <div className="flex items-center justify-start w-full p-4">
                 <div className="w-[20%] mr-4">
                   {profile?.avatar ? (
                     <img
@@ -64,7 +64,7 @@ const EditProfile = (props: any) => {
                   )}
                 </div>
                 <div className="flex flex-col justify-center items-start w-[60%]">
-                  <div className="flex justify-start items-center ">
+                  <div className="flex items-center justify-start ">
                     <h2 className="text-[20px] lg:text-[30px] font-poppins mr-1 font-medium">
                       {props.user?.firstName + " " + props.user?.lastName}
                     </h2>
@@ -72,16 +72,16 @@ const EditProfile = (props: any) => {
                       ({props.user?.gender === "male" ? "he/him" : "she/her"})
                     </p>
                   </div>
-                  <div className="flex justify-start items-center font-poppins">
+                  <div className="flex items-center justify-start font-poppins">
                     <p className="text-[#4E4E4E] text-[15px] lg:text-[20px] font-[300] mr-2">
                       {age} Years
                     </p>
-                    <div className="w-1 bg-black aspect-square rounded-full"></div>
+                    <div className="w-1 bg-black rounded-full aspect-square"></div>
                     <p className="text-[#4E4E4E] text-[15px] lg:text-[20px] font-[300] ml-2">
                       {props.user?.condition}
                     </p>
                   </div>
-                  <div className="flex justify-start items-center font-poppins">
+                  <div className="flex items-center justify-start font-poppins">
                     <p className="text-[#4E4E4E] text-[15px] lg:text-[20px] font-[300] mr-2">
                       {props.user?.experience === "LESS_THAN_2"
                         ? "0 - 2 "
@@ -94,15 +94,15 @@ const EditProfile = (props: any) => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-4">
+            <div className="grid grid-cols-1 gap-10 mt-4 lg:grid-cols-2">
               <div>
-                <h3 className="text-xl lg:text-2xl font-poppins mb-2">About</h3>
+                <h3 className="mb-2 text-xl lg:text-2xl font-poppins">About</h3>
                 <p className="text-[#4E4E4E] text-[16px] lg:text-[20px] font-[300] p-4 rounded-xl font-poppins bg-[#ECEEED] h-fit max-h-60 lg:h-60 overflow-auto">
                   {props.user?.about}
                 </p>
               </div>
               <div className="font-poppins">
-                <h3 className="text-2xl font-poppins mb-2">
+                <h3 className="mb-2 text-2xl font-poppins">
                   Contact Information
                 </h3>
                 <div className="text-[#4E4E4E] p-4 rounded-xl bg-[#ECEEED] h-fit max-h-60 lg:h-60">

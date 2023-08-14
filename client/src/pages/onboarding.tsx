@@ -11,23 +11,23 @@ const OnBoarding = () => {
   const { profile, isLoading, session } = useApp();
   const router = useRouter();
 
-  useEffect(() => {
-    if (isLoading) return;
-    if (!session) {
-      router.replace("/signin");
-    }
-    if (!!profile) router.replace("/dashboard");
-  }, [isLoading, session, profile]);
+  // useEffect(() => {
+  //   if (isLoading) return;
+  //   if (!session) {
+  //     router.replace("/signin");
+  //   }
+  //   if (!!profile) router.replace("/dashboard");
+  // }, [isLoading, session, profile]);
 
-  if (isLoading || !session || !!profile) return <Loader />;
+  // if (isLoading || !session || !!profile) return <Loader />;
 
   return (
     <>
-      <div className="p-2 md:p-16 bg-white">
+      <div className="p-2 bg-white md:p-16">
         <div className="pb-8">
           <h1 className="font-poppins text-3xl font-[600]">Onboarding</h1>
         </div>
-        <div className="flex justify-around items-center mb-8">
+        <div className="flex items-center justify-around mb-8">
           <div
             onClick={() => {
               setRole("MENTEE");

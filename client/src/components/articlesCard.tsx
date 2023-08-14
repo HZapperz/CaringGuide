@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import articlesImage from "../../public/images/articles1.jpeg";
-import Image from "next/image";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { Resources } from "@prisma/client";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { HeartIcon, HeartFilledIcon } from "@radix-ui/react-icons";
 
 const ArticlesCard = ({ resource }: { resource: Resources }) => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>("/images/articles1.jpeg");
   const supabase = useSupabaseClient();
   const handleErrors = useHandleErrors();
 
@@ -29,24 +29,28 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
   }, [resource.image]);
 
   return (
-    <div className="bg-[#ECEEED] rounded-2xl w-60">
-      <div className="flex justify-center items-center w-full h-40">
+    <div className="bg-[#ECEEED] rounded-2xl w-full aspect-[2/1] min-[400px]:aspect-square">
+      <div className="flex items-center justify-center w-full h-full">
         <Image
-          src={imageUrl || articlesImage}
+          src={imageUrl}
           alt=""
           width={200}
           height={200}
-          className="w-full h-full object-cover rounded-t-2xl"
+          className="object-cover w-full h-full rounded-t-2xl"
         />
       </div>
-      <hr />
       <div className="flex flex-col p-2">
-        <h2 className="text-[13px] font-[400] font-poppins mr-1">
+        <p className="text-sm font-[400] font-poppins whitespace-nowrap text-ellipsis overflow-hidden">
           {resource.title}
-        </h2>
-        <p className="opacity-50 text-[10px] font-poppins">
-          {resource.description}
         </p>
+        <div className="flex items-center justify-between gap-2">
+          <p className="opacity-50 text-[10px] font-poppins whitespace-nowrap text-ellipsis overflow-hidden">
+            {resource.description}
+          </p>
+          <div className="w-10">
+            <HeartFilledIcon />
+          </div>
+        </div>
       </div>
     </div>
   );
