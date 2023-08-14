@@ -5,7 +5,6 @@ import ThumbUpAltRounded from "@mui/icons-material/ThumbUpAltRounded";
 import ThumbDownSharp from "@mui/icons-material/ThumbDownAltOutlined";
 import ThumbDownAltRounded from "@mui/icons-material/ThumbDownAltRounded";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import Image from "next/image";
 import Link from "next/link";
 import { Loading } from "@nextui-org/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -140,12 +139,19 @@ const FeedCard = (props: any) => {
   };
 
   useEffect(() => {
+    if (props.data.image.startsWith("http")) {
+      setImageUrl(props.data.image);
+      return;
+    }
+
     const { data } = supabase.storage
       .from("resource-images")
       .getPublicUrl(props.data.image);
 
     setImageUrl(data?.publicUrl);
+  }, [props.data.image]);
 
+  useEffect(() => {
     fetchUserFavorites()
       .then((userFavorites) => {
         const matchingFavorite = userFavorites.find(
