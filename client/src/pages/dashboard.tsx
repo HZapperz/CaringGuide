@@ -4,12 +4,17 @@ import DashboardCareCard from "@/components/dashboardCareCard";
 import MenteeDashBoard from "@/components/mentee-dashboard";
 import { WithOnBoarding } from "@/components/WithOnboarding";
 import { useApp } from "@/context/app";
+import MentorMatch from "@/components/mentor-match";
 
 const Dashboard: React.FC = () => {
   const data = useApp();
   const profile = data.profile!;
 
   const mentees = profile.mentees || [];
+
+  if (profile.role === "MENTEE" && !profile.mentor) {
+    return <MentorMatch />;
+  }
 
   if (profile.role === "MENTEE") {
     return <MenteeDashBoard />;
