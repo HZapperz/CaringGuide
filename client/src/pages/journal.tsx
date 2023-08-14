@@ -7,6 +7,7 @@ import { z } from "zod";
 import { Loading } from "@nextui-org/react";
 import { WithOnBoarding } from "@/components/WithOnboarding";
 import useHandleErrors from "@/hooks/useHandleErrors";
+import { Journal } from "@prisma/client";
 
 interface JournalData {
   jId: string;
@@ -19,7 +20,7 @@ interface JournalData {
 type FormValues = z.infer<typeof journalSchema>;
 
 const JournalEditor: React.FC = () => {
-  const [journals, setJournals] = useState<JournalData[]>([]);
+  const [journals, setJournals] = useState<Journal[]>([]);
   const [loader, setLoader] = useState<boolean>(false);
   const [fresh, setRefresh] = useState<boolean>(false);
   const {
@@ -32,18 +33,17 @@ const JournalEditor: React.FC = () => {
   });
 
   const handleErrors = useHandleErrors();
-  const [selectedJournal, setSelectedJournal] = useState<JournalData | null>(
-    null
-  );
+  const [selectedJournal, setSelectedJournal] = useState<Journal | null>(null);
 
   const onSubmit = async (data: FormValues) => {
     try {
       if (selectedJournal) {
         let newData = {
           ...data,
-          jId: selectedJournal?.jId,
+          jId: selectedJournal?.id,
         };
-        const response = await fetch(`/api/journals`, {
+
+        await fetch(`/api/journals`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -70,7 +70,7 @@ const JournalEditor: React.FC = () => {
     }
   };
 
-  const handleEditJournal = (journal: JournalData) => {
+  const handleEditJournal = (journal: Journal) => {
     setSelectedJournal(journal);
     reset();
   };
@@ -89,14 +89,11 @@ const JournalEditor: React.FC = () => {
           "Content-Type": "application/json",
         },
       });
-      if (response.ok) {
-        const journalsData = await response.json();
-        setJournals(journalsData);
-      } else {
-        console.error("Error getting Journals:", response);
-      }
+
+      const journalsData = await response.json();
+      setJournals(journalsData);
     } catch (error) {
-      console.error("Error getting Journals:", error);
+      handleErrors(error);
     }
     setLoader(false);
   };
