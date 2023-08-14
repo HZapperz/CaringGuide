@@ -9,6 +9,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Loading } from "@nextui-org/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useApp } from "@/context/app";
 
 const FeedCard = (props: any) => {
   const [isStarred, setIsStarred] = useState(false);
@@ -17,6 +19,8 @@ const FeedCard = (props: any) => {
   const [loader, setLoader] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
   const supabase = useSupabaseClient();
+  const { session } = useApp();
+  const queryClient = useQueryClient();
 
   async function handleApiResponse(response: Response) {
     if (!response.ok) {
@@ -68,7 +72,6 @@ const FeedCard = (props: any) => {
   async function setValues() {
     setIsStarred((isStarred) => !isStarred);
   }
-  async function setLikeValues() {}
 
   const handleStarClick = async (
     e: React.MouseEvent<SVGElement, MouseEvent>,
@@ -88,8 +91,11 @@ const FeedCard = (props: any) => {
     } catch (error) {
       console.error("Error adding user favorite:", error);
     }
+
+    queryClient.invalidateQueries(["profile", session]);
     setLoader(false);
   };
+
   const handleLikeClick = async (
     e: React.MouseEvent<SVGElement, MouseEvent>,
     status: boolean
@@ -104,7 +110,7 @@ const FeedCard = (props: any) => {
         status,
         false
       );
-      console.log("New user favorite:", createdFavorite);
+      queryClient.invalidateQueries(["profile", session]);
     } catch (error) {
       console.error("Error adding user favorite:", error);
     }
@@ -125,10 +131,11 @@ const FeedCard = (props: any) => {
         false,
         status
       );
-      console.log("New user favorite:", createdFavorite);
+      queryClient.invalidateQueries(["profile", session]);
     } catch (error) {
       console.error("Error adding user favorite:", error);
     }
+
     setLoader(false);
   };
 

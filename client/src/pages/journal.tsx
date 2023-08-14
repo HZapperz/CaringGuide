@@ -8,6 +8,8 @@ import { Loading } from "@nextui-org/react";
 import { WithOnBoarding } from "@/components/WithOnboarding";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { Journal } from "@prisma/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { useApp } from "@/context/app";
 
 interface JournalData {
   jId: string;
@@ -20,6 +22,8 @@ interface JournalData {
 type FormValues = z.infer<typeof journalSchema>;
 
 const JournalEditor: React.FC = () => {
+  const { session } = useApp();
+
   const [journals, setJournals] = useState<Journal[]>([]);
   const [loader, setLoader] = useState<boolean>(false);
   const [fresh, setRefresh] = useState<boolean>(false);
@@ -32,6 +36,7 @@ const JournalEditor: React.FC = () => {
     resolver: zodResolver(journalSchema),
   });
 
+  const queryClient = useQueryClient();
   const handleErrors = useHandleErrors();
   const [selectedJournal, setSelectedJournal] = useState<Journal | null>(null);
 
@@ -62,6 +67,7 @@ const JournalEditor: React.FC = () => {
           body: JSON.stringify(data),
         });
 
+        queryClient.invalidateQueries(["profile", session]);
         setRefresh(!fresh);
         reset();
       }

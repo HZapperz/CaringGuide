@@ -45,7 +45,18 @@ function App({ Component, pageProps }: AppProps) {
   const pagesWithoutLayout = ["/signin", "/signup", "/login", "/"];
   const router = useRouter();
   const shouldApplyLayout = pagesWithoutLayout.includes(router.pathname);
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            cacheTime: 1000 * 60 * 5,
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+  );
+
   const [supabaseClient] = useState(() =>
     createPagesBrowserClient({
       supabaseKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,

@@ -9,8 +9,8 @@ export default function useHandleErrors() {
       return toast.error(error.message);
     } else if (error instanceof ZodError) {
       return toast.error(fromZodError(error).toString());
-    } else {
-      return toast.error("Something went wrong.");
+    } else if (error instanceof Error && error.name !== "NetworkError") {
+      return toast.error("Something went wrong. Please try again later.");
     }
   };
 }

@@ -1,8 +1,8 @@
+import useHandleErrors from "@/hooks/useHandleErrors";
 import { mentorOnboardingSchema } from "@/schema/onboarding";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/router";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
@@ -11,6 +11,8 @@ type FormValues = z.infer<typeof mentorOnboardingSchema>;
 
 const Guide = () => {
   const router = useRouter();
+  const handleErrors = useHandleErrors();
+
   const {
     register,
     handleSubmit,
@@ -39,7 +41,7 @@ const Guide = () => {
         router.push("/dashboard");
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      handleErrors(error);
     }
   };
 
