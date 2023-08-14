@@ -12,12 +12,6 @@ const Feedpage = () => {
   const [selected, setSelected] = useState<string[]>(["All"]);
   const handleErrors = useHandleErrors();
 
-  const a11yProps = (index: number) => {
-    return {
-      id: `tab-${index}`,
-      "aria-controls": `tabpanel-${index}`,
-    };
-  };
   const filters = [
     "All",
     "Scientific Journal",

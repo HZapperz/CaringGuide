@@ -71,6 +71,7 @@ const NavbarComp = () => {
           <Navbar.Link
             color="primary"
             href="/dashboard"
+            as={Link}
             className="font-poppins text-[25px] font-[400]"
           >
             DASHBOARD
@@ -78,6 +79,7 @@ const NavbarComp = () => {
           <Navbar.Link
             color="primary"
             href="/journal"
+            as={Link}
             className="font-poppins text-[25px] font-[400]"
           >
             JOURNAL
@@ -85,6 +87,7 @@ const NavbarComp = () => {
           <Navbar.Link
             color="primary"
             href="/resources"
+            as={Link}
             className="font-poppins text-[25px] font-[400]"
           >
             RESOURCES

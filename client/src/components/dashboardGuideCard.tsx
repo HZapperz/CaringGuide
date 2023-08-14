@@ -1,27 +1,45 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import EditProfile from "./editProfile";
 import { useApp } from "@/context/app";
+import useHandleErrors from "@/hooks/useHandleErrors";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const DashboardCard = (props: any) => {
-  const [age, setAge] = useState<number>();
   const app = useApp();
-  const profile = app.profile;
+  const handleErrors = useHandleErrors();
+  const supabase = useSupabaseClient();
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const age =
+    new Date().getFullYear() - new Date(props.user?.dob).getFullYear();
 
   useEffect(() => {
-    const today = new Date();
-    const dobDate = new Date(props.user?.dob);
-    const age = today.getFullYear() - dobDate.getFullYear();
-    setAge(age);
-  }, [age]);
+    (async () => {
+      try {
+        if (!props?.user?.avatar) return;
+
+        const { data, error } = await supabase.storage
+          .from("avatars")
+          .download(props?.user?.avatar);
+        if (error) {
+          throw error;
+        }
+
+        const url = URL.createObjectURL(data);
+        setAvatarUrl(url);
+      } catch (error) {
+        handleErrors(error);
+      }
+    })();
+  }, [props?.user?.avatar]);
 
   return (
     <main className="container mx-auto">
       <div className="max-w-md mx-auto rounded-xl overflow-hidden bg-white border-2 border-[#ECEEED]">
         <div className="flex justify-between items-center p-4 w-full">
           <div className="w-[40%]">
-            {profile?.avatar ? (
+            {avatarUrl ? (
               <img
-                src={profile?.avatar}
+                src={avatarUrl}
                 alt="profile"
                 className="w-[80%] aspect-square rounded-full"
               />

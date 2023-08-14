@@ -19,103 +19,29 @@ export default isLoggedIn(async (req, res, user) => {
         });
       }
 
-      const [_, mentees] = await Promise.all([
-        prisma.profile.create({
-          data: {
-            id: user.id,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            middleName: data.middleName,
-            dob: data.dob,
-            role: data.role,
-            email: data.email,
-            gender: data.gender,
-            phone: data.phone,
-            experience: data.experience,
-            condition: data.condition,
-            about: data.role === "MENTOR" ? data.about : undefined,
-            synopsis: data.role === "MENTEE" ? data.synopsis : undefined,
-            relationShipToPatient:
-              data.role === "MENTEE" ? data.relation : undefined,
-            patientName: data.role === "MENTEE" ? data.patientName : undefined,
-          },
-        }),
-        prisma.mentorMenteeMatch.findMany({
-          select: {
-            menteeId: true,
-          },
-        }),
-      ]);
-
-      const match = await prisma.profile.findFirst({
-        where: {
-          role: data.role === "MENTEE" ? "MENTOR" : "MENTEE",
+      await prisma.profile.create({
+        data: {
+          id: user.id,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          middleName: data.middleName,
+          dob: data.dob,
+          role: data.role,
+          email: data.email,
+          gender: data.gender,
+          phone: data.phone,
+          experience: data.experience,
           condition: data.condition,
-          id:
-            data.role === "MENTOR"
-              ? {
-                  notIn: mentees.map((mentee) => mentee.menteeId),
-                }
-              : undefined,
+          about: data.role === "MENTOR" ? data.about : undefined,
+          synopsis: data.role === "MENTEE" ? data.synopsis : undefined,
+          relationShipToPatient:
+            data.role === "MENTEE" ? data.relation : undefined,
+          patientName: data.role === "MENTEE" ? data.patientName : undefined,
         },
       });
-
-      if (match) {
-        const menteeId = data.role === "MENTEE" ? user.id : match.id;
-        const mentorId = data.role === "MENTOR" ? user.id : match.id;
-
-        await prisma.mentorMenteeMatch.create({
-          data: {
-            menteeId,
-            mentorId,
-          },
-        });
-      }
 
       return res.status(200).json({
         message: "User profile created!",
-      });
-    }
-    case "PATCH": {
-      const {
-        firstName,
-        middleName,
-        lastName,
-        location,
-        state,
-        about,
-        avatar,
-      } = req.body;
-
-      const existingProfile = await prisma.profile.findUnique({
-        where: {
-          id: user.id,
-        },
-      });
-
-      if (!existingProfile) {
-        return res.status(404).json({
-          message: "User profile not found.",
-        });
-      }
-
-      await prisma.profile.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          firstName: firstName,
-          middleName: middleName,
-          lastName: lastName,
-          location: location,
-          state: state,
-          about: about,
-          avatar: avatar,
-        },
-      });
-
-      return res.status(200).json({
-        message: "Details updated successfully!",
       });
     }
   }

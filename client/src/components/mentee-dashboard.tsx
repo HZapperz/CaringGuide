@@ -2,11 +2,12 @@ import ArticlesCard from "@/components/articlesCard";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import DashboardCard from "@/components/dashboardGuideCard";
 import JournalCard from "@/components/journalCard";
-import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import EditProfileGiver from "@/components/editProfileGiver";
-import { Loading } from "@nextui-org/react";
 import { useApp } from "@/context/app";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useEffect, useState } from "react";
+import useHandleErrors from "@/hooks/useHandleErrors";
 
 interface JournalData {
   jId: string;
@@ -16,67 +17,36 @@ interface JournalData {
   time: string;
 }
 
-const MenteeDashBoard = (props: any) => {
-  const [loader, setLoader] = useState<boolean>(false);
-  const [journals, setJournals] = useState<JournalData[]>([]);
-  const [favouriteResources, setFavouriteResources] = useState<any[]>([]);
+const MenteeDashBoard = () => {
   const app = useApp();
   const profile = app.profile;
-
-  const getAllJournals = async () => {
-    setLoader(true);
-    try {
-      const response = await fetch("/api/journals", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        const journalsData = await response.json();
-        setJournals(journalsData);
-      } else {
-        console.error("Error getting Journals:", response);
-      }
-    } catch (error) {
-      console.error("Error getting Journals:", error);
-    }
-    setLoader(false);
-  };
-
-  async function handleApiResponse(response: Response) {
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message);
-    }
-    return response.json();
-  }
-
-  async function fetchUserFavorites() {
-    try {
-      const response = await fetch(`/api/userFavourites`);
-      return handleApiResponse(response);
-    } catch (error) {
-      console.error("Error fetching user favorites:", error);
-      throw error;
-    }
-  }
+  const router = useRouter();
+  const favoriteResources = profile?.favoriteResources || [];
+  const journals = profile?.journals || [];
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const supabase = useSupabaseClient();
+  const handleErrors = useHandleErrors();
+  const mentor = profile?.mentor;
 
   useEffect(() => {
-    getAllJournals();
-    fetchUserFavorites().then((data) => {
-      setFavouriteResources(data);
-    });
-  }, []);
+    (async () => {
+      try {
+        if (!profile?.avatar) return;
 
-  const router = useRouter();
+        const { data, error } = await supabase.storage
+          .from("avatars")
+          .download(profile.avatar);
+        if (error) {
+          throw error;
+        }
 
-  if (loader)
-    return (
-      <div className="w-full h-full flex justify-center items-center">
-        <Loading />
-      </div>
-    );
+        const url = URL.createObjectURL(data);
+        setAvatarUrl(url);
+      } catch (error) {
+        handleErrors(error);
+      }
+    })();
+  }, [profile?.avatar]);
 
   return (
     <>
@@ -86,9 +56,9 @@ const MenteeDashBoard = (props: any) => {
             <div className="max-w-md mx-auto rounded-xl overflow-hidden bg-white border-2 border-[#ECEEED] mb-2 w-full">
               <div className="flex justify-between items-center p-4 w-full min-w-[385px]">
                 <div className="w-[40%]">
-                  {profile?.avatar ? (
+                  {avatarUrl ? (
                     <img
-                      src={profile?.avatar}
+                      src={avatarUrl}
                       alt="profile"
                       className="w-[80%] aspect-square rounded-full"
                     />
@@ -99,16 +69,16 @@ const MenteeDashBoard = (props: any) => {
                 <div className="flex flex-col justify-center items-start w-[60%]">
                   <div className="flex flex-col justify-start items-start ">
                     <h2 className="text-2xl font-poppins mr-1 font-medium">
-                      {props.user.firstName + " " + props.user.lastName}
+                      {profile?.firstName + " " + profile?.lastName + 22}
                     </h2>
-                    <EditProfileGiver user={props.user} />
+                    <EditProfileGiver user={profile} />
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div>
-            <DashboardCard user={props.mentorData} care={false} />
+            <DashboardCard user={mentor} care={false} />
           </div>
         </div>
         <div className="ml-0 sm:ml-2 xl:ml-0 flex xl:flex-row flex-col justify-start xl:items-start items-center w-full min-w-[385px] sm:h-full">
@@ -118,12 +88,12 @@ const MenteeDashBoard = (props: any) => {
                 <div>FAVORITE RESOURCES</div>
               </div>
               <div className="container grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 content-center w-full overflow-auto">
-                {favouriteResources.map((data, index) => (
+                {favoriteResources.map((data, index) => (
                   <div
                     key={index}
                     className="mr-0 sm:mr-2 w-full flex justify-center items-center"
                   >
-                    <ArticlesCard data={data} />
+                    <ArticlesCard resource={data} />
                   </div>
                 ))}
               </div>

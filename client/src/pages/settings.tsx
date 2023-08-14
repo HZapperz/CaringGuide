@@ -47,7 +47,7 @@ const SettingsPage = () => {
 
       setSaveButton(<Loading color={"white"} />);
 
-      const response = await fetch("/api/on-boarding", {
+      const response = await fetch("/api/user/me", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

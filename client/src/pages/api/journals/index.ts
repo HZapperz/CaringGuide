@@ -4,36 +4,32 @@ import { prisma } from "@/lib/client";
 
 export default isLoggedIn(async (req, res, user) => {
   switch (req.method) {
-    case "POST":
-      {
-        const data = journalSchema.parse(req.body);
+    case "POST": {
+      const data = journalSchema.parse(req.body);
 
-        await prisma.$transaction(async (tx) => {
-          await prisma.journal.create({
-            data: {
-              id: user.id,
-              title: data.title,
-              description: data.description,
-            },
-          });
-        });
-
-        return res.status(200).json({
-          message: "User Journal created!",
-        });
-      }
-      break;
-    case "GET":
-      {
-        const journals = await prisma.journal.findMany({
-          where: {
-            id: user.id,
+      await prisma.$transaction(async (tx) => {
+        await prisma.journal.create({
+          data: {
+            authorId: user.id,
+            title: data.title,
+            description: data.description,
           },
         });
+      });
 
-        return res.status(200).json(journals);
-      }
-      break;
+      return res.status(200).json({
+        message: "User Journal created!",
+      });
+    }
+    case "GET": {
+      const journals = await prisma.journal.findMany({
+        where: {
+          authorId: user.id,
+        },
+      });
+
+      return res.status(200).json(journals);
+    }
 
     case "PUT": {
       const { jId, title, description } = req.body;
@@ -41,7 +37,8 @@ export default isLoggedIn(async (req, res, user) => {
       try {
         const updatedJournal = await prisma.journal.update({
           where: {
-            jId: jId,
+            id: jId,
+            authorId: user.id,
           },
           data: {
             title,

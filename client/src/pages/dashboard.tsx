@@ -1,71 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import DashboardCard from "../components/dashboardGuideCard";
 import DashboardCareCard from "@/components/dashboardCareCard";
 import MenteeDashBoard from "@/components/mentee-dashboard";
 import { WithOnBoarding } from "@/components/WithOnboarding";
 import { useApp } from "@/context/app";
-import { Loading } from "@nextui-org/react";
-import useHandleErrors from "@/hooks/useHandleErrors";
 
 const Dashboard: React.FC = () => {
   const data = useApp();
   const profile = data.profile!;
-  const [mentorData, setMentorData] = useState();
-  const [mentees, setMentees] = useState([]);
-  const [loader, setLoader] = useState(false);
-  const handleErrors = useHandleErrors();
 
-  const getDetailById = async (id: string) => {
-    try {
-      const response = await fetch(`/api/user/userById`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-      });
-      const mentorData = await response.json();
-      setMentorData(mentorData);
-    } catch (error) {
-      handleErrors(error);
-    }
-  };
-
-  const getMatchDetails = async () => {
-    setLoader(true);
-    try {
-      const response = await fetch("/api/match", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const matchData = await response.json();
-
-      if (profile.role === "MENTEE") {
-        await getDetailById(matchData.match[0].mentorId);
-      } else {
-        setMentees(matchData.match);
-      }
-    } catch (error) {
-      handleErrors(error);
-    }
-    setLoader(false);
-  };
-
-  useEffect(() => {
-    getMatchDetails();
-  }, []);
-
-  if (loader)
-    return (
-      <div className="w-full h-full flex justify-center items-center">
-        <Loading />
-      </div>
-    );
+  const mentees = profile.mentees || [];
 
   if (profile.role === "MENTEE") {
-    return <MenteeDashBoard user={profile} mentorData={mentorData} />;
+    return <MenteeDashBoard />;
   }
 
   return (
@@ -81,7 +28,7 @@ const Dashboard: React.FC = () => {
           <div className="flex flex-col lg:flex-row justify-start items-center h-full w-fit overflow-auto">
             {mentees.map((mentee, index) => (
               <div key={index} className="lg:mr-2 mr-0 mb-2 lg:mb-0 w-full">
-                <DashboardCareCard user={mentee} />
+                <DashboardCareCard profile={mentee} />
               </div>
             ))}
           </div>

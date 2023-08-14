@@ -1,16 +1,21 @@
-import { Profile } from "@prisma/client";
-import {
-  Session,
-  useSession,
-  useSupabaseClient,
-} from "@supabase/auth-helpers-react";
+import { Profile, Resources, Journal } from "@prisma/client";
+import { Session, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 
+type ProfileResponse =
+  | (Profile & {
+      mentor?: Profile;
+      mentees?: Profile[];
+      favoriteResources: Resources[];
+      journals: Journal[];
+    })
+  | null;
+
 type AppContext = {
   session: Session | null;
-  profile?: Profile | null;
+  profile?: ProfileResponse;
   isLoading: boolean;
 };
 
@@ -37,7 +42,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     async () => {
       const res = await fetch(`/api/user/me`);
       const data = await res.json();
-      return data as Profile | null;
+      return data as ProfileResponse;
     },
     {
       enabled: !!session,

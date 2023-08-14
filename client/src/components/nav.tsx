@@ -1,6 +1,4 @@
-import { useState, useEffect, FC } from "react";
 import { Navbar, Text, Image, Button } from "@nextui-org/react";
-import { useNavigate } from "react-router-dom";
 import Link from "next/link";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 
@@ -35,12 +33,10 @@ const Nav = () => {
       </Navbar.Brand>
       {user ? (
         <Navbar.Content>
-          <Navbar.Item>
-            <Link href="/dashboard">
-              <Button flat color="secondary" auto href="#">
-                Dashboard
-              </Button>
-            </Link>
+          <Navbar.Item as={Link} href="/dashboard">
+            <Button flat color="secondary" auto href="#">
+              Dashboard
+            </Button>
           </Navbar.Item>
           <Button
             color="primary"
@@ -58,6 +54,7 @@ const Nav = () => {
           <Navbar.Link
             color="primary"
             href="/signin"
+            as={Link}
             className="relative inline-block font-bold transition-colors duration-300 text-black"
           >
             <p className=" text-bold relative group">
@@ -65,12 +62,10 @@ const Nav = () => {
               <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
             </p>
           </Navbar.Link>
-          <Navbar.Item>
-            <Link href="/signup">
-              <Button flat color="secondary" auto href="#">
-                Sign Up
-              </Button>
-            </Link>
+          <Navbar.Item as={Link} href={"/signup"}>
+            <Button flat color="secondary" auto href="#">
+              Sign Up
+            </Button>
           </Navbar.Item>
         </Navbar.Content>
       )}

@@ -1,16 +1,9 @@
+import { Journal } from "@prisma/client";
 import React, { useEffect } from "react";
 
-interface JournalData {
-  jId: string;
-  id: string;
-  title: string;
-  description: string;
-  time: string;
-}
-
 interface JournalCardProps {
-  data: JournalData;
-  onEdit?: (journal: JournalData) => void;
+  data: Journal;
+  onEdit?: (journal: Journal) => void;
 }
 
 const JournalCard: React.FC<JournalCardProps> = ({ data, onEdit }) => {
