@@ -7,22 +7,12 @@ export default isLoggedIn(async (req, res, user) => {
       case "GET": {
         const skip = req.query.skip ? parseInt(req.query.skip as string) : 0;
 
-        const mentee = await prisma.profile.findFirst({
-          where: {
-            id: user.id,
-          },
-        });
-
         const [mentor, count] = await Promise.all([
           prisma.profile.findFirst({
             where: {
-              condition: skip
-                ? {
-                    equals: mentee?.condition,
-                  }
-                : undefined,
               role: "MENTOR",
             },
+            skip,
           }),
           prisma.profile.count({
             where: {
