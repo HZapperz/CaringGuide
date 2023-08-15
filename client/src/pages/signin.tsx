@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import toast from "react-hot-toast";
 
@@ -12,7 +11,6 @@ type SignInFormValues = {
 const Login = () => {
   const supabase = useSupabaseClient();
   const form = useForm<SignInFormValues>();
-  const router = useRouter();
 
   async function handleLogin(data: SignInFormValues) {
     const { error } = await supabase.auth.signInWithPassword({
@@ -23,8 +21,7 @@ const Login = () => {
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success("Login successful! Redirecting...");
-      router.push("/dashboard");
+      toast.success("Logged in successfully");
     }
   }
 

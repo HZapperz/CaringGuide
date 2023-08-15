@@ -1,9 +1,8 @@
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { Resources } from "@prisma/client";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import { HeartIcon, HeartFilledIcon } from "@radix-ui/react-icons";
+import { HeartFilledIcon } from "@radix-ui/react-icons";
 
 const ArticlesCard = ({ resource }: { resource: Resources }) => {
   const [imageUrl, setImageUrl] = useState<string>("/images/articles1.jpeg");
@@ -12,26 +11,31 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const { data, error } = await supabase.storage
-          .from("resource-images")
-          .download(resource.image);
-        if (error) {
-          throw error;
-        }
-
-        const url = URL.createObjectURL(data);
-        setImageUrl(url);
-      } catch (error) {
-        handleErrors(error);
+      if (!resource.image || resource.image === "NaN") {
+        return;
       }
+
+      if (resource.image.startsWith("http")) {
+        return setImageUrl(resource.image ?? null);
+      }
+
+      const { data, error } = await supabase.storage
+        .from("resource-images")
+        .download(resource.image);
+
+      if (error) {
+        return;
+      }
+
+      const url = URL.createObjectURL(data);
+      setImageUrl(url);
     })();
   }, [resource.image]);
 
   return (
     <div className="bg-[#ECEEED] rounded-2xl w-full aspect-[2/1] min-[400px]:aspect-square">
       <div className="flex items-center justify-center w-full h-full">
-        <Image
+        <img
           src={imageUrl}
           alt=""
           width={200}

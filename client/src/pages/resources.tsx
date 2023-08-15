@@ -4,11 +4,12 @@ import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import FeedCard from "@/components/feed";
 import { WithOnBoarding } from "@/components/WithOnboarding";
 import useHandleErrors from "@/hooks/useHandleErrors";
+import { Resources } from "@prisma/client";
 
 const Feedpage = () => {
   const [value, setValue] = useState(0);
   const [loader, setLoader] = useState(false);
-  const [links, setLinks] = useState<any[]>([]);
+  const [links, setLinks] = useState<Resources[]>([]);
   const [selected, setSelected] = useState<string[]>(["All"]);
   const handleErrors = useHandleErrors();
 
@@ -21,16 +22,6 @@ const Feedpage = () => {
     "Website",
     "Article",
   ];
-
-  const tabLabels = [
-    "general",
-    "finances",
-    "eol",
-    "informal",
-    "physical",
-    "emotion",
-  ];
-
   const handleButtonClick = (value: string) => {
     if (selected.includes(value)) {
       setSelected(selected.filter((item) => item !== value));
@@ -98,13 +89,15 @@ const Feedpage = () => {
         <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4 p-8">
           {links.map((item, index) => {
             if (
-              selected.includes(item.sub) &&
-              item.category.toUpperCase() === tabLabels[value].toUpperCase()
+              selected.find(
+                (s) => s.toLowerCase() === item.category.toLowerCase()
+              )
             ) {
               return <FeedCard key={index} data={item} />;
             } else if (selected.includes("All")) {
               return <FeedCard key={index} data={item} />;
             }
+
             return null;
           })}
         </div>

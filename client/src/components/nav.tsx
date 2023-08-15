@@ -33,11 +33,9 @@ const Nav = () => {
       </Navbar.Brand>
       {user ? (
         <Navbar.Content>
-          <Navbar.Item as={Link} href="/dashboard">
-            <Button flat color="secondary" auto href="#">
-              Dashboard
-            </Button>
-          </Navbar.Item>
+          <Button flat color="secondary" href="/dashboard" as={Link}>
+            Dashboard
+          </Button>
           <Button
             color="primary"
             className="relative inline-block font-bold transition-colors duration-300 text-black"

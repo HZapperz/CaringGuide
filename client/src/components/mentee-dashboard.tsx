@@ -8,6 +8,7 @@ import { useApp } from "@/context/app";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import useHandleErrors from "@/hooks/useHandleErrors";
+import Loader from "./loader";
 
 interface JournalData {
   jId: string;
@@ -23,9 +24,7 @@ const MenteeDashBoard = () => {
   const router = useRouter();
   const favoriteResources = profile?.favoriteResources || [];
   const journals = profile?.journals || [];
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(
-    "https://i.pravatar.cc/220"
-  );
+  const [avatarUrl, setAvatarUrl] = useState<string | null>();
   const supabase = useSupabaseClient();
   const handleErrors = useHandleErrors();
   const mentor = profile?.mentor;
@@ -35,20 +34,23 @@ const MenteeDashBoard = () => {
       try {
         if (!profile?.avatar) return;
 
-        const { data, error } = await supabase.storage
+        const { data } = await supabase.storage
           .from("avatars")
           .download(profile.avatar);
-        if (error) {
-          throw error;
-        }
 
-        const url = URL.createObjectURL(data);
-        setAvatarUrl(url);
+        if (data) {
+          const url = URL.createObjectURL(data);
+          setAvatarUrl(url);
+        }
       } catch (error) {
         handleErrors(error);
       }
     })();
   }, [profile?.avatar]);
+
+  if (!profile || !mentor) {
+    return <Loader />;
+  }
 
   return (
     <div className="flex flex-col items-center justify-start w-full h-full gap-4 p-4 md:p-10 md:flex-row lg:justify-between lg:items-start">
@@ -85,16 +87,14 @@ const MenteeDashBoard = () => {
               FAVORITE RESOURCES
             </div>
             <div className="grid w-full grid-cols-1 gap-4 overflow-scroll min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-              {favoriteResources
-                // .slice(0, 7)
-                .map((data, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-center sm:w-full"
-                  >
-                    <ArticlesCard resource={data} />
-                  </div>
-                ))}
+              {favoriteResources.map((data, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-center sm:w-full"
+                >
+                  <ArticlesCard resource={data} />
+                </div>
+              ))}
             </div>
           </div>
         </div>

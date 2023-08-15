@@ -36,6 +36,10 @@ export default isLoggedIn(async (req, res, user) => {
           }),
         ]);
 
+        if (!profile) {
+          return res.json(null);
+        }
+
         return res.json({
           ...profile,
           mentees: profile?.mentees.map((mentee) => mentee.mentee),

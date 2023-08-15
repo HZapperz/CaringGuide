@@ -1,25 +1,35 @@
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { useApp } from "@/context/app";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { Profile } from "@prisma/client";
 
-const EditProfileGiver = (props: any) => {
+const EditProfileGiver = ({ user }: { user: Profile }) => {
   const [showPopup, setShowPopup] = useState(false);
-  const [age, setAge] = useState<number>();
-  const app = useApp();
-  const profile = app.profile;
-
-  useEffect(() => {
-    const today = new Date();
-    const dobDate = new Date(props.user.dob);
-    const age = today.getFullYear() - dobDate.getFullYear();
-    setAge(age);
-  }, [age]);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const age = new Date().getFullYear() - new Date(user.dob).getFullYear();
+  const supabase = useSupabaseClient();
 
   const togglePopup = () => {
     setShowPopup((prevState) => !prevState);
   };
+
+  useEffect(() => {
+    (async () => {
+      if (!user.avatar) return;
+
+      const { data, error } = await supabase.storage
+        .from("avatars")
+        .download(user.avatar);
+      if (error) {
+        throw error;
+      }
+
+      const url = URL.createObjectURL(data);
+      setAvatarUrl(url);
+    })();
+  }, [user.avatar]);
 
   return (
     <>
@@ -37,9 +47,9 @@ const EditProfileGiver = (props: any) => {
               <div className="flex items-start justify-between w-full mt-2">
                 <div className="flex items-center w-full p-4">
                   <div className="w-[20%] mr-4">
-                    {profile?.avatar ? (
+                    {avatarUrl ? (
                       <img
-                        src={profile?.avatar}
+                        src={avatarUrl}
                         alt="profile"
                         className="w-[80%] aspect-square rounded-full"
                       />
@@ -50,10 +60,10 @@ const EditProfileGiver = (props: any) => {
                   <div className="flex flex-col justify-center items-start w-[60%] text-[#4E4E4E]">
                     <div className="flex items-center gap-2">
                       <h2 className="text-[20px] lg:text-[30px] font-poppins font-medium leading-3 uppercase ">
-                        {props.user.firstName + " " + props.user.lastName}
+                        {user.firstName + " " + user.lastName}
                       </h2>
                       <p className="opacity-50 text-[10px] lg:text-[16px] font-poppins">
-                        ({props.user.gender === "male" ? "he/him" : "she/her"})
+                        ({user.gender === "male" ? "he/him" : "she/her"})
                       </p>
                     </div>
                     <div className="flex items-center font-poppins">
@@ -62,7 +72,7 @@ const EditProfileGiver = (props: any) => {
                       </p>
                       <div className="w-1 bg-black rounded-full aspect-square" />
                       <p className="text-[15px] lg:text-[20px] font-[300] ml-2">
-                        {props.user.condition}
+                        {user.condition}
                       </p>
                     </div>
                     <div className="flex items-center font-poppins">
@@ -89,7 +99,7 @@ const EditProfileGiver = (props: any) => {
               <div className="flex flex-col gap-3">
                 <h3 className="mb-2 text-xl lg:text-2xl font-poppins">About</h3>
                 <p className="text-[16px] lg:text-[20px] font-[300] p-4 rounded-xl font-poppins bg-[#ECEEED] h-fit max-h-60 lg:h-60 overflow-auto">
-                  {props.user.synopsis}
+                  {user.synopsis}
                 </p>
               </div>
               <div className="flex flex-col gap-3 font-poppins">
@@ -98,15 +108,17 @@ const EditProfileGiver = (props: any) => {
                 </h3>
                 <div className="p-4 rounded-xl bg-[#ECEEED] h-fit max-h-60 lg:h-60">
                   <div className="text-[#4E4E4E]">
-                    <p className="opacity-50 text-[15px] leading-3">PHONE NUMBER</p>
+                    <p className="opacity-50 text-[15px] leading-3">
+                      PHONE NUMBER
+                    </p>
                     <p className="text-[18px] font-[300]">
-                      {props.user.phone ? props.user.phone : "Not Provided"}
+                      {user.phone ? user.phone : "Not Provided"}
                     </p>
                   </div>
                   <div className="mt-4">
                     <p className="opacity-50 text-[15px] leading-3">Email</p>
                     <p className="text-[18px] font-[300]">
-                      {props.user.email ? props.user.email : "Not Provided"}
+                      {user.email ? user.email : "Not Provided"}
                     </p>
                   </div>
                 </div>
@@ -121,23 +133,23 @@ const EditProfileGiver = (props: any) => {
                       PATIENT RELATIONSHIP
                     </p>
                     <p className="text-[18px] font-[300]">
-                      {props.user.relationShipToPatient}
+                      {user.relationShipToPatient}
                     </p>
                   </div>
                   <div className="mt-4">
-                    <p className="opacity-50 text-[15px] leading-3">PATIENT CONDITION</p>
-                    <p className="text-[18px] font-[300]">
-                      {props.user.condition}
+                    <p className="opacity-50 text-[15px] leading-3">
+                      PATIENT CONDITION
                     </p>
+                    <p className="text-[18px] font-[300]">{user.condition}</p>
                   </div>
                   <div className="mt-4">
                     <p className="opacity-50 text-[15px] leading-3">
                       YEAR(S) AS CAREGIVER
                     </p>
                     <p className="text-[18px] font-[300]">
-                      {props.user.experience === "LESS_THAN_2"
+                      {user.experience === "LESS_THAN_2"
                         ? "0 - 2 "
-                        : props.user.experience === "BETWEEN_2_AND_4"
+                        : user.experience === "BETWEEN_2_AND_4"
                         ? "2 - 4 "
                         : "4+ "}{" "}
                       years

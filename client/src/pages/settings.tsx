@@ -15,6 +15,7 @@ import { useApp } from "@/context/app";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { toast } from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const SettingsPage = () => {
   const [open, setOpen] = useState(false);
@@ -24,6 +25,7 @@ const SettingsPage = () => {
   const [file, setFile] = useState<File | null>(null);
   const profile = data.profile!;
   const supabase = useSupabaseClient();
+  const queryClient = useQueryClient();
 
   const {
     handleSubmit,
@@ -57,6 +59,7 @@ const SettingsPage = () => {
 
       setOpen(true);
       setSaveButton(<p>Save</p>);
+      queryClient.invalidateQueries(["profile", session]);
       toast.success("Profile Updated");
     } catch (error) {
       handleErrors(error);

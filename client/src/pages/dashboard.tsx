@@ -9,10 +9,7 @@ import MentorMatch from "@/components/mentor-match";
 const Dashboard: React.FC = () => {
   const data = useApp();
   const profile = data.profile!;
-
   const mentees = profile.mentees || [];
-
-  console.log(data);
 
   if (profile.role === "MENTEE" && !profile.mentor) {
     return <MentorMatch />;

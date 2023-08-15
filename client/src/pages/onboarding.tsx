@@ -11,15 +11,26 @@ const OnBoarding = () => {
   const { profile, isLoading, session } = useApp();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (isLoading) return;
-  //   if (!session) {
-  //     router.replace("/signin");
-  //   }
-  //   if (!!profile) router.replace("/dashboard");
-  // }, [isLoading, session, profile]);
+  useEffect(() => {
+    if (isLoading) return;
 
-  // if (isLoading || !session || !!profile) return <Loader />;
+    if (!session) {
+      router.replace("/signin");
+      return;
+    }
+
+    if (!!profile && profile.role === "ADMIN") {
+      router.replace("/admin/accounts");
+      return;
+    }
+
+    if (!!profile) {
+      router.replace("/dashboard");
+      return;
+    }
+  }, [isLoading, session, profile]);
+
+  if (isLoading || !session || !!profile) return <Loader />;
 
   return (
     <>

@@ -46,27 +46,38 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     },
     {
       enabled: !!session,
+      onSuccess: (data) => {
+        if (!data && router.pathname !== "/on-boarding") {
+          return router.replace("/on-boarding");
+        }
+
+        if (data && data.role === "ADMIN") {
+          router.replace("/admin/accounts");
+          return;
+        }
+      },
     }
   );
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       setLoading(false);
     });
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    supabase.auth.getSession();
   }, []);
 
-  const isLoading =
-    !router.isReady || loading || (!!session && profileQuery.isLoading);
+  useEffect(() => {
+    if (loading) return;
+
+    if (!session) {
+      router.replace("/signin");
+      return;
+    }
+  }, [loading, session]);
+
+  const isLoading = !router.isReady || loading || profileQuery.isLoading;
 
   return (
     <AppContext.Provider
