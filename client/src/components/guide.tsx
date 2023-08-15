@@ -1,7 +1,9 @@
+import { useApp } from "@/context/app";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { mentorOnboardingSchema } from "@/schema/onboarding";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@nextui-org/react";
+import { ChevronRightIcon } from "@radix-ui/react-icons";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -11,7 +13,9 @@ type FormValues = z.infer<typeof mentorOnboardingSchema>;
 
 const Guide = () => {
   const router = useRouter();
+  const { session } = useApp();
   const handleErrors = useHandleErrors();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -26,7 +30,6 @@ const Guide = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      console.log(data);
       const response = await fetch("/api/on-boarding", {
         method: "POST",
         headers: {
@@ -35,83 +38,86 @@ const Guide = () => {
         body: JSON.stringify({ ...data }),
       });
 
-      if (response.ok) {
-        await response.json();
-        toast.success("Onboarding Completed Successfully");
-        router.push("/dashboard");
-      }
+      await response.json();
+      queryClient.invalidateQueries(["profile", session]);
+      toast.success("Onboarding Completed Successfully");
+      router.push("/dashboard");
     } catch (error) {
       handleErrors(error);
     }
   };
 
+  const focusStyle =
+    "transition-all focus:bg-transparent focus:border-b-2 focus:rounded-none focus:border-b-caring";
+  const selectFocusStyle = "focus:bg-white focus:border";
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex lg:flex-row flex-col py-10 justify-around items-start w-full px-1 md:px-4 mb-8">
+        <div className="flex flex-col items-start justify-around w-full px-1 py-10 mb-8 lg:flex-row md:px-4">
           <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
             PERSONAL DETAILS
           </div>
-          <div className="grid content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 w-full lg:w-4/6">
-            <div className="flex sm:justify-start justify-center sm:items-start items-center">
+          <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
+            <div className="flex items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="text"
                 placeholder="First Name"
                 {...register("firstName", { required: true })}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
                   errors.firstName ? " border border-red-500" : ""
                 }`}
               />
               {errors.firstName && (
-                <p className="text-red-500 mt-2">First Name is required</p>
+                <p className="mt-2 text-red-500">First Name is required</p>
               )}
             </div>
-            <div className="flex sm:justify-start justify-center sm:items-start items-center">
+            <div className="flex items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="text"
                 placeholder="Middle Name"
                 {...register("middleName", { required: true })}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
                   errors.middleName ? " border border-red-500" : ""
                 }`}
               />
               {errors.middleName && (
-                <p className="text-red-500 mt-2">Middle Name is required</p>
+                <p className="mt-2 text-red-500">Middle Name is required</p>
               )}
             </div>
-            <div className="flex sm:justify-start justify-center sm:items-start items-center">
+            <div className="flex items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="text"
                 placeholder="Last Name"
                 {...register("lastName", { required: true })}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
                   errors.lastName ? " border border-red-500" : ""
                 }`}
               />
               {errors.lastName && (
-                <p className="text-red-500 mt-2">Last Name is required</p>
+                <p className="mt-2 text-red-500">Last Name is required</p>
               )}
             </div>
-            <div className="flex sm:justify-start justify-center sm:items-start items-center">
+            <div className="flex items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="date"
                 placeholder="Date of Birth"
                 {...register("dob", { required: true })}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
                   errors.dob ? " border border-red-500" : ""
                 }`}
               />
               {errors.dob && (
-                <p className="text-red-500 mt-2">Age is required</p>
+                <p className="mt-2 text-red-500">Age is required</p>
               )}
             </div>
-            <div className="flex sm:justify-start justify-center sm:items-start items-center">
+            <div className="flex items-center justify-center sm:justify-start sm:items-start">
               <select
                 title="gender"
                 id="gender"
                 {...register("gender", { required: true })}
                 defaultValue={"Gender"}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${selectFocusStyle} ${
                   errors.gender ? " border border-red-500" : ""
                 }`}
               >
@@ -120,58 +126,58 @@ const Guide = () => {
                 <option value="rather">Rather not Say</option>
               </select>
               {errors.gender && (
-                <p className="text-red-500 mt-2">Gender is required</p>
+                <p className="mt-2 text-red-500">Gender is required</p>
               )}
             </div>
           </div>
         </div>
         <hr />
-        <div className="flex lg:flex-row flex-col py-10 justify-around items-start w-full px-4 mb-8">
-          <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
+        <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
+          <div className="font-poppins uppercase text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
             Contact Information
           </div>
-          <div className="grid content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 w-full lg:w-4/6">
-            <div className="flex sm:justify-start justify-center sm:items-start items-center">
+          <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
+            <div className="flex items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="email"
                 placeholder="Email"
                 {...register("email", { required: true })}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
                   errors.email ? " border border-red-500" : ""
                 }`}
               />
               {errors.email && (
-                <p className="text-red-500 mt-2">Email is required</p>
+                <p className="mt-2 text-red-500">Email is required</p>
               )}
             </div>
-            <div className="flex sm:justify-start justify-center sm:items-start items-center">
+            <div className="flex items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="text"
                 placeholder="Mobile Number"
                 {...register("phone", { required: true })}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
                   errors.phone ? " border border-red-500" : ""
                 }`}
               />
               {errors.phone && (
-                <p className="text-red-500 mt-2">Mobile Number is required</p>
+                <p className="mt-2 text-red-500">Mobile Number is required</p>
               )}
             </div>
           </div>
         </div>
         <hr />
-        <div className="flex lg:flex-row flex-col py-10 justify-around items-start w-full px-4 mb-8">
+        <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
           <div className="font-poppins text-2xl font-[500] mr-8 w-2/6">
             EXPERIENCE
           </div>
-          <div className="grid grid-cols-1 gap-x-20 gap-y-4 w-4/6">
-            <div className="flex sm:justify-start justify-center sm:items-start items-center">
+          <div className="grid w-4/6 grid-cols-1 gap-x-20 gap-y-4">
+            <div className="flex items-center justify-center sm:justify-start sm:items-start">
               <select
                 title="condition"
                 id="condition"
                 {...register("condition", { required: true })}
                 defaultValue={"Condition of Patient"}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${selectFocusStyle} ${
                   errors.condition ? " border border-red-500" : ""
                 }`}
               >
@@ -182,49 +188,49 @@ const Guide = () => {
                 <option value="als">ALS</option>
               </select>
               {errors.condition && (
-                <p className="text-red-500 mt-2">Condition is required</p>
+                <p className="mt-2 text-red-500">Condition is required</p>
               )}
             </div>
-            <div>
-              <div className="w-full col-span-3">
-                <div className="text-[#5E5E5E] text-[16px] font-poppins font-[600] mb-2">
+            <div className="flex flex-col gap-8 mt-6">
+              <div className="flex flex-col w-full col-span-3 gap-4">
+                <div className="text-[#5E5E5E] text-xl font-poppins">
                   Years of Caregiving
                 </div>
-                <div className="flex justify-between items-center mt-2">
-                  <div className="flex justify-center items-center">
+                <div className="flex items-center justify-between w-3/5">
+                  <div className="flex items-center justify-center gap-4">
                     <input
                       type="radio"
                       id="0-2"
                       title="experience"
                       value="LESS_THAN_2"
                       {...register("experience", { required: true })}
-                      className={`mr-2 ${
+                      className={`mr-2 accent-caring w-5 aspect-square ${
                         errors.experience ? "border border-red-500" : ""
                       }`}
                     />
                     <label htmlFor="0-2">0 - 2 Years</label>
                   </div>
-                  <div className="flex justify-center items-center">
+                  <div className="flex items-center justify-center gap-4">
                     <input
                       type="radio"
                       id="2-4"
                       title="experience"
                       value="BETWEEN_2_AND_4"
                       {...register("experience", { required: true })}
-                      className={`mr-2 ${
+                      className={`mr-2 accent-caring w-5 aspect-square ${
                         errors.experience ? "border border-red-500" : ""
                       }`}
                     />
                     <label htmlFor="2-4">2 - 4 Years</label>
                   </div>
-                  <div className="flex justify-center items-center">
+                  <div className="flex items-center justify-center gap-4">
                     <input
                       type="radio"
                       id="4+"
                       title="experience"
                       value="MORE_THAN_4"
                       {...register("experience", { required: true })}
-                      className={`mr-2 ${
+                      className={`mr-2 accent-caring w-5 aspect-square ${
                         errors.experience ? "border border-red-500" : ""
                       }`}
                     />
@@ -232,13 +238,13 @@ const Guide = () => {
                   </div>
                 </div>
                 {errors.experience && (
-                  <p className="text-red-500 mt-2">
+                  <p className="mt-2 text-red-500">
                     Years of Caregiving is required
                   </p>
                 )}
               </div>
-              <div className="col-span-3">
-                <div className="text-[#5E5E5E] text-[16px] font-poppins font-[600] mt-4 mb-2">
+              <div className="flex flex-col col-span-3 gap-2">
+                <div className="text-[#5E5E5E] text-xl font-poppins">
                   Short About Section
                 </div>
                 <div className="w-full">
@@ -246,14 +252,22 @@ const Guide = () => {
                     title="about"
                     id="about"
                     {...register("about", { required: true })}
-                    className={`resize-none w-full h-40 rounded-md p-2 border-2 border-inactive ${
+                    className={`resize-none w-full h-40 rounded-xl p-2 border-2 border-inactive ${
                       errors.about ? " border border-red-500" : ""
                     }`}
                   ></textarea>
                 </div>
               </div>
-              <div className="mt-8 col-span-3 text-center">
-                <Button type="submit">Complete Onboarding</Button>
+              <div className="col-span-3 mt-8 text-center">
+                <button
+                  className="flex items-center gap-2 p-3 mx-auto font-normal text-white bg-caring rounded-xl font-poppins"
+                  type="submit"
+                >
+                  <p className="text-3xl">Complete Onboarding</p>
+                  <div className="scale-[2]">
+                    <ChevronRightIcon />
+                  </div>
+                </button>
               </div>
             </div>
           </div>
