@@ -47,8 +47,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     {
       enabled: !!session,
       onSuccess: (data) => {
-        if (!data && router.pathname !== "/on-boarding") {
-          return router.replace("/on-boarding");
+        if (!data && router.pathname !== "/onboarding") {
+          return router.replace("/onboarding");
         }
 
         if (data && data.role === "ADMIN") {
