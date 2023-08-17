@@ -38,7 +38,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const supabase = useSupabaseClient();
 
   const profileQuery = useQuery(
-    ["profile", session],
+    ["profile", session?.user.id],
     async () => {
       const res = await fetch(`/api/user/me`);
       const data = await res.json();
@@ -60,22 +60,19 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
-      setSession(session);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) setSession(session);
+      if (!session) {
+        router.replace("/signin");
+      }
+
       setLoading(false);
     });
 
-    supabase.auth.getSession();
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
   }, []);
-
-  useEffect(() => {
-    if (loading) return;
-
-    if (!session) {
-      router.replace("/signin");
-      return;
-    }
-  }, [loading, session]);
 
   const isLoading = !router.isReady || loading || profileQuery.isLoading;
 

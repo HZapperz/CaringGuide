@@ -7,10 +7,23 @@ export default isLoggedIn(async (req, res, user) => {
       case "GET": {
         const skip = req.query.skip ? parseInt(req.query.skip as string) : 0;
 
-        const [mentor, count] = await Promise.all([
+        const mentee = await prisma.profile.findUnique({
+          where: {
+            id: user.id,
+          },
+        });
+
+        if (!mentee) {
+          return res.status(404).json({
+            message: "User not onboarded",
+          });
+        }
+
+        let [mentor, count] = await Promise.all([
           prisma.profile.findFirst({
             where: {
               role: "MENTOR",
+              condition: mentee.condition,
             },
             skip,
           }),
@@ -20,6 +33,15 @@ export default isLoggedIn(async (req, res, user) => {
             },
           }),
         ]);
+
+        if (!mentor) {
+          mentor = await prisma.profile.findFirst({
+            where: {
+              role: "MENTOR",
+            },
+            skip,
+          });
+        }
 
         return res.status(200).json({
           mentor,

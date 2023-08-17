@@ -59,7 +59,7 @@ const SettingsPage = () => {
 
       setOpen(true);
       setSaveButton(<p>Save</p>);
-      queryClient.invalidateQueries(["profile", session]);
+      queryClient.invalidateQueries(["profile", session?.user.id]);
       toast.success("Profile Updated");
     } catch (error) {
       handleErrors(error);

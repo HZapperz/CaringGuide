@@ -86,7 +86,7 @@ const MenteeDashBoard = () => {
             <div className="font-poppins text-[#4E4E4E] text-2xl font-medium mb-4">
               FAVORITE RESOURCES
             </div>
-            <div className="grid w-full grid-cols-1 gap-4 overflow-scroll min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+            <div className="grid w-full grid-cols-1 gap-4 overflow-auto min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
               {favoriteResources.map((data, index) => (
                 <div
                   key={index}

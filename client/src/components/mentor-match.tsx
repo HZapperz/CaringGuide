@@ -1,5 +1,5 @@
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
 import Loader from "./loader";
@@ -9,12 +9,16 @@ import useHandleErrors from "@/hooks/useHandleErrors";
 import { Button } from "@nextui-org/react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
+import { useApp } from "@/context/app";
 
 const MentorMatch: React.FC = () => {
   const [skip, setSkip] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
+
+  const { session } = useApp();
   const handleError = useHandleErrors();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const fetchMatch = useQuery(
     ["mentor", "match", skip],
@@ -51,6 +55,7 @@ const MentorMatch: React.FC = () => {
     },
     {
       onSuccess: () => {
+        queryClient.invalidateQueries(["profile", session?.user.id]);
         toast.success("Match accepted! Redirecting to dashboard...");
         router.replace("/dashboard");
       },

@@ -3,11 +3,13 @@ import { Resources } from "@prisma/client";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const ArticlesCard = ({ resource }: { resource: Resources }) => {
   const [imageUrl, setImageUrl] = useState<string>("/images/articles1.jpeg");
   const supabase = useSupabaseClient();
-  const handleErrors = useHandleErrors();
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -33,7 +35,10 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
   }, [resource.image]);
 
   return (
-    <div className="bg-[#ECEEED] rounded-2xl w-full aspect-[2/1] min-[400px]:aspect-square">
+    <div
+      onClick={() => router.push(resource.link)}
+      className="bg-[#ECEEED] cursor-pointer rounded-2xl w-full aspect-[2/1] min-[400px]:aspect-square"
+    >
       <div className="flex items-center justify-center w-full h-full">
         <img
           src={imageUrl}

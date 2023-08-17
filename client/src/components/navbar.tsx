@@ -1,7 +1,6 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect } from "react";
 import { Navbar, Text, Image, Dropdown, Avatar, Grid } from "@nextui-org/react";
 import { Bars3Icon } from "@heroicons/react/20/solid";
-import { useNavigate } from "react-router-dom";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useApp } from "@/context/app";
@@ -114,7 +113,13 @@ const NavbarComp = () => {
                     />
                   )}
                 </Dropdown.Trigger>
-                <Dropdown.Menu color="secondary" aria-label="Avatar Actions">
+                <Dropdown.Menu
+                  color="secondary"
+                  aria-label="Avatar Actions"
+                  onAction={(key) =>
+                    key === "logout" && supabase.auth.signOut()
+                  }
+                >
                   <Dropdown.Item key="settings">
                     <Link href="/settings">Edit Profile</Link>
                   </Dropdown.Item>
@@ -163,7 +168,13 @@ const NavbarComp = () => {
                     src="default.jpeg"
                   />
                 </Dropdown.Trigger>
-                <Dropdown.Menu color="secondary" aria-label="Avatar Actions">
+                <Dropdown.Menu
+                  color="secondary"
+                  aria-label="Avatar Actions"
+                  onAction={(key) =>
+                    key === "logout" && supabase.auth.signOut()
+                  }
+                >
                   <Dropdown.Item key="settings">
                     <Link href="/settings">Edit Profile</Link>
                   </Dropdown.Item>

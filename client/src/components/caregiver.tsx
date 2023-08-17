@@ -37,7 +37,7 @@ const Caregiver = () => {
 
       await response.json();
       toast.success("Onboarding Completed");
-      queryClient.invalidateQueries(["profile", session]);
+      queryClient.invalidateQueries(["profile", session?.user.id]);
       router.push("/dashboard");
     } catch (error) {
       toast.error((error as Error).message);

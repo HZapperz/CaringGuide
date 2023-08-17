@@ -4,7 +4,6 @@ import { journalSchema } from "@/schema/journal";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Loading } from "@nextui-org/react";
 import { WithOnBoarding } from "@/components/WithOnboarding";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { Journal } from "@prisma/client";
@@ -67,7 +66,7 @@ const JournalEditor: React.FC = () => {
           body: JSON.stringify(data),
         });
 
-        queryClient.invalidateQueries(["profile", session]);
+        queryClient.invalidateQueries(["profile", session?.user.id]);
         setRefresh(!fresh);
         reset();
       }
@@ -108,25 +107,12 @@ const JournalEditor: React.FC = () => {
     getAllJournals();
   }, [fresh]);
 
-  // if (loader)
-  //   return (
-  //     <div className="flex items-center justify-center w-full h-full">
-  //       <Loading />
-  //     </div>
-  //   );
-
   return (
     <main className="flex flex-col w-full h-full p-10">
       <div className="flex items-center justify-between w-full mb-2">
         <div className="font-poppins text-[#4E4E4E] text-2xl font-medium">
           JOURNAL
         </div>
-        <button
-          type="button"
-          className="bg-[#245B48] text-white rounded-lg px-4 py-2"
-        >
-          New Entry
-        </button>
       </div>
       <div className="border-2 border-[#ECEEED] flex flex-col md:flex-row justify-start items-start h-[90%] rounded-xl">
         <div className="flex flex-col items-start justify-start max-w-full p-4 md:max-h-full md:h-full md:w-fit md:border-r md:border-r-[#ECEEED] md:border-b-0 border-b border-b-[#ECEEED]">

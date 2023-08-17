@@ -39,7 +39,7 @@ const Guide = () => {
       });
 
       await response.json();
-      queryClient.invalidateQueries(["profile", session]);
+      queryClient.invalidateQueries(["profile", session?.user.id]);
       toast.success("Onboarding Completed Successfully");
       router.push("/dashboard");
     } catch (error) {

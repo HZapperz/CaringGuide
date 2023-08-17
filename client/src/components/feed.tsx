@@ -91,7 +91,7 @@ const FeedCard = (props: any) => {
       console.error("Error adding user favorite:", error);
     }
 
-    queryClient.invalidateQueries(["profile", session]);
+    queryClient.invalidateQueries(["profile", session?.user.id]);
     setLoader(false);
   };
 
@@ -109,7 +109,7 @@ const FeedCard = (props: any) => {
         status,
         false
       );
-      queryClient.invalidateQueries(["profile", session]);
+      queryClient.invalidateQueries(["profile", session?.user.id]);
     } catch (error) {
       console.error("Error adding user favorite:", error);
     }
@@ -130,7 +130,7 @@ const FeedCard = (props: any) => {
         false,
         status
       );
-      queryClient.invalidateQueries(["profile", session]);
+      queryClient.invalidateQueries(["profile", session?.user.id]);
     } catch (error) {
       console.error("Error adding user favorite:", error);
     }

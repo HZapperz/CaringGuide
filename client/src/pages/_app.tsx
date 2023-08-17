@@ -52,6 +52,7 @@ function App({ Component, pageProps }: AppProps) {
           queries: {
             cacheTime: 1000 * 60 * 5,
             refetchOnWindowFocus: false,
+            refetchOnMount: false,
           },
         },
       })
