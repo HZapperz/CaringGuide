@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useApp } from "@/context/app";
 import StarIcon from "@mui/icons-material/Star";
-import ThumbUpSharp from "@mui/icons-material/ThumbUpAltOutlined";
-import ThumbUpAltRounded from "@mui/icons-material/ThumbUpAltRounded";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 import ThumbDownSharp from "@mui/icons-material/ThumbDownAltOutlined";
 import ThumbDownAltRounded from "@mui/icons-material/ThumbDownAltRounded";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import Link from "next/link";
+import ThumbUpSharp from "@mui/icons-material/ThumbUpAltOutlined";
+import ThumbUpAltRounded from "@mui/icons-material/ThumbUpAltRounded";
 import { Loading } from "@nextui-org/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useApp } from "@/context/app";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 const FeedCard = (props: any) => {
   const [isStarred, setIsStarred] = useState(false);
@@ -172,7 +172,7 @@ const FeedCard = (props: any) => {
 
   if (loader)
     return (
-      <div className="w-full h-full flex justify-center items-center">
+      <div className="flex items-center justify-center w-full h-full">
         <Loading />
       </div>
     );
@@ -190,13 +190,13 @@ const FeedCard = (props: any) => {
         aria-required
         width={200}
         height={200}
-        className="rounded-2xl md:h-48 md:w-48 w-full h-full object-cover object-center"
+        className="object-cover object-center w-full h-full rounded-2xl md:h-48 md:w-48"
       />
       <div className="flex flex-col justify-between p-4 leading-normal">
-        <h5 className="-mt-4 text-2xl text-gray-500 font-semibold tracking-tight dark:text-gray-500">
+        <h5 className="-mt-4 text-2xl font-semibold tracking-tight text-gray-500 dark:text-gray-500">
           {props.data.title}
         </h5>
-        <h5 className="mb-2 text-lg text-gray-500 font-normal tracking-tight dark:text-gray-500">
+        <h5 className="mb-2 text-lg font-normal tracking-tight text-gray-500 dark:text-gray-500">
           {props.data.sub}
         </h5>
         <p className="text-sm font-normal text-gray-400 dark:text-gray-400">
@@ -207,23 +207,23 @@ const FeedCard = (props: any) => {
         <div className="flex">
           {isLiked ? (
             <ThumbUpAltRounded
-              className="h-10 w-10 text-green-800 cursor-pointer"
+              className="w-10 h-10 text-green-800 cursor-pointer"
               onClick={(event) => handleLikeClick(event, false)}
             />
           ) : (
             <ThumbUpSharp
-              className="h-10 w-10 text-gray-500 cursor-pointer"
+              className="w-10 h-10 text-gray-500 cursor-pointer"
               onClick={(event) => handleLikeClick(event, true)}
             />
           )}
           {isDisliked ? (
             <ThumbDownAltRounded
-              className="h-10 w-10 text-green-800 cursor-pointer"
+              className="w-10 h-10 text-green-800 cursor-pointer"
               onClick={(event) => handleDislikeClick(event, false)}
             />
           ) : (
             <ThumbDownSharp
-              className="h-10 w-10 text-gray-500 cursor-pointer"
+              className="w-10 h-10 text-gray-500 cursor-pointer"
               onClick={(event) => handleDislikeClick(event, true)}
             />
           )}
@@ -232,12 +232,12 @@ const FeedCard = (props: any) => {
       <div className="absolute bottom-1 right-1">
         {isStarred ? (
           <StarIcon
-            className="h-10 w-10 text-green-800 cursor-pointer"
+            className="w-10 h-10 text-green-800 cursor-pointer"
             onClick={(event) => handleStarClick(event, false)}
           />
         ) : (
           <StarBorderIcon
-            className="h-10 w-10 text-gray-500 cursor-pointer"
+            className="w-10 h-10 text-gray-500 cursor-pointer"
             onClick={(event) => handleStarClick(event, true)}
           />
         )}
