@@ -32,7 +32,10 @@ const Caregiver = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...data }),
+        body: JSON.stringify({
+          ...data,
+          location: data.city + ", " + data.country,
+        }),
       });
 
       await response.json();
@@ -44,8 +47,9 @@ const Caregiver = () => {
     }
   };
 
+  console.log(errors);
   const focusStyle =
-    "transition-all focus:bg-transparent focus:border-b-2 focus:rounded-none focus:border-b-caring";
+    "transition-all focus:bg-transparent focus:border-b-2 focus:rounded-none focus:border-b-caring focus:border-0";
   const selectFocusStyle = "focus:bg-white focus:border";
 
   return (
@@ -56,7 +60,7 @@ const Caregiver = () => {
             PERSONAL DETAILS
           </div>
           <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
-            <div className="flex items-center justify-center sm:justify-start sm:items-start">
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="text"
                 placeholder="First Name"
@@ -69,7 +73,7 @@ const Caregiver = () => {
                 <p className="mt-2 text-red-500">First Name is required</p>
               )}
             </div>
-            <div className="flex items-center justify-center sm:justify-start sm:items-start">
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="text"
                 placeholder="Middle Name"
@@ -82,7 +86,7 @@ const Caregiver = () => {
                 <p className="mt-2 text-red-500">Middle Name is required</p>
               )}
             </div>
-            <div className="flex items-center justify-center sm:justify-start sm:items-start">
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="text"
                 placeholder="Last Name"
@@ -95,7 +99,7 @@ const Caregiver = () => {
                 <p className="mt-2 text-red-500">Last Name is required</p>
               )}
             </div>
-            <div className="flex items-center justify-center sm:justify-start sm:items-start">
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="date"
                 placeholder="Date of Birth"
@@ -108,7 +112,7 @@ const Caregiver = () => {
                 <p className="mt-2 text-red-500">Age is required</p>
               )}
             </div>
-            <div className="flex items-center justify-center sm:justify-start sm:items-start">
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
               <select
                 title="gender"
                 id="gender"
@@ -134,7 +138,7 @@ const Caregiver = () => {
             Contact Information
           </div>
           <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
-            <div className="flex items-center justify-center sm:justify-start sm:items-start">
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="email"
                 placeholder="Email"
@@ -147,7 +151,7 @@ const Caregiver = () => {
                 <p className="mt-2 text-red-500">Email is required</p>
               )}
             </div>
-            <div className="flex items-center justify-center sm:justify-start sm:items-start">
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="text"
                 placeholder="Mobile Number"
@@ -162,6 +166,43 @@ const Caregiver = () => {
             </div>
           </div>
         </div>
+
+        <hr />
+        <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
+          <div className="font-poppins uppercase text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
+            Address Details
+          </div>
+          <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
+              <input
+                type="email"
+                placeholder="City"
+                {...register("city", { required: true })}
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
+                  errors.city ? " border border-red-500" : ""
+                }`}
+              />
+              {errors.city && (
+                <p className="mt-2 text-red-500">City is required</p>
+              )}
+            </div>
+
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
+              <input
+                type="text"
+                placeholder="Country"
+                {...register("country", { required: true })}
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
+                  errors.country ? " border border-red-500" : ""
+                }`}
+              />
+              {errors.country && (
+                <p className="mt-2 text-red-500">Country is required</p>
+              )}
+            </div>
+          </div>
+        </div>
+
         <hr />
         <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
           <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
@@ -169,7 +210,7 @@ const Caregiver = () => {
           </div>
           <div className="flex flex-col w-full lg:w-4/6">
             <div className="grid content-center w-full grid-cols-1 mb-4 sm:grid-cols-2 md:grid-cols-3 gap-x-30 gap-y-4">
-              <div className="flex items-center justify-center sm:justify-start sm:items-start">
+              <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
                 <input
                   type="text"
                   placeholder="Name"
@@ -182,7 +223,7 @@ const Caregiver = () => {
                   <p className="mt-2 text-red-500">Name is required</p>
                 )}
               </div>
-              <div className="flex items-center justify-center sm:justify-start sm:items-start">
+              <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
                 <select
                   title="condition"
                   id="condition"
@@ -202,7 +243,7 @@ const Caregiver = () => {
                   <p className="mt-2 text-red-500">Condition is required</p>
                 )}
               </div>
-              <div className="flex items-center justify-center sm:justify-start sm:items-start">
+              <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
                 <select
                   title="relationship"
                   id="relationship"

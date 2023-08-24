@@ -19,6 +19,8 @@ const menteeInformationSchema = z.object({
   condition: z.string(),
   synopsis: z.string(),
   experience: z.nativeEnum(Experience),
+  city: z.string(),
+  country: z.string(),
 });
 
 const mentorInformationSchema = z.object({
