@@ -1,14 +1,27 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/lib/client";
+import isLoggedIn from "@/lib/isLoggedIn";
+import { Disease } from "@prisma/client";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default isLoggedIn(async function handler(req, res, user) {
   switch (req.method) {
     case "GET":
+      console.log("USER ON BACKEND", user);
       try {
+        const loggedInUser = await prisma.profile.findUnique({
+          where: { id: user.id },
+          select: { condition: true },
+        });
+
+        console.log("disease", loggedInUser?.condition);
+
         const resources = await prisma.resources.findMany({
+          where: {
+            OR: [
+              { disease: loggedInUser?.condition || undefined },
+              { category: "GENERAL" },
+            ],
+          },
           include: {
             favoritedBy: {
               select: {
@@ -29,4 +42,4 @@ export default async function handler(
     default:
       return res.status(405).json({ message: "Method not allowed" });
   }
-}
+});
