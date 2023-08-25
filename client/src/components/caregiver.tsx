@@ -175,7 +175,7 @@ const Caregiver = () => {
           <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
             <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
               <input
-                type="email"
+                type="text"
                 placeholder="City"
                 {...register("city", { required: true })}
                 className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
