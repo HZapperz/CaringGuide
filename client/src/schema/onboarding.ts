@@ -45,6 +45,12 @@ export const updateDetail = z.object({
   location: z.string().optional(),
   state: z.string().optional(),
   about: z.string().optional(),
+  
+  dob: z.coerce.date(),
+  gender: z.string(),
+
+  email: z.string().email(),
+  phone: z.string(),
 });
 
 export const onBoardingSchema = z.union([
