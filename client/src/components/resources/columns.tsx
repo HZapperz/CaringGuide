@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Resources } from "@prisma/client";
+import { getCategoryLabel, getDiseaseLabel } from "@/utils/enumToLabel";
 
 type Props = {
   onEdit: (d: Resources) => void;
@@ -79,7 +80,10 @@ export function getColumns({
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Category" />
       ),
-      cell: ({ row }) => <div>{row.getValue("category")}</div>,
+      cell: ({ row }) => {
+        const category = getCategoryLabel(row.getValue("category"));
+        return <div>{category}</div>;
+      },
     },
     {
       enableSorting: false,
@@ -87,7 +91,10 @@ export function getColumns({
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Disease" />
       ),
-      cell: ({ row }) => <div>{row.getValue("disease")}</div>,
+      cell: ({ row }) => {
+        const disease = getDiseaseLabel(row.getValue("disease"));
+        return <div>{disease}</div>;
+      },
     },
 
     {

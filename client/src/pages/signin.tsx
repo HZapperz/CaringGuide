@@ -33,7 +33,7 @@ const Login = () => {
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success("Logged in successfully");
+      toast.success("Logged in successfully. Redirecting...");
       router.push("/dashboard");
     }
   }

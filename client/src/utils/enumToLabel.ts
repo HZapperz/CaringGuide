@@ -8,9 +8,9 @@ export const diseaseLabels = [
   { value: Disease.STROKE, label: "Stroke" },
 ];
 
-export const getDiseaseLabel = (disease: Disease) => {
+export const getDiseaseLabel = (disease: string) => {
   const diseaseLabel = diseaseLabels.find((d) => d.value === disease);
-  return diseaseLabel;
+  return diseaseLabel?.label;
 };
 
 export const categoryLabels = [
@@ -22,7 +22,7 @@ export const categoryLabels = [
   { value: Category.END_OF_LIFE, label: "End of Life" },
 ];
 
-export const getCategoryLabel = (category: Category) => {
+export const getCategoryLabel = (category: string) => {
   const categoryLabel = categoryLabels.find((c) => c.value === category);
-  return categoryLabel;
+  return categoryLabel?.label;
 };

@@ -36,7 +36,7 @@ import { toast } from "react-hot-toast";
 import Page from "../page";
 import { getColumns } from "./columns";
 import { DataTableToolbar } from "./data-table-toolbar";
-import AccountForm, { FormValues as ResourcesFormValues } from "./form";
+import ResourceForm, { FormValues as ResourcesFormValues } from "./form";
 
 const Content: {
   [key: string]: {
@@ -270,7 +270,7 @@ export function ResourcesDataTable() {
             <SheetDescription>{Content[mode]?.description}</SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4">
-            <AccountForm
+            <ResourceForm
               isSubmitting={
                 updateMutation?.isLoading || createMutation?.isLoading
               }

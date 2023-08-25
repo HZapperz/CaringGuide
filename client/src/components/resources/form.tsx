@@ -35,7 +35,7 @@ interface Props {
   isSubmitting: boolean;
 }
 
-export default function AccountForm({
+export default function ResourceForm({
   defaultValues,
   onSubmit,
   isSubmitting,
