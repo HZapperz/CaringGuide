@@ -9,7 +9,7 @@ import { Resources } from "@prisma/client";
 const Feedpage = () => {
   const [value, setValue] = useState(0);
   const [loader, setLoader] = useState(false);
-  const [links, setLinks] = useState<Resources[]>([]);
+  const [resources, setResources] = useState<Resources[]>([]);
   const [selected, setSelected] = useState<string[]>(["All"]);
   const handleErrors = useHandleErrors();
 
@@ -41,12 +41,14 @@ const Feedpage = () => {
       });
 
       const data = await response.json();
-      setLinks(data);
+      setResources(data);
     } catch (error) {
       handleErrors(error);
     }
     setLoader(false);
   };
+
+  console.log(resources);
 
   useEffect(() => {
     getAllResources();
@@ -54,20 +56,20 @@ const Feedpage = () => {
 
   if (loader)
     return (
-      <div className="w-full h-full flex justify-center items-center">
+      <div className="flex items-center justify-center w-full h-full">
         <Loading />
       </div>
     );
 
   return (
     <main className="h-full bg-white">
-      <div className="flex lg:flex-row flex-col justify-start items-start">
-        <div className="lg:w-fit w-full p-6">
+      <div className="flex flex-col items-start justify-start lg:flex-row">
+        <div className="w-full p-6 lg:w-fit">
           <Text className="text-center font-poppins text-[30px] font-[500]">
             FILTERS
           </Text>
           <hr />
-          <div className="lg:grid grid-col-6 gap-2 flex w-full overflow-x-auto mt-4">
+          <div className="flex w-full gap-2 mt-4 overflow-x-auto lg:grid grid-col-6">
             {filters.map((label) => (
               <button
                 type="button"
@@ -78,7 +80,7 @@ const Feedpage = () => {
                 onClick={() => handleButtonClick(label)}
               >
                 {label}
-                <div className="ml-2 w-5">
+                <div className="w-5 ml-2">
                   {!selected.includes(label) ? <PlusIcon /> : <XMarkIcon />}
                 </div>
               </button>
@@ -86,16 +88,16 @@ const Feedpage = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4 p-8">
-          {links.map((item, index) => {
+        <div className="grid grid-cols-1 gap-4 p-8 2xl:grid-cols-2">
+          {resources.map((resource, index) => {
             if (
               selected.find(
-                (s) => s.toLowerCase() === item.category.toLowerCase()
+                (s) => s.toLowerCase() === resource.category.toLowerCase()
               )
             ) {
-              return <FeedCard key={index} data={item} />;
+              return <FeedCard key={index} data={resource} />;
             } else if (selected.includes("All")) {
-              return <FeedCard key={index} data={item} />;
+              return <FeedCard key={index} data={resource} />;
             }
 
             return null;

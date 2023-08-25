@@ -8,7 +8,16 @@ export default async function handler(
   switch (req.method) {
     case "GET":
       try {
-        const resources = await prisma.resources.findMany();
+        const resources = await prisma.resources.findMany({
+          include: {
+            favoritedBy: {
+              select: {
+                isDisliked: true,
+                isLiked: true,
+              },
+            },
+          },
+        });
         res.status(200).json(resources);
       } catch (error) {
         res.status(500).json({

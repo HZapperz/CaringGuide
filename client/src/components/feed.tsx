@@ -15,7 +15,6 @@ const FeedCard = (props: any) => {
   const [isStarred, setIsStarred] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
-  const [loader, setLoader] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
   const supabase = useSupabaseClient();
   const { session } = useApp();
@@ -45,7 +44,6 @@ const FeedCard = (props: any) => {
     isLiked: boolean | undefined,
     isDisliked: boolean | undefined
   ) {
-    setLoader(true);
     try {
       console.log(resourceId, isStarred, isLiked, isDisliked);
       const response = await fetch("/api/userFavourites", {
@@ -60,7 +58,6 @@ const FeedCard = (props: any) => {
           isDisliked,
         }),
       });
-      setLoader(false);
       return handleApiResponse(response);
     } catch (error) {
       console.error("Error adding user favorite:", error);
@@ -78,7 +75,6 @@ const FeedCard = (props: any) => {
   ) => {
     e.preventDefault();
     await setValues();
-    setLoader(true);
     try {
       const createdFavorite = await addUserFavorite(
         props.data.id,
@@ -92,7 +88,6 @@ const FeedCard = (props: any) => {
     }
 
     queryClient.invalidateQueries(["profile", session?.user.id]);
-    setLoader(false);
   };
 
   const handleLikeClick = async (
@@ -122,7 +117,6 @@ const FeedCard = (props: any) => {
     e.preventDefault();
     setIsLiked(false);
     setIsDisliked(!isDisliked);
-    setLoader(true);
     try {
       const createdFavorite = await addUserFavorite(
         props.data.id,
@@ -134,8 +128,6 @@ const FeedCard = (props: any) => {
     } catch (error) {
       console.error("Error adding user favorite:", error);
     }
-
-    setLoader(false);
   };
 
   useEffect(() => {
@@ -170,12 +162,13 @@ const FeedCard = (props: any) => {
       });
   }, [props.data.id]);
 
-  if (loader)
-    return (
-      <div className="flex items-center justify-center w-full h-full">
-        <Loading />
-      </div>
-    );
+  const textEllipse = (text: string) => {
+    if (text.length > 100) {
+      return text.slice(0, 100) + "...";
+    } else {
+      return text;
+    }
+  };
 
   return (
     <Link
@@ -197,7 +190,7 @@ const FeedCard = (props: any) => {
           {props.data.title}
         </h5>
         <h5 className="mb-2 text-lg font-normal tracking-tight text-gray-500 dark:text-gray-500">
-          {props.data.description}
+          {textEllipse(props.data.description || "")}
         </h5>
         <p className="text-sm font-normal text-gray-400 dark:text-gray-400">
           {props.data.text}
