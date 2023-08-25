@@ -37,6 +37,8 @@ export default isLoggedIn(async (req, res, user) => {
           relationShipToPatient:
             data.role === "MENTEE" ? data.relation : undefined,
           patientName: data.role === "MENTEE" ? data.patientName : undefined,
+          city: data.city,
+          country: data.country,
         },
       });
 

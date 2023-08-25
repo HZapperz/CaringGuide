@@ -10,6 +10,8 @@ export const commonDetailsSchema = z.object({
 
   email: z.string().email(),
   phone: z.string(),
+  city: z.string(),
+  country: z.string(),
 });
 
 const menteeInformationSchema = z.object({
@@ -19,8 +21,6 @@ const menteeInformationSchema = z.object({
   condition: z.string(),
   synopsis: z.string(),
   experience: z.nativeEnum(Experience),
-  city: z.string(),
-  country: z.string(),
 });
 
 const mentorInformationSchema = z.object({
@@ -42,8 +42,6 @@ export const updateDetail = z.object({
   firstName: z.string().min(2).max(50).optional(),
   middleName: z.string().optional(),
   lastName: z.string().min(2).max(50).optional(),
-  city: z.string().optional(),
-  country: z.string().optional(),
   about: z.string().optional(),
 
   dob: z.coerce.date(),
