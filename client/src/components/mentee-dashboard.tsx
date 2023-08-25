@@ -81,21 +81,22 @@ const MenteeDashBoard = () => {
         </div>
       </div>
       <div className="flex flex-col items-center justify-start w-full gap-4 xl:flex-row md:items-start sm:h-full">
-        <div className="w-full flex justify-start sm:justify-center items-center xl:w-[70%] h-full">
-          <div className="flex flex-col justify-start items-start max-h-full rounded-xl border-2 border-[#ECEEED] p-4 w-full">
-            <div className="font-poppins text-[#4E4E4E] text-2xl font-medium mb-4">
-              FAVORITE RESOURCES
-            </div>
-            <div className="grid w-full grid-cols-1 gap-4 overflow-auto min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-              {favoriteResources.map((data, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-center sm:w-full"
-                >
-                  <ArticlesCard resource={data} />
-                </div>
-              ))}
-            </div>
+        <div className="flex flex-col justify-start items-start max-h-full rounded-xl border-2 border-[#ECEEED] p-4 w-full">
+          <div className="font-poppins text-[#4E4E4E] text-2xl font-medium mb-4">
+            FAVORITE RESOURCES
+          </div>
+          <div className="grid w-full grid-cols-1 gap-4 overflow-auto min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+            {favoriteResources.map((data, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-center sm:w-full"
+              >
+                <ArticlesCard resource={data} />
+              </div>
+            ))}
+            {favoriteResources.length === 0 && (
+              <p className="text-gray-500">No favorite resources yet</p>
+            )}
           </div>
         </div>
         <div className="w-full flex justify-start sm:justify-center items-center xl:w-[30%] mb-2 xl:mt-0 h-full">

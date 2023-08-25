@@ -16,6 +16,7 @@ const Dashboard: React.FC = () => {
   }
 
   if (profile.role === "MENTEE") {
+    console.log(profile);
     return <MenteeDashBoard />;
   }
 
