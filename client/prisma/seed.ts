@@ -10,8 +10,8 @@ const prisma = new PrismaClient();
   );
 
   const { data, error } = await supabase.auth.admin.createUser({
-    email: "super_admin@caringguide.org",
-    password: "admin",
+    email: "admin@daddy.com",
+    password: "admin@daddy.com",
     email_confirm: true,
   });
 
@@ -19,7 +19,7 @@ const prisma = new PrismaClient();
     await prisma.profile.create({
       data: {
         id: data.user.id,
-        email: "super_admin@caringguide.org",
+        email: "admin@daddy.com",
         firstName: "Admin",
         lastName: "Admin",
         phone: "1234567890",

@@ -1,3 +1,4 @@
+import { Category, Disease } from "@prisma/client";
 import { z } from "zod";
 
 export const resourceSchema = z.object({
@@ -5,8 +6,8 @@ export const resourceSchema = z.object({
   description: z.string(),
   link: z.string().url(),
   image: z.string(),
-  category: z.string(),
-  disease: z.enum(["MYELOMA", "ALZHEIMER", "PARKINSON", "STROKE", "ALS"]),
+  category: z.nativeEnum(Category),
+  disease: z.nativeEnum(Disease),
 });
 
 export const createResourceSchema = resourceSchema;

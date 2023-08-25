@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   RowSelectionState,
   getCoreRowModel,
@@ -8,10 +7,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import * as React from "react";
 
-import { getColumns } from "./columns";
+import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
-import { DataTableToolbar } from "./data-table-toolbar";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,14 +28,15 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import AccountForm, { FormValues as ResourcesFormValues } from "./form";
-import Page from "../page";
-import { DataTable } from "@/components/data-table/data-table";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import useHandleErrors from "@/hooks/useHandleErrors";
 import { Resources } from "@prisma/client";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import useHandleErrors from "@/hooks/useHandleErrors";
+import Page from "../page";
+import { getColumns } from "./columns";
+import { DataTableToolbar } from "./data-table-toolbar";
+import AccountForm, { FormValues as ResourcesFormValues } from "./form";
 
 const Content: {
   [key: string]: {
