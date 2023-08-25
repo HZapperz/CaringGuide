@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import { useApp } from "@/context/app";
+import { useEffect } from "react";
 
 type SignInFormValues = {
   email: string;
@@ -10,9 +12,17 @@ type SignInFormValues = {
 };
 
 const Login = () => {
+  const { session } = useApp();
   const supabase = useSupabaseClient();
   const form = useForm<SignInFormValues>();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!!session) {
+      router.replace("/dashboard");
+      return;
+    }
+  }, [session]);
 
   async function handleLogin(data: SignInFormValues) {
     const { error } = await supabase.auth.signInWithPassword({
