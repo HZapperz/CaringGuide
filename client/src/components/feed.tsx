@@ -190,14 +190,14 @@ const FeedCard = (props: any) => {
         aria-required
         width={200}
         height={200}
-        className="object-cover object-center w-full h-full rounded-2xl md:h-48 md:w-48"
+        className="object-cover object-center w-full h-full rounded-2xl md:h-48 md:w-48 bg-slate-200"
       />
       <div className="flex flex-col justify-between p-4 leading-normal">
         <h5 className="-mt-4 text-2xl font-semibold tracking-tight text-gray-500 dark:text-gray-500">
           {props.data.title}
         </h5>
         <h5 className="mb-2 text-lg font-normal tracking-tight text-gray-500 dark:text-gray-500">
-          {props.data.sub}
+          {props.data.description}
         </h5>
         <p className="text-sm font-normal text-gray-400 dark:text-gray-400">
           {props.data.text}

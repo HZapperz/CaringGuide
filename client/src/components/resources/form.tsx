@@ -43,6 +43,8 @@ const RESOURCE_CATEGORY = [
   "Article",
 ];
 
+const RESOURCE_DISEASE = ["MYELOMA", "ALZHEIMER", "PARKINSON", "STROKE", "ALS"];
+
 export default function AccountForm({
   defaultValues,
   onSubmit,
@@ -134,6 +136,35 @@ export default function AccountForm({
                   {RESOURCE_CATEGORY.map((category) => (
                     <SelectItem key={category} value={category}>
                       {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="disease"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Disease</FormLabel>
+              <Select defaultValue={field.value} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select disease" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {RESOURCE_DISEASE.map((disease) => (
+                    <SelectItem
+                      key={disease}
+                      value={disease}
+                      className="capitalize"
+                    >
+                      {disease}
                     </SelectItem>
                   ))}
                 </SelectContent>

@@ -81,6 +81,14 @@ export function getColumns({
       ),
       cell: ({ row }) => <div>{row.getValue("category")}</div>,
     },
+    {
+      enableSorting: false,
+      accessorKey: "disease",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Disease" />
+      ),
+      cell: ({ row }) => <div>{row.getValue("disease")}</div>,
+    },
 
     {
       id: "actions",
@@ -95,7 +103,7 @@ export function getColumns({
               variant="ghost"
               className="data-[state=open]:bg-muted flex h-8 w-8 p-0"
             >
-              <DotsHorizontalIcon className="h-4 w-4" />
+              <DotsHorizontalIcon className="w-4 h-4" />
               <span className="sr-only">Open menu</span>
             </Button>
           </DropdownMenuTrigger>
