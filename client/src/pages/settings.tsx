@@ -2,6 +2,7 @@ import { WithOnBoarding } from "@/components/WithOnboarding";
 import { useApp } from "@/context/app";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { updateDetail } from "@/schema/onboarding";
+import countryList from "@/utils/countryList";
 import { diseaseLabels } from "@/utils/enumToLabel";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -317,19 +318,14 @@ const SettingsPage = () => {
         <Text css={{ minWidth: "80px" }} size={15}>
           Country
         </Text>
-        <Controller
-          name="country"
-          control={control}
-          render={({ field }) => (
-            <Input
-              {...field}
-              bordered
-              size="sm"
-              placeholder={"Country"}
-              color="secondary"
-            />
-          )}
-        />
+        <select
+          {...register("country", { required: true })}
+          className={`border-2 rounded-xl text-xs w-20 p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
+        >
+          {countryList.map((country) => (
+            <option value={country}>{country}</option>
+          ))}
+        </select>
       </Container>
 
       <Separator />

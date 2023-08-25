@@ -1,5 +1,6 @@
 import { useApp } from "@/context/app";
 import { menteeOnboardingSchema } from "@/schema/onboarding";
+import countryList from "@/utils/countryList";
 import { diseaseLabels } from "@/utils/enumToLabel";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
@@ -50,7 +51,7 @@ const Caregiver = () => {
   console.log(errors);
   const focusStyle =
     "transition-all focus:bg-transparent focus:border-b-2 focus:rounded-none focus:border-b-caring focus:border-0";
-  const selectFocusStyle = "focus:bg-white focus:border";
+  const selectFocusStyle = "focus:bg-white focus:border w-52";
 
   return (
     <>
@@ -104,7 +105,7 @@ const Caregiver = () => {
                 type="date"
                 placeholder="Date of Birth"
                 {...register("dob", { required: true })}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
+                className={`font-poppins bg-[#ECEEED] px-4 w-52 h-[48px] rounded-xl ${focusStyle} ${
                   errors.dob ? " border border-red-500" : ""
                 }`}
               />
@@ -188,14 +189,17 @@ const Caregiver = () => {
             </div>
 
             <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
-              <input
-                type="text"
-                placeholder="Country"
+              <select
+                title="country"
                 {...register("country", { required: true })}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${selectFocusStyle} ${
                   errors.country ? " border border-red-500" : ""
                 }`}
-              />
+              >
+                {countryList.map((country) => (
+                  <option value={country}>{country}</option>
+                ))}
+              </select>
               {errors.country && (
                 <p className="mt-2 text-red-500">Country is required</p>
               )}

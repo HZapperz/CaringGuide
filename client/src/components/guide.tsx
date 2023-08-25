@@ -1,6 +1,7 @@
 import { useApp } from "@/context/app";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { mentorOnboardingSchema } from "@/schema/onboarding";
+import countryList from "@/utils/countryList";
 import { diseaseLabels } from "@/utils/enumToLabel";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
@@ -50,7 +51,7 @@ const Guide = () => {
 
   const focusStyle =
     "transition-all focus:bg-transparent focus:border-b-2 focus:rounded-none focus:border-b-caring";
-  const selectFocusStyle = "focus:bg-white focus:border";
+  const selectFocusStyle = "focus:bg-white focus:border w-52";
 
   return (
     <>
@@ -104,7 +105,7 @@ const Guide = () => {
                 type="date"
                 placeholder="Date of Birth"
                 {...register("dob", { required: true })}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
+                className={`font-poppins bg-[#ECEEED] px-4 w-52 h-[48px] rounded-xl ${focusStyle} ${
                   errors.dob ? " border border-red-500" : ""
                 }`}
               />
@@ -122,9 +123,9 @@ const Guide = () => {
                   errors.gender ? " border border-red-500" : ""
                 }`}
               >
-                <option value="male">he/him</option>
-                <option value="female">she/her</option>
-                <option value="rather">Rather not Say</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
               </select>
               {errors.gender && (
                 <p className="mt-2 text-red-500">Gender is required</p>
@@ -162,6 +163,44 @@ const Guide = () => {
               />
               {errors.phone && (
                 <p className="mt-2 text-red-500">Mobile Number is required</p>
+              )}
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
+          <div className="font-poppins uppercase text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
+            Address Details
+          </div>
+          <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
+              <input
+                type="text"
+                placeholder="City"
+                {...register("city", { required: true })}
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
+                  errors.city ? " border border-red-500" : ""
+                }`}
+              />
+              {errors.city && (
+                <p className="mt-2 text-red-500">City is required</p>
+              )}
+            </div>
+
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
+              <select
+                title="country"
+                {...register("country", { required: true })}
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] w-52 rounded-xl ${selectFocusStyle} ${
+                  errors.country ? " border border-red-500" : ""
+                }`}
+              >
+                {countryList.map((country) => (
+                  <option value={country}>{country}</option>
+                ))}
+              </select>
+              {errors.country && (
+                <p className="mt-2 text-red-500">Country is required</p>
               )}
             </div>
           </div>

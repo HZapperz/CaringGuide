@@ -24,13 +24,13 @@ const OnBoarding = () => {
       return;
     }
 
-    if (!!profile) {
-      router.replace("/dashboard");
-      return;
-    }
+    // if (!!profile) {
+    //   router.replace("/dashboard");
+    //   return;
+    // }
   }, [isLoading, session, profile]);
 
-  if (isLoading || !session || !!profile) return <Loader />;
+  if (isLoading || !session) return <Loader />;
 
   return (
     <>
