@@ -66,12 +66,13 @@ model Journal {
 }
 
 model Resources {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
   description String
   link        String
   category    String
   image       String
+  disease     Disease
 
   favoritedBy UserFavourites[]
 }
@@ -98,4 +99,12 @@ enum Experience {
   LESS_THAN_2
   BETWEEN_2_AND_4
   MORE_THAN_4
+}
+
+enum Disease {
+  MYELOMA
+  ALZHEIMER
+  PARKINSON
+  STROKE
+  ALS
 }

@@ -6,6 +6,7 @@ export const resourceSchema = z.object({
   link: z.string().url(),
   image: z.string(),
   category: z.string(),
+  disease: z.enum(["MYELOMA", "ALZHEIMER", "PARKINSON", "STROKE", "ALS"]),
 });
 
 export const createResourceSchema = resourceSchema;
