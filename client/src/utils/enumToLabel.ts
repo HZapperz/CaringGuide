@@ -14,12 +14,12 @@ export const getDiseaseLabel = (disease: Disease) => {
 };
 
 export const categoryLabels = [
-  { value: Category.SCIENTIFIC_JOURNAL, label: "Scientific Journal" },
-  { value: Category.SUPPORT_GROUP, label: "Support Group" },
-  { value: Category.NON_PROFIT, label: "Non Profit" },
-  { value: Category.PRODUCT, label: "Product" },
-  { value: Category.WEBSITE, label: "Website" },
-  { value: Category.ARTICLE, label: "Article" },
+  { value: Category.GENERAL, label: "General" },
+  { value: Category.PHYSICAL, label: "Physical" },
+  { value: Category.EMOTIONAL, label: "Emotional" },
+  { value: Category.HOME_CARE, label: "Home Care" },
+  { value: Category.FINANCIAL_LEGAL, label: "Financial/Legal" },
+  { value: Category.END_OF_LIFE, label: "End of Life" },
 ];
 
 export const getCategoryLabel = (category: Category) => {
