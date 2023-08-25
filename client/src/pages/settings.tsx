@@ -42,7 +42,10 @@ const SettingsPage = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      if (!session?.user) return;
+      if (!session?.user) {
+        console.log("returning");
+        return;
+      }
 
       if (file) {
         await supabase.storage
