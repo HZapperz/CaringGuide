@@ -9,7 +9,7 @@ const CategoryCard = ({ label, value, setSelectedCategory }: Props) => {
   return (
     <div
       onClick={() => setSelectedCategory(value)}
-      className={`aspect-[5/3] flex justify-center items-center h-40 cursor-pointer shadow-xl`}
+      className={`aspect-[5/3] flex justify-center items-center xl:w-full xl:min-w-0 min-w-[240px] cursor-pointer shadow-xl`}
       style={{
         backgroundImage: `url(/images/category/${value.toLocaleLowerCase()}.jpg)`,
         backgroundSize: "cover",

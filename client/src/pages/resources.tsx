@@ -16,14 +16,6 @@ const Feedpage = () => {
     useState<ICategory["value"]>("ALL");
   const handleErrors = useHandleErrors();
 
-  const categories: ICategory[] = [
-    {
-      value: "ALL",
-      label: "All",
-    },
-    ...categoryLabels,
-  ];
-
   const getAllResources = async () => {
     setLoader(true);
     try {
@@ -49,22 +41,23 @@ const Feedpage = () => {
   }, []);
   console.log(selectedCategory);
 
-  // if (loader)
-  //   return (
-  //     <div className="flex items-center justify-center w-full h-full">
-  //       <Loading />
-  //     </div>
-  //   );
-
   return (
     <main className="h-full bg-white">
       <div className="flex flex-col items-start justify-start">
-        <h1 className="w-full p-6 pb-0 mb-0 text-4xl text-center bg-slate-50 md:text-left">
-          Resources Categories
-        </h1>
+        <div className="flex items-center justify-between w-full p-6 pb-0 bg-slate-50">
+          <h1 className="mb-0 text-3xl text-center md:text-4xl md:text-left">
+            Resources Categories
+          </h1>
+          <button
+            onClick={() => setSelectedCategory("ALL")}
+            className="px-4 py-2 text-sm text-white bg-green-900 border-2 border-green-900 rounded-xl h-fit hover:bg-green-800"
+          >
+            Show All
+          </button>
+        </div>
 
         <div className="flex w-full gap-4 p-6 overflow-x-scroll no-scrollbar bg-slate-50">
-          {categories.map((category) => (
+          {categoryLabels.map((category) => (
             <CategoryCard
               key={category.label}
               {...category}
@@ -73,7 +66,7 @@ const Feedpage = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-4 p-8 mx-auto md:grid-cols-2 max-w-7xl">
+        <div className="grid grid-cols-1 gap-4 p-8 mx-auto lg:grid-cols-2 max-w-7xl">
           {resources
             .sort((a: any, b: any) => {
               const netLikesA = a.favoritedBy.reduce(
