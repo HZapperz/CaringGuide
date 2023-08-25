@@ -298,33 +298,33 @@ const SettingsPage = () => {
 
       <Container css={{ ...containerStyle }}>
         <Text css={{ minWidth: "80px" }} size={15}>
-          Location
+          City
         </Text>
         <Controller
-          name="location"
+          name="city"
           control={control}
           render={({ field }) => (
             <Input
               {...field}
               bordered
               size="sm"
-              placeholder={"Location"}
+              placeholder={"City"}
               color="secondary"
             />
           )}
         />
         <Text css={{ minWidth: "80px" }} size={15}>
-          State
+          Country
         </Text>
         <Controller
-          name="state"
+          name="country"
           control={control}
           render={({ field }) => (
             <Input
               {...field}
               bordered
               size="sm"
-              placeholder={"State"}
+              placeholder={"Country"}
               color="secondary"
             />
           )}

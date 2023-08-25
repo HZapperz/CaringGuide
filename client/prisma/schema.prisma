@@ -28,8 +28,8 @@ model Profile {
   patientName           String?
   synopsis              String?
   relationShipToPatient String?
-  location              String?
-  state                 String?
+  city                  String?
+  country               String?
 
   // Contact Details
   email String
@@ -66,11 +66,11 @@ model Journal {
 }
 
 model Resources {
-  id          String  @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String
   link        String
-  category    String
+  category    Category
   image       String
   disease     Disease
 
@@ -107,4 +107,13 @@ enum Disease {
   PARKINSON
   STROKE
   ALS
+}
+
+enum Category {
+  SCIENTIFIC_JOURNAL
+  SUPPORT_GROUP
+  NON_PROFIT
+  PRODUCT
+  WEBSITE
+  ARTICLE
 }

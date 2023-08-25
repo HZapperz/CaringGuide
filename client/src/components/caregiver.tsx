@@ -34,7 +34,6 @@ const Caregiver = () => {
         },
         body: JSON.stringify({
           ...data,
-          location: data.city + ", " + data.country,
         }),
       });
 

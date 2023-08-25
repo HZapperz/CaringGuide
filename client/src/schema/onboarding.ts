@@ -42,10 +42,10 @@ export const updateDetail = z.object({
   firstName: z.string().min(2).max(50).optional(),
   middleName: z.string().optional(),
   lastName: z.string().min(2).max(50).optional(),
-  location: z.string().optional(),
-  state: z.string().optional(),
+  city: z.string().optional(),
+  country: z.string().optional(),
   about: z.string().optional(),
-  
+
   dob: z.coerce.date(),
   gender: z.string(),
 

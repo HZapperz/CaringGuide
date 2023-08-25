@@ -53,8 +53,8 @@ export default isLoggedIn(async (req, res, user) => {
           firstName,
           middleName,
           lastName,
-          location,
-          state,
+          city,
+          country,
           about,
           avatar,
         } = req.body;
@@ -76,13 +76,13 @@ export default isLoggedIn(async (req, res, user) => {
             id: user.id,
           },
           data: {
-            firstName: firstName,
-            middleName: middleName,
-            lastName: lastName,
-            location: location,
-            state: state,
-            about: about,
-            avatar: avatar,
+            firstName,
+            middleName,
+            lastName,
+            city,
+            country,
+            about,
+            avatar,
           },
         });
 
