@@ -81,19 +81,41 @@ const Feedpage = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-4 p-8 2xl:grid-cols-2">
-          {resources.map((resource, index) => {
-            if (
-              selected.find(
-                (s) => s.toLowerCase() === resource.category.toLowerCase()
-              )
-            ) {
-              return <FeedCard key={index} data={resource} />;
-            } else if (selected.includes("All")) {
-              return <FeedCard key={index} data={resource} />;
-            }
+          {resources
+            .sort((a: any, b: any) => {
+              const netLikesA = a.favoritedBy.reduce(
+                (count: number, obj: any) => {
+                  return (
+                    count + (obj.isLiked ? 1 : 0) - (obj.isDisliked ? 1 : 0)
+                  );
+                },
+                0
+              );
 
-            return null;
-          })}
+              const netLikesB = b.favoritedBy.reduce(
+                (count: number, obj: any) => {
+                  return (
+                    count + (obj.isLiked ? 1 : 0) - (obj.isDisliked ? 1 : 0)
+                  );
+                },
+                0
+              );
+
+              return netLikesB - netLikesA;
+            })
+            .map((resource, index) => {
+              if (
+                selected.find(
+                  (s) => s.toLowerCase() === resource.category.toLowerCase()
+                )
+              ) {
+                return <FeedCard key={index} data={resource} />;
+              } else if (selected.includes("All")) {
+                return <FeedCard key={index} data={resource} />;
+              }
+
+              return null;
+            })}
         </div>
       </div>
     </main>

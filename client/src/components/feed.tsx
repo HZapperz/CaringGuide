@@ -1,24 +1,31 @@
 import { useApp } from "@/context/app";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import ThumbDownSharp from "@mui/icons-material/ThumbDownAltOutlined";
 import ThumbDownAltRounded from "@mui/icons-material/ThumbDownAltRounded";
 import ThumbUpSharp from "@mui/icons-material/ThumbUpAltOutlined";
 import ThumbUpAltRounded from "@mui/icons-material/ThumbUpAltRounded";
-import { Loading } from "@nextui-org/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 
 const FeedCard = (props: any) => {
   const [isStarred, setIsStarred] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
+  const [likesCount, setLikesCount] = useState<number>(
+    props.data.favoritedBy.reduce((count: number, obj: any) => {
+      if (obj.isLiked) {
+        return count + 1;
+      }
+      return count;
+    }, 0)
+  );
+
   const supabase = useSupabaseClient();
-  const { session } = useApp();
   const queryClient = useQueryClient();
+  const { session } = useApp();
 
   async function handleApiResponse(response: Response) {
     if (!response.ok) {
@@ -96,6 +103,8 @@ const FeedCard = (props: any) => {
   ) => {
     e.preventDefault();
     setIsDisliked(false);
+    if (isLiked) setLikesCount(likesCount - 1);
+    else setLikesCount(likesCount + 1);
     setIsLiked(!isLiked);
     try {
       const createdFavorite = await addUserFavorite(
@@ -179,11 +188,9 @@ const FeedCard = (props: any) => {
     >
       <img
         src={imageUrl ?? ""}
-        alt="image"
+        alt={props.data.title}
         aria-required
-        width={200}
-        height={200}
-        className="object-cover object-center w-full h-full rounded-2xl md:h-48 md:w-48 bg-slate-200"
+        className="object-cover object-center w-full rounded-2xl md:w-48 bg-slate-200 aspect-square"
       />
       <div className="flex flex-col justify-between p-4 leading-normal">
         <h5 className="-mt-4 text-2xl font-semibold tracking-tight text-gray-500 dark:text-gray-500">
@@ -196,22 +203,25 @@ const FeedCard = (props: any) => {
           {props.data.text}
         </p>
       </div>
-      <div className="absolute top-1 right-1">
-        <div className="flex">
-          {isLiked ? (
-            <ThumbUpAltRounded
-              className="w-10 h-10 text-green-800 cursor-pointer"
-              onClick={(event) => handleLikeClick(event, false)}
-            />
-          ) : (
-            <ThumbUpSharp
-              className="w-10 h-10 text-gray-500 cursor-pointer"
-              onClick={(event) => handleLikeClick(event, true)}
-            />
-          )}
+      <div className="absolute bottom-2 right-2">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
+            {isLiked ? (
+              <ThumbUpAltRounded
+                className="w-10 h-10 text-green-600 cursor-pointer"
+                onClick={(event) => handleLikeClick(event, false)}
+              />
+            ) : (
+              <ThumbUpSharp
+                className="w-10 h-10 text-gray-500 cursor-pointer"
+                onClick={(event) => handleLikeClick(event, true)}
+              />
+            )}
+            <p className="font-medium text-gray-600"> {likesCount}</p>
+          </div>
           {isDisliked ? (
             <ThumbDownAltRounded
-              className="w-10 h-10 text-green-800 cursor-pointer"
+              className="w-10 h-10 text-red-600 cursor-pointer"
               onClick={(event) => handleDislikeClick(event, false)}
             />
           ) : (
@@ -222,15 +232,17 @@ const FeedCard = (props: any) => {
           )}
         </div>
       </div>
-      <div className="absolute bottom-1 right-1">
+      <div className="absolute top-2 right-2">
         {isStarred ? (
-          <StarIcon
-            className="w-10 h-10 text-green-800 cursor-pointer"
+          <BsBookmarkFill
+            className="text-yellow-500 cursor-pointer"
+            size={20}
             onClick={(event) => handleStarClick(event, false)}
           />
         ) : (
-          <StarBorderIcon
-            className="w-10 h-10 text-gray-500 cursor-pointer"
+          <BsBookmark
+            className="text-gray-500 cursor-pointer"
+            size={20}
             onClick={(event) => handleStarClick(event, true)}
           />
         )}
