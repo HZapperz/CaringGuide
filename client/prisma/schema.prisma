@@ -89,6 +89,11 @@ model UserFavourites {
   resource Resources @relation(fields: [resourceId], references: [id], onDelete: Cascade)
 }
 
+model InviteCode {
+  code      String   @id
+  createdAt DateTime @default(now())
+}
+
 enum Role {
   MENTOR
   MENTEE

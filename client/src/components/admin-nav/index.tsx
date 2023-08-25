@@ -85,6 +85,16 @@ export default function AdminDashboard({ children }: PropsWithChildren) {
               <Button
                 className="justify-start w-full"
                 variant={
+                  route.startsWith("/admin/invite-codes") ? "secondary" : "ghost"
+                }
+                onClick={() => router.push("/admin/invite-codes")}
+              >
+                <Tag className="w-4 h-4 mr-2" />
+                Invite Codes
+              </Button>
+              <Button
+                className="justify-start w-full"
+                variant={
                   route.startsWith("/admin/resources") ? "secondary" : "ghost"
                 }
                 onClick={() => supabase.auth.signOut()}
