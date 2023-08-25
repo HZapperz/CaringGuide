@@ -4,8 +4,10 @@ import countryList from "@/utils/countryList";
 import { diseaseLabels } from "@/utils/enumToLabel";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
@@ -13,9 +15,14 @@ import { z } from "zod";
 type FormValues = z.infer<typeof menteeOnboardingSchema>;
 
 const Caregiver = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [url, setUrl] = useState("");
+
   const { session } = useApp();
   const queryClient = useQueryClient();
   const router = useRouter();
+  const supabase = useSupabaseClient();
+
   const {
     register,
     handleSubmit,
@@ -29,6 +36,12 @@ const Caregiver = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
+      if (file && session) {
+        await supabase.storage
+          .from("avatars")
+          .upload(session?.user.id, file, { upsert: true });
+      }
+
       const response = await fetch("/api/on-boarding", {
         method: "POST",
         headers: {
@@ -56,6 +69,43 @@ const Caregiver = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="relative">
+          <div className="h-72">
+            <div className="w-full h-36 bg-gradient-to-r from-green-100 to-pink-200"></div>{" "}
+            <label>
+              {file || url ? (
+                <img
+                  className="absolute p-0 rounded-full top-24 left-20 w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
+                  src={!!file ? URL.createObjectURL(file) : url}
+                  alt="default jpeg"
+                  width={192}
+                  height={192}
+                />
+              ) : (
+                <img
+                  className="absolute p-0 rounded-full top-24 left-20 w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
+                  src="default.jpeg"
+                  alt="default jpeg"
+                  width={192}
+                  height={192}
+                />
+              )}
+              <input
+                title="file"
+                type="file"
+                name="image"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+
+                  if (file) {
+                    setFile(file);
+                  }
+                }}
+              />
+            </label>
+          </div>
+        </div>
         <div className="flex flex-col items-start justify-around w-full px-1 py-10 mb-8 lg:flex-row md:px-4">
           <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
             PERSONAL DETAILS
