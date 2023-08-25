@@ -21,7 +21,7 @@ model Profile {
   avatar                String?
   // Common Details
   experience            Experience?
-  condition             String?
+  condition             Disease?
   // Mentor
   about                 String?
   // Mentee

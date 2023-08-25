@@ -2,6 +2,7 @@ import { WithOnBoarding } from "@/components/WithOnboarding";
 import { useApp } from "@/context/app";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { updateDetail } from "@/schema/onboarding";
+import { diseaseLabels } from "@/utils/enumToLabel";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Container,
@@ -382,11 +383,9 @@ const SettingsPage = () => {
           {...register("condition", { required: true })}
           className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
         >
-          <option value="myeloma">Multiple Myeloma</option>
-          <option value="alzheimer">Alzheimer’s Disease</option>
-          <option value="parkinson">Parkinson’s Disease</option>
-          <option value="stroke">Stroke</option>
-          <option value="als">ALS</option>
+          {diseaseLabels.map((d) => (
+            <option value={d.value}>{d.label}</option>
+          ))}
         </select>
 
         <Text css={{ minWidth: "80px" }} size={15}>

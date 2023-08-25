@@ -1,6 +1,7 @@
 import { useApp } from "@/context/app";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { mentorOnboardingSchema } from "@/schema/onboarding";
+import { diseaseLabels } from "@/utils/enumToLabel";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useQueryClient } from "@tanstack/react-query";
@@ -181,11 +182,9 @@ const Guide = () => {
                   errors.condition ? " border border-red-500" : ""
                 }`}
               >
-                <option value="myeloma">Multiple Myeloma</option>
-                <option value="alzheimer">Alzheimer’s Disease</option>
-                <option value="parkinson">Parkinson’s Disease</option>
-                <option value="stroke">Stroke</option>
-                <option value="als">ALS</option>
+                {diseaseLabels.map((d) => (
+                  <option value={d.value}>{d.label}</option>
+                ))}
               </select>
               {errors.condition && (
                 <p className="mt-2 text-red-500">Condition is required</p>

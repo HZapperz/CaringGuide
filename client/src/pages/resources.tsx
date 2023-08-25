@@ -5,28 +5,20 @@ import FeedCard from "@/components/feed";
 import { WithOnBoarding } from "@/components/WithOnboarding";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { Resources } from "@prisma/client";
+import { categoryLabels } from "@/utils/enumToLabel";
 
 const Feedpage = () => {
-  const [value, setValue] = useState(0);
   const [loader, setLoader] = useState(false);
   const [resources, setResources] = useState<Resources[]>([]);
   const [selected, setSelected] = useState<string[]>(["All"]);
   const handleErrors = useHandleErrors();
 
-  const filters = [
-    "All",
-    "Scientific Journal",
-    "Support Group",
-    "Non-Profit",
-    "Product",
-    "Website",
-    "Article",
-  ];
-  const handleButtonClick = (value: string) => {
-    if (selected.includes(value)) {
-      setSelected(selected.filter((item) => item !== value));
+  const categories = ["All", ...categoryLabels.map((c) => c.label)];
+  const handleButtonClick = (label: string) => {
+    if (selected.includes(label)) {
+      setSelected(selected.filter((item) => item !== label));
     } else {
-      setSelected([...selected, value]);
+      setSelected([...selected, label]);
     }
   };
 
@@ -70,7 +62,7 @@ const Feedpage = () => {
           </Text>
           <hr />
           <div className="flex w-full gap-2 mt-4 overflow-x-auto lg:grid grid-col-6">
-            {filters.map((label) => (
+            {categories.map((label) => (
               <button
                 type="button"
                 key={label}

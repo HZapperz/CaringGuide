@@ -23,6 +23,7 @@ import { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { nanoid } from "nanoid";
 import { toast } from "react-hot-toast";
+import { categoryLabels, diseaseLabels } from "@/utils/enumToLabel";
 
 const formSchema = resourceSchema;
 
@@ -33,17 +34,6 @@ interface Props {
   onSubmit: (values: z.infer<typeof formSchema>) => void;
   isSubmitting: boolean;
 }
-
-const RESOURCE_CATEGORY = [
-  "Scientific Journal",
-  "Support Group",
-  "Non-Profit",
-  "Product",
-  "Website",
-  "Article",
-];
-
-const RESOURCE_DISEASE = ["MYELOMA", "ALZHEIMER", "PARKINSON", "STROKE", "ALS"];
 
 export default function AccountForm({
   defaultValues,
@@ -133,9 +123,9 @@ export default function AccountForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {RESOURCE_CATEGORY.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
+                  {categoryLabels.map((category) => (
+                    <SelectItem key={category.value} value={category.value}>
+                      {category.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -158,13 +148,13 @@ export default function AccountForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {RESOURCE_DISEASE.map((disease) => (
+                  {diseaseLabels.map((disease) => (
                     <SelectItem
-                      key={disease}
-                      value={disease}
+                      key={disease.value}
+                      value={disease.value}
                       className="capitalize"
                     >
-                      {disease}
+                      {disease.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
