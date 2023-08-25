@@ -182,7 +182,7 @@ const FeedCard = (props: any) => {
   return (
     <Link
       href={props.data.link}
-      className="relative flex flex-col p-2 items-center bg-white border-2 border-[#D9D9D9] rounded-2xl hover:border-[#245B48] md:flex-row md:max-w-4xl dark:border-[#D9D9D9] dark:bg-white"
+      className="relative flex p-2 items-center bg-white border-2 border-[#D9D9D9] rounded-2xl hover:border-[#245B48] md:max-w-4xl dark:border-[#D9D9D9] dark:bg-white"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -190,7 +190,7 @@ const FeedCard = (props: any) => {
         src={imageUrl ?? ""}
         alt={props.data.title}
         aria-required
-        className="object-cover object-center w-full rounded-2xl md:w-48 bg-slate-200 aspect-square"
+        className="object-cover object-center w-48 rounded-2xl bg-slate-200 aspect-square"
       />
       <div className="flex flex-col justify-between p-4 leading-normal">
         <h5 className="-mt-4 text-2xl font-semibold tracking-tight text-gray-500 dark:text-gray-500">

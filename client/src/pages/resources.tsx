@@ -6,21 +6,23 @@ import { WithOnBoarding } from "@/components/WithOnboarding";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { Resources } from "@prisma/client";
 import { categoryLabels } from "@/utils/enumToLabel";
+import { ICategory } from "@/types/category";
+import CategoryCard from "@/components/category/category-card";
 
 const Feedpage = () => {
   const [loader, setLoader] = useState(false);
   const [resources, setResources] = useState<Resources[]>([]);
-  const [selected, setSelected] = useState<string[]>(["All"]);
+  const [selectedCategory, setSelectedCategory] =
+    useState<ICategory["value"]>("ALL");
   const handleErrors = useHandleErrors();
 
-  const categories = ["All", ...categoryLabels.map((c) => c.label)];
-  const handleButtonClick = (label: string) => {
-    if (selected.includes(label)) {
-      setSelected(selected.filter((item) => item !== label));
-    } else {
-      setSelected([...selected, label]);
-    }
-  };
+  const categories: ICategory[] = [
+    {
+      value: "ALL",
+      label: "All",
+    },
+    ...categoryLabels,
+  ];
 
   const getAllResources = async () => {
     setLoader(true);
@@ -45,42 +47,33 @@ const Feedpage = () => {
   useEffect(() => {
     getAllResources();
   }, []);
+  console.log(selectedCategory);
 
-  if (loader)
-    return (
-      <div className="flex items-center justify-center w-full h-full">
-        <Loading />
-      </div>
-    );
+  // if (loader)
+  //   return (
+  //     <div className="flex items-center justify-center w-full h-full">
+  //       <Loading />
+  //     </div>
+  //   );
 
   return (
     <main className="h-full bg-white">
-      <div className="flex flex-col items-start justify-start lg:flex-row">
-        <div className="w-full p-6 lg:w-fit">
-          <Text className="text-center font-poppins text-[30px] font-[500]">
-            FILTERS
-          </Text>
-          <hr />
-          <div className="flex w-full gap-2 mt-4 overflow-x-auto lg:grid grid-col-6">
-            {categories.map((label) => (
-              <button
-                type="button"
-                key={label}
-                className={`flex justify-center items-center px-4 py-2 mb-0 mr-2 lg:mb-2 lg:mr-0 border min-w-fit w-48 border-gray-300 rounded-full transition bg-transparent cursor-pointer relative ${
-                  selected.includes(label) ? " border-2 border-[#114d38]" : ""
-                }`}
-                onClick={() => handleButtonClick(label)}
-              >
-                {label}
-                <div className="w-5 ml-2">
-                  {!selected.includes(label) ? <PlusIcon /> : <XMarkIcon />}
-                </div>
-              </button>
-            ))}
-          </div>
+      <div className="flex flex-col items-start justify-start">
+        <h1 className="w-full p-6 pb-0 mb-0 text-4xl text-center bg-slate-50 md:text-left">
+          Resources Categories
+        </h1>
+
+        <div className="flex w-full gap-4 p-6 overflow-x-scroll no-scrollbar bg-slate-50">
+          {categories.map((category) => (
+            <CategoryCard
+              key={category.label}
+              {...category}
+              setSelectedCategory={setSelectedCategory}
+            />
+          ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-4 p-8 2xl:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 p-8 mx-auto md:grid-cols-2 max-w-7xl">
           {resources
             .sort((a: any, b: any) => {
               const netLikesA = a.favoritedBy.reduce(
@@ -103,19 +96,13 @@ const Feedpage = () => {
 
               return netLikesB - netLikesA;
             })
-            .map((resource, index) => {
-              if (
-                selected.find(
-                  (s) => s.toLowerCase() === resource.category.toLowerCase()
-                )
-              ) {
-                return <FeedCard key={index} data={resource} />;
-              } else if (selected.includes("All")) {
-                return <FeedCard key={index} data={resource} />;
-              }
-
-              return null;
-            })}
+            .filter((resources) => {
+              if (selectedCategory === "ALL") return true;
+              return resources.category === selectedCategory;
+            })
+            .map((resource, index) => (
+              <FeedCard key={index} data={resource} />
+            ))}
         </div>
       </div>
     </main>
