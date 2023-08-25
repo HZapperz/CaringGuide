@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { InviteCode } from "@prisma/client";
+import { intlFormat } from "date-fns";
 
 type Props = {
   onDelete: (d: InviteCode) => void;
@@ -55,10 +56,14 @@ export function getColumns({
       ),
       cell: ({ row }) => {
         const createdAtObject = new Date(row.getValue("createdAt"));
-        const createdAt = createdAtObject.toLocaleDateString("en-US", {
-          month: "long",
-          day: "numeric",
+        const createdAt = intlFormat(createdAtObject, {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
           year: "numeric",
+          month: "short",
+          day: "2-digit",
         });
 
         return <div>{createdAt}</div>;
