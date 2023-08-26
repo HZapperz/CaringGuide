@@ -266,30 +266,34 @@ const Guide = () => {
           <div className="font-poppins uppercase text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
             Code
           </div>
-          <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
-            <div className="flex items-center justify-center gap-4 sm:justify-start sm:items-start">
-              <input
-                type="password"
-                placeholder="Invitation Code"
-                {...register("code", { required: true })}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
-                  errors.code ? " border border-red-500" : ""
-                }`}
-              />
+          <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:w-4/6">
+            <div className="flex flex-col justify-center gap-4">
+              <div className="flex items-center justify-center gap-4">
+                <input
+                  type="password"
+                  placeholder="Invitation Code"
+                  {...register("code", { required: true })}
+                  className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
+                    errors.code ? " border border-red-500" : ""
+                  }`}
+                />
+
+                <button
+                  type="button"
+                  className="flex items-center justify-center w-10 border rounded-full aspect-square"
+                  onClick={() => {
+                    navigator.clipboard.readText().then((text) => {
+                      setValue("code", text);
+                    });
+                  }}
+                >
+                  <BiPaste size={25} className="text-gray-500" />
+                </button>
+              </div>
+
               {errors.code && (
                 <p className="mt-2 text-red-500">Invitation Code is required</p>
               )}
-              <button
-                type="button"
-                className="flex items-center justify-center w-10 border rounded-full aspect-square"
-                onClick={() => {
-                  navigator.clipboard.readText().then((text) => {
-                    setValue("code", text);
-                  });
-                }}
-              >
-                <BiPaste size={25} className="text-gray-500" />
-              </button>
             </div>
           </div>
         </div>
