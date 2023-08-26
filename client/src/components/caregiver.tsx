@@ -41,7 +41,7 @@ const Caregiver = () => {
           .from("avatars")
           .upload(session?.user.id, file, { upsert: true });
       }
-
+      z;
       const response = await fetch("/api/on-boarding", {
         method: "POST",
         headers: {
@@ -49,6 +49,7 @@ const Caregiver = () => {
         },
         body: JSON.stringify({
           ...data,
+          isMentee: true,
         }),
       });
 
@@ -61,7 +62,6 @@ const Caregiver = () => {
     }
   };
 
-  console.log(errors);
   const focusStyle =
     "transition-all focus:bg-transparent focus:border-b-2 focus:rounded-none focus:border-b-caring focus:border-0";
   const selectFocusStyle = "focus:bg-white focus:border w-52";
@@ -173,6 +173,7 @@ const Caregiver = () => {
                   errors.gender ? " border border-red-500" : ""
                 }`}
               >
+                <option value="">Select Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
@@ -246,8 +247,11 @@ const Caregiver = () => {
                   errors.country ? " border border-red-500" : ""
                 }`}
               >
+                <option value={""}>Select Country</option>
                 {countryList.map((country) => (
-                  <option value={country}>{country}</option>
+                  <option value={country} key={country}>
+                    {country}
+                  </option>
                 ))}
               </select>
               {errors.country && (
@@ -287,8 +291,11 @@ const Caregiver = () => {
                     errors.condition ? " border border-red-500" : ""
                   }`}
                 >
+                  <option value="">Select Disease</option>
                   {diseaseLabels.map((d) => (
-                    <option value={d.value}>{d.label}</option>
+                    <option value={d.value} key={d.value}>
+                      {d.label}
+                    </option>
                   ))}
                 </select>
                 {errors.condition && (
@@ -305,6 +312,7 @@ const Caregiver = () => {
                     errors.relation ? " border border-red-500" : ""
                   }`}
                 >
+                  <option value="">Select Relationship</option>
                   <option value="mother">Mother</option>
                   <option value="father">Father</option>
                   <option value="son">Son</option>
