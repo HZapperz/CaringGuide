@@ -29,51 +29,36 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import useHandleErrors from "@/hooks/useHandleErrors";
-import { Resources } from "@prisma/client";
+import { InviteCode } from "@prisma/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import Page from "../page";
 import { getColumns } from "./columns";
 import { DataTableToolbar } from "./data-table-toolbar";
-import ResourceForm, { FormValues as ResourcesFormValues } from "./form";
 
-const Content: {
-  [key: string]: {
-    title: string;
-    description: string;
-  };
-} = {
-  create: {
-    title: "Create resource",
-    description: "Create a new resoruce.",
-  },
-  edit: {
-    title: "Edit resource",
-    description: "Edit an existing resource.",
-  },
-};
+const short = require("short-uuid");
 
-export function ResourcesDataTable() {
+export function InviteCodeDataTable() {
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   const [pageIndex, setPageIndex] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(25);
   const handleErrors = useHandleErrors();
 
-  const [selected, setSelected] = React.useState<Resources>();
-  const [mode, setMode] = React.useState<
-    "view" | "edit" | "delete" | "create" | "bulk_delete"
-  >("view");
+  const [selected, setSelected] = React.useState<InviteCode>();
+  const [mode, setMode] = React.useState<"view" | "delete" | "bulk_delete">(
+    "view"
+  );
   const [query, setQuery] = React.useState("");
 
-  const fetchResources = useQuery(
-    ["resources", query, pageIndex, pageSize],
+  const fetchCodes = useQuery(
+    ["codes", query, pageIndex, pageSize],
     async () => {
       const data: {
-        items: Resources[];
+        items: InviteCode[];
         pageCount: number;
       } = (
-        await axios.get("/api/admin/resources", {
+        await axios.get("/api/admin/invite-code", {
           params: {
             query: !!query ? query : undefined,
             skip: pageIndex * pageSize,
@@ -81,20 +66,21 @@ export function ResourcesDataTable() {
           },
         })
       ).data;
-
+      console.log(data);
       return data;
     }
   );
 
-  const deleteResources = useMutation(
-    async (ids: Resources["id"][]) => {
+  const deleteCodesMutation = useMutation(
+    async (codes: InviteCode["code"][]) => {
+      console.log("DELETING", codes);
       const data: {
         message: string;
         count: number;
       } = (
-        await axios.delete("/api/admin/resources", {
+        await axios.delete("/api/admin/invite-code", {
           data: {
-            ids,
+            codes,
           },
         })
       ).data;
@@ -103,67 +89,36 @@ export function ResourcesDataTable() {
     },
     {
       onSuccess: (data) => {
-        toast.success("Resource(s) deleted.");
-        fetchResources.refetch();
+        toast.success("Invite Code(s) deleted.");
+        fetchCodes.refetch();
       },
       onError: handleErrors,
     }
   );
 
   const createMutation = useMutation(
-    async (body: Omit<Resources, "id">) => {
-      const data: {
-        message: string;
-      } = await axios.post("/api/admin/resources", body);
-
-      return data;
-    },
-    {
-      onSuccess: (data) => {
-        toast.success("Resource created.");
-        fetchResources.refetch();
-      },
-      onError: handleErrors,
-    }
-  );
-
-  const updateMutation = useMutation(
-    async (body: Resources) => {
-      const data: {
-        message: string;
-      } = await axios.patch(`/api/admin/resources/${selected?.id}`, body);
-
-      return data;
-    },
-    {
-      onSuccess: (data) => {
-        toast.success("Resource updated.");
-        fetchResources.refetch();
-      },
-      onError: handleErrors,
-    }
-  );
-
-  const handleFormSubmit = async (data: ResourcesFormValues) => {
-    if (mode === "create") {
-      await createMutation.mutateAsync(data);
-    } else if (mode === "edit" && selected) {
-      await updateMutation.mutateAsync({
-        id: selected.id,
-        ...data,
+    async () => {
+      const createdCode = short.generate();
+      const data = await axios.post("/api/admin/invite-code", {
+        code: createdCode,
       });
+
+      console.log("created", data);
+
+      return data;
+    },
+    {
+      onSuccess: (data) => {
+        navigator.clipboard.writeText(data.data.code);
+        toast.success("Invite Code created and copied to clipboard.");
+        fetchCodes.refetch();
+      },
+      onError: handleErrors,
     }
+  );
 
-    clearSelection();
-  };
-
-  const handleEdit = (resource: Resources) => {
-    setSelected(resource);
-    setMode("edit");
-  };
-
-  const handleDelete = (resource: Resources) => {
-    setSelected(resource);
+  const handleDelete = (inviteCode: InviteCode) => {
+    setSelected(inviteCode);
     setMode("delete");
   };
 
@@ -173,17 +128,22 @@ export function ResourcesDataTable() {
     setMode("view");
   };
 
+  const handleCopy = (code: InviteCode) => {
+    navigator.clipboard.writeText(code.code);
+    toast.success("Invite Code copied to clipboard.");
+  };
+
   const columns = React.useMemo(
     () =>
       getColumns({
-        onEdit: handleEdit,
         onDelete: handleDelete,
+        onCopy: handleCopy,
       }),
     []
   );
 
   const table = useReactTable({
-    data: fetchResources.data?.items ?? [],
+    data: fetchCodes.data?.items ?? [],
     columns,
     state: {
       rowSelection,
@@ -192,10 +152,10 @@ export function ResourcesDataTable() {
         pageIndex,
       },
     },
-    getRowId: (row) => row.id,
+    getRowId: (row) => row.code,
     enableRowSelection: true,
     manualPagination: true,
-    pageCount: fetchResources.data?.pageCount ?? 0,
+    pageCount: fetchCodes.data?.pageCount ?? 0,
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -204,12 +164,16 @@ export function ResourcesDataTable() {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
+  const createNewCode = () => {
+    createMutation.mutateAsync();
+  };
+
   const toolbar = (
     <DataTableToolbar
       table={table}
-      onCreate={() => setMode("create")}
-      onDelete={() => setMode("bulk_delete")}
+      onCreate={createNewCode}
       query={query}
+      onDelete={() => setMode("bulk_delete")}
       setQuery={setQuery}
     />
   );
@@ -224,8 +188,8 @@ export function ResourcesDataTable() {
 
   return (
     <Page
-      title="Resources"
-      isLoading={fetchResources.isInitialLoading}
+      title="Invite Codes"
+      isLoading={fetchCodes.isInitialLoading}
       toolbar={toolbar}
       footer={footer}
     >
@@ -241,16 +205,16 @@ export function ResourcesDataTable() {
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete the
-              selected resources(s).
+              selected invite codes(s).
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={() =>
-                deleteResources.mutate(
+                deleteCodesMutation.mutate(
                   mode === "delete" && !!selected
-                    ? [selected.id]
+                    ? [selected.code]
                     : table.getSelectedRowModel().rows.map((r) => r.id)
                 )
               }
@@ -260,26 +224,6 @@ export function ResourcesDataTable() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <Sheet
-        open={mode === "create" || mode === "edit"}
-        onOpenChange={(open) => !open && clearSelection()}
-      >
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>{Content[mode]?.title}</SheetTitle>
-            <SheetDescription>{Content[mode]?.description}</SheetDescription>
-          </SheetHeader>
-          <div className="grid gap-4 py-4">
-            <ResourceForm
-              isSubmitting={
-                updateMutation?.isLoading || createMutation?.isLoading
-              }
-              onSubmit={handleFormSubmit}
-              defaultValues={selected}
-            />
-          </div>
-        </SheetContent>
-      </Sheet>
     </Page>
   );
 }

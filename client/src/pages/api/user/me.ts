@@ -49,15 +49,7 @@ export default isLoggedIn(async (req, res, user) => {
       }
 
       case "PATCH": {
-        const {
-          firstName,
-          middleName,
-          lastName,
-          location,
-          state,
-          about,
-          avatar,
-        } = req.body;
+        const data = req.body;
 
         const existingProfile = await prisma.profile.findUnique({
           where: {
@@ -70,20 +62,11 @@ export default isLoggedIn(async (req, res, user) => {
             message: "User profile not found.",
           });
         }
-
         await prisma.profile.update({
           where: {
             id: user.id,
           },
-          data: {
-            firstName: firstName,
-            middleName: middleName,
-            lastName: lastName,
-            location: location,
-            state: state,
-            about: about,
-            avatar: avatar,
-          },
+          data: data,
         });
 
         return res.status(200).json({

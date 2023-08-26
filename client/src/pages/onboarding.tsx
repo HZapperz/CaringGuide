@@ -30,7 +30,7 @@ const OnBoarding = () => {
     }
   }, [isLoading, session, profile]);
 
-  if (isLoading || !session || !!profile) return <Loader />;
+  if (isLoading || !session || profile) return <Loader />;
 
   return (
     <>

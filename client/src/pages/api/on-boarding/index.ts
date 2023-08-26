@@ -19,6 +19,18 @@ export default isLoggedIn(async (req, res, user) => {
         });
       }
 
+      if (data.role === "MENTOR") {
+        const code = await prisma.inviteCode.findUnique({
+          where: { code: data.code },
+        });
+
+        if (!code) {
+          return res.status(400).json({
+            message: "Invalid invite code!",
+          });
+        }
+      }
+
       await prisma.profile.create({
         data: {
           id: user.id,
@@ -37,8 +49,16 @@ export default isLoggedIn(async (req, res, user) => {
           relationShipToPatient:
             data.role === "MENTEE" ? data.relation : undefined,
           patientName: data.role === "MENTEE" ? data.patientName : undefined,
+          city: data.city,
+          country: data.country,
         },
       });
+
+      if (data.role === "MENTOR") {
+        await prisma.inviteCode.delete({
+          where: { code: data.code },
+        });
+      }
 
       return res.status(200).json({
         message: "User profile created!",

@@ -9,19 +9,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Resources } from "@prisma/client";
-import { getCategoryLabel, getDiseaseLabel } from "@/utils/enumToLabel";
+import { InviteCode } from "@prisma/client";
+import { intlFormat } from "date-fns";
 
 type Props = {
-  onEdit: (d: Resources) => void;
-  onDelete: (d: Resources) => void;
+  onDelete: (d: InviteCode) => void;
+  onCopy: (d: InviteCode) => void;
 };
 
 export function getColumns({
-  onEdit,
   onDelete,
-}: Props): ColumnDef<Resources>[] {
-  const columns: ColumnDef<Resources>[] = [
+  onCopy,
+}: Props): ColumnDef<InviteCode>[] {
+  const columns: ColumnDef<InviteCode>[] = [
     {
       id: "select",
       header: ({ table }) => (
@@ -42,58 +42,31 @@ export function getColumns({
       enableHiding: false,
     },
     {
-      accessorKey: "image",
+      enableSorting: false,
+      accessorKey: "code",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Image" />
+        <DataTableColumnHeader column={column} title="Code" />
       ),
-      cell: ({ row }) => <div>{row.getValue("image")}</div>,
+      cell: ({ row }) => <div>{row.getValue("code")}</div>,
     },
     {
-      enableSorting: false,
-      accessorKey: "title",
+      accessorKey: "createdAt",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Title" />
-      ),
-      cell: ({ row }) => <div>{row.getValue("title")}</div>,
-    },
-    {
-      enableSorting: false,
-      accessorKey: "description",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Description" />
-      ),
-      cell: ({ row }) => (
-        <div>{(row.getValue("description") as string)?.slice(0, 60)}</div>
-      ),
-    },
-    {
-      enableSorting: false,
-      accessorKey: "link",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Link" />
-      ),
-      cell: ({ row }) => <div>{row.getValue("link")}</div>,
-    },
-    {
-      enableSorting: false,
-      accessorKey: "category",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Category" />
+        <DataTableColumnHeader column={column} title="Created At" />
       ),
       cell: ({ row }) => {
-        const category = getCategoryLabel(row.getValue("category"));
-        return <div>{category}</div>;
-      },
-    },
-    {
-      enableSorting: false,
-      accessorKey: "disease",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Disease" />
-      ),
-      cell: ({ row }) => {
-        const disease = getDiseaseLabel(row.getValue("disease"));
-        return <div>{disease}</div>;
+        const createdAtObject = new Date(row.getValue("createdAt"));
+        const createdAt = intlFormat(createdAtObject, {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
+          year: "numeric",
+          month: "short",
+          day: "2-digit",
+        });
+
+        return <div>{createdAt}</div>;
       },
     },
 
@@ -115,11 +88,11 @@ export function getColumns({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[160px]">
-            <DropdownMenuItem onClick={() => onEdit(row.original)}>
-              Edit
-            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onDelete(row.original)}>
               Delete
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onCopy(row.original)}>
+              Copy
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

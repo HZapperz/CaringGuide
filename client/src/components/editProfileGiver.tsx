@@ -83,16 +83,8 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col items-end justify-between gap-4">
-                <div className="w-10 cursor-pointer" onClick={togglePopup}>
-                  <XMarkIcon />
-                </div>
-                <Link
-                  href={"/settings"}
-                  className="text-end w-[200px] font-poppins text-[10px] lg:text-[20px] font-medium text-[#BE1347] cursor-pointer"
-                >
-                  edit profile
-                </Link>
+              <div className="w-10 cursor-pointer" onClick={togglePopup}>
+                <XMarkIcon />
               </div>
             </div>
             <div className="grid grid-cols-1 gap-10 mt-4 lg:grid-cols-2 xl:grid-cols-3">

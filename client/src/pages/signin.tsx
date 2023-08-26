@@ -2,6 +2,9 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
+import { useApp } from "@/context/app";
+import { useEffect } from "react";
 
 type SignInFormValues = {
   email: string;
@@ -9,8 +12,17 @@ type SignInFormValues = {
 };
 
 const Login = () => {
+  const { session } = useApp();
   const supabase = useSupabaseClient();
   const form = useForm<SignInFormValues>();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!!session) {
+      router.replace("/dashboard");
+      return;
+    }
+  }, [session]);
 
   async function handleLogin(data: SignInFormValues) {
     const { error } = await supabase.auth.signInWithPassword({
@@ -21,13 +33,14 @@ const Login = () => {
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success("Logged in successfully");
+      toast.success("Logged in successfully. Redirecting...");
+      router.push("/dashboard");
     }
   }
 
   return (
     <div className="flex flex-col w-screen h-full">
-      <div className="flex h-full w-full">
+      <div className="flex w-full h-full">
         <div className="h-full w-[50%] lg:block hidden">
           <div className="h-full bg-[url('../../public/images/signinBG.png')] bg-no-repeat bg-cover bg-center"></div>
         </div>
@@ -35,7 +48,7 @@ const Login = () => {
           <div className="text-[#4E4E4E] text-center font-poppins text-4xl font-medium leading-normal">
             LOG IN
           </div>
-          <div className="mt-6 w-full flex justify-center items-center">
+          <div className="flex items-center justify-center w-full mt-6">
             <button
               type="button"
               className="flex justify-between items-center bg-[#FFFFFF] text-white px-8 py-2 lg:px-8 lg:py-4 rounded-lg tracking-normal text-left w-[400px] sm:w-[500px] border  border-[#4E4E4E]"
@@ -81,7 +94,7 @@ const Login = () => {
           </div>
           <div>
             <form {...form} onSubmit={form.handleSubmit(handleLogin)}>
-              <div className="mt-6 flex flex-col">
+              <div className="flex flex-col mt-6">
                 <label
                   htmlFor="email"
                   className="text-[#4E4E4E] text-left font-poppins text-xl font-medium leading-normal"
@@ -96,7 +109,7 @@ const Login = () => {
                   className="border-2 border-[#4E4E4E] placeholder-[#4e4e4e50] placeholder:font-poppins bg-[#FFFFFF] bg-opacity-40 py-4 px-4 w-[400px] sm:w-[500px] rounded-xl"
                 />
               </div>
-              <div className="mt-6 flex flex-col">
+              <div className="flex flex-col mt-6">
                 <label
                   htmlFor="password"
                   className="text-[#4E4E4E] text-left font-poppins text-xl font-medium leading-normal"
@@ -122,7 +135,7 @@ const Login = () => {
               <div className="mt-6">
                 <div className="text-[#4E4E4E] text-center font-poppins text-2xl font-medium leading-normal">
                   {`Don't have an account? `}
-                  <Link href="/signup" className="text-caring font-semibold">
+                  <Link href="/signup" className="font-semibold text-caring">
                     Sign Up
                   </Link>
                 </div>

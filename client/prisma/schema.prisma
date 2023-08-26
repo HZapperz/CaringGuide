@@ -21,15 +21,15 @@ model Profile {
   avatar                String?
   // Common Details
   experience            Experience?
-  condition             String?
+  condition             Disease?
   // Mentor
   about                 String?
   // Mentee
   patientName           String?
   synopsis              String?
   relationShipToPatient String?
-  location              String?
-  state                 String?
+  city                  String?
+  country               String?
 
   // Contact Details
   email String
@@ -66,12 +66,13 @@ model Journal {
 }
 
 model Resources {
-  id          String @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String
   link        String
-  category    String
+  category    Category
   image       String
+  disease     Disease
 
   favoritedBy UserFavourites[]
 }
@@ -88,6 +89,11 @@ model UserFavourites {
   resource Resources @relation(fields: [resourceId], references: [id], onDelete: Cascade)
 }
 
+model InviteCode {
+  code      String   @id
+  createdAt DateTime @default(now())
+}
+
 enum Role {
   MENTOR
   MENTEE
@@ -98,4 +104,21 @@ enum Experience {
   LESS_THAN_2
   BETWEEN_2_AND_4
   MORE_THAN_4
+}
+
+enum Disease {
+  MYELOMA
+  ALZHEIMER
+  PARKINSON
+  STROKE
+  ALS
+}
+
+enum Category {
+  GENERAL
+  PHYSICAL
+  EMOTIONAL
+  HOME_CARE
+  FINANCIAL_LEGAL
+  END_OF_LIFE
 }

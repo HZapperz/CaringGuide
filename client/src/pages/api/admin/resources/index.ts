@@ -41,6 +41,7 @@ export default async function handler(
             image: data.image,
             link: data.link,
             category: data.category,
+            disease: data.disease,
           },
         });
 

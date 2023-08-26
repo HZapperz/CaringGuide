@@ -1,25 +1,30 @@
-import { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import {
-  Text,
-  Input,
-  Container,
-  Spacer,
-  Textarea,
-  Loading,
-} from "@nextui-org/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { updateDetail } from "@/schema/onboarding";
 import { WithOnBoarding } from "@/components/WithOnboarding";
 import { useApp } from "@/context/app";
 import useHandleErrors from "@/hooks/useHandleErrors";
+import { updateDetail } from "@/schema/onboarding";
+import countryList from "@/utils/countryList";
+import { diseaseLabels } from "@/utils/enumToLabel";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Container,
+  Input,
+  Loading,
+  Spacer,
+  Text,
+  Textarea,
+  Dropdown,
+} from "@nextui-org/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { toast } from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 const SettingsPage = () => {
   const [open, setOpen] = useState(false);
-  const [saveButton, setSaveButton] = useState(<p>Save</p>);
+  const [saveButton, setSaveButton] = useState<React.ReactNode | string>(
+    "Save"
+  );
   const { session, ...data } = useApp();
   const [url, setUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -27,11 +32,9 @@ const SettingsPage = () => {
   const supabase = useSupabaseClient();
   const queryClient = useQueryClient();
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm({
+  console.log(profile);
+
+  const { handleSubmit, control, setValue, register } = useForm({
     resolver: zodResolver(updateDetail),
   });
 
@@ -39,17 +42,20 @@ const SettingsPage = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      if (!session?.user) return;
+      if (!session?.user) {
+        console.log("returning");
+        return;
+      }
 
       if (file) {
-        const { data: avatarData, error: avatarError } = await supabase.storage
+        await supabase.storage
           .from("avatars")
           .upload(session.user.id, file, { upsert: true });
       }
 
-      setSaveButton(<Loading color={"white"} />);
+      setSaveButton(<Loading size="xs" color={"white"} />);
 
-      const response = await fetch("/api/user/me", {
+      await fetch("/api/user/me", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -58,13 +64,28 @@ const SettingsPage = () => {
       });
 
       setOpen(true);
-      setSaveButton(<p>Save</p>);
+      setSaveButton("Save");
       queryClient.invalidateQueries(["profile", session?.user.id]);
       toast.success("Profile Updated");
     } catch (error) {
       handleErrors(error);
     }
   };
+
+  const radioButtons = [
+    {
+      value: "LESS_THAN_2",
+      label: "Less than 2 years",
+    },
+    {
+      value: "BETWEEN_2_AND_4",
+      label: "Between 2 and 4 years",
+    },
+    {
+      value: "MORE_THAN_4",
+      label: "More than 4 years",
+    },
+  ];
 
   useEffect(() => {
     (async () => {
@@ -84,200 +105,364 @@ const SettingsPage = () => {
         handleErrors(error);
       }
     })();
-  }, [profile.avatar]);
 
+    if (!!profile) {
+      for (const key of Object.keys(profile) as Array<keyof typeof profile>) {
+        if (profile[key]) {
+          if (key === "dob")
+            setValue(key, new Date(profile[key]).toISOString().slice(0, 10));
+          else setValue(key, profile[key]);
+        }
+      }
+    }
+  }, [profile]);
+
+  const containerStyle = {
+    d: "flex",
+    paddingLeft: "$64",
+    alignItems: "center",
+    gap: "$2xl",
+    flexWrap: "nowrap",
+  };
   return (
-    <>
-      <section>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="relative">
-            <div className="h-72">
-              <div className="h-36 w-full bg-gradient-to-r from-green-100 to-pink-200"></div>{" "}
-              <label>
-                {file || url ? (
-                  <img
-                    className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500"
-                    src={!!file ? URL.createObjectURL(file) : url}
-                    alt="default jpeg"
-                    width={192}
-                    height={192}
-                  />
-                ) : (
-                  <img
-                    className="absolute top-24 left-20 w-36 h-36 p-0 rounded-full ring-4 ring-gray-300 dark:ring-gray-500"
-                    src="default.jpeg"
-                    alt="default jpeg"
-                    width={192}
-                    height={192}
-                  />
-                )}
-                <input
-                  title="file"
-                  type="file"
-                  name="image"
-                  className="hidden"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="relative">
+        <div className="h-72">
+          <div className="w-full h-36 bg-gradient-to-r from-green-100 to-pink-200"></div>{" "}
+          <label>
+            {file || url ? (
+              <img
+                className="absolute p-0 rounded-full top-24 left-20 w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
+                src={!!file ? URL.createObjectURL(file) : url}
+                alt="default jpeg"
+                width={192}
+                height={192}
+              />
+            ) : (
+              <img
+                className="absolute p-0 rounded-full top-24 left-20 w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
+                src="default.jpeg"
+                alt="default jpeg"
+                width={192}
+                height={192}
+              />
+            )}
+            <input
+              title="file"
+              type="file"
+              name="image"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
 
-                    if (file) {
-                      setFile(file);
-                    }
-                  }}
-                />
-              </label>
-            </div>
-          </div>
-          <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
-            <Spacer x={12} />
-            <Text size={15}>First Name</Text>
-            <Spacer x={5} />
-            <Controller
-              name="firstName"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  bordered
-                  size="sm"
-                  placeholder={profile.firstName}
-                  color="secondary"
-                />
-              )}
+                if (file) {
+                  setFile(file);
+                }
+              }}
             />
-          </Container>
-          <Spacer y={0.5} />
-          <div className="relative flex py-5 items-center">
-            <div className="flex-grow border-t border-gray-300"></div>
-          </div>
-          <Spacer y={0.5} />
-          <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
-            <Spacer x={12} />
-            <Text size={15}>Middle Name</Text>
-            <Spacer x={4.3} />
-            <Controller
-              name="middleName"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  bordered
-                  size="sm"
-                  placeholder={profile.middleName || "Middle Name"}
-                  color="secondary"
-                />
-              )}
+          </label>
+        </div>
+      </div>
+      {/* Form Start */}
+      <Container css={{ ...containerStyle }}>
+        <Text css={{ minWidth: "80px" }} size={15}>
+          First Name
+        </Text>
+        <Controller
+          name="firstName"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              bordered
+              size="sm"
+              placeholder={"First Name"}
+              color="secondary"
             />
-          </Container>
-          <Spacer y={0.5} />
-          <div className="relative flex py-5 items-center">
-            <div className="flex-grow border-t border-gray-300"></div>
-          </div>
-          <Spacer y={0.5} />
-          <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
-            <Spacer x={12} />
-            <Text size={15}>Last Name</Text>
-            <Spacer x={5} />
-            <Controller
-              name="lastName"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  bordered
-                  size="sm"
-                  placeholder={profile.lastName}
-                  color="secondary"
-                />
-              )}
+          )}
+        />
+      </Container>
+
+      <Separator />
+
+      <Container css={{ ...containerStyle }}>
+        <Text css={{ minWidth: "80px" }} size={15}>
+          Middle Name
+        </Text>
+        <Controller
+          name="middleName"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              bordered
+              size="sm"
+              placeholder={"Middle Name"}
+              color="secondary"
             />
-          </Container>
-          <Spacer y={0.5} />
-          <div className="relative flex py-5 items-center">
-            <div className="flex-grow border-t border-gray-300"></div>
-          </div>
-          <Spacer y={0.5} />
-          <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
-            <Spacer x={12} />
-            <Text size={15}>Location</Text>
-            <Spacer x={5.7} />
-            <Controller
-              name="location"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  bordered
-                  size="sm"
-                  placeholder={profile.location || "Location"}
-                  color="secondary"
-                />
-              )}
+          )}
+        />
+      </Container>
+
+      <Separator />
+
+      <Container css={{ ...containerStyle }}>
+        <Text css={{ minWidth: "80px" }} size={15}>
+          Last Name
+        </Text>
+        <Controller
+          name="lastName"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              bordered
+              size="sm"
+              placeholder={"Last Name"}
+              color="secondary"
             />
-            <Spacer x={4} />
-            <Text size={15}>State</Text>
-            <Spacer x={3} />
-            <Controller
-              name="state"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  bordered
-                  size="sm"
-                  placeholder={profile.state || "State"}
-                  color="secondary"
-                />
-              )}
+          )}
+        />
+      </Container>
+
+      <Separator />
+
+      <Container css={{ ...containerStyle }}>
+        <Text css={{ minWidth: "80px" }} size={15}>
+          DOB
+        </Text>
+        <Controller
+          name="dob"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              bordered
+              size="sm"
+              css={{ minWidth: "170px" }}
+              placeholder={"Date of Birth"}
+              color="secondary"
+              type="date"
             />
-          </Container>
-          <Spacer y={0.5} />
-          <div className="relative flex py-5 items-center">
-            <div className="flex-grow border-t border-gray-300"></div>
-          </div>
-          <Spacer y={0.5} />
-          <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
-            <Spacer x={12} />
-            <Text size={15}>Your Bio</Text>
-            <Spacer x={5.7} />
-            <Controller
-              name="about"
-              control={control}
-              render={({ field }) => (
-                <Textarea
-                  {...field}
-                  bordered
-                  color="secondary"
-                  placeholder={profile.about || "About Me"}
-                  width="500px"
-                />
-              )}
+          )}
+        />
+        <Text css={{ minWidth: "80px" }} size={15}>
+          Gender
+        </Text>
+        <select
+          title="gender"
+          id="gender"
+          {...register("gender", { required: true })}
+          defaultValue={"Gender"}
+          className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
+        >
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </Container>
+
+      <Separator />
+
+      <Container css={{ ...containerStyle }}>
+        <Text css={{ minWidth: "80px" }} size={15}>
+          Email
+        </Text>
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              bordered
+              size="sm"
+              placeholder={"Email"}
+              color="secondary"
             />
-          </Container>
-          <Spacer y={3} />
-          <div className="relative flex py-5 items-center">
-            <div className="flex-grow border-t border-gray-300"></div>
+          )}
+        />
+        <Text css={{ minWidth: "80px" }} size={15}>
+          Phone
+        </Text>
+        <Controller
+          name="phone"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              bordered
+              size="sm"
+              placeholder={"Mobile"}
+              color="secondary"
+            />
+          )}
+        />
+      </Container>
+
+      <Separator />
+
+      <Container css={{ ...containerStyle }}>
+        <Text css={{ minWidth: "80px" }} size={15}>
+          City
+        </Text>
+        <Controller
+          name="city"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              bordered
+              size="sm"
+              placeholder={"City"}
+              color="secondary"
+            />
+          )}
+        />
+        <Text css={{ minWidth: "80px" }} size={15}>
+          Country
+        </Text>
+        <select
+          {...register("country", { required: true })}
+          className={`border-2 rounded-xl text-xs w-20 p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
+        >
+          {countryList.map((country) => (
+            <option value={country}>{country}</option>
+          ))}
+        </select>
+      </Container>
+
+      <Separator />
+
+      <Container css={{ ...containerStyle, alignItems: "start" }}>
+        <Text css={{ minWidth: "80px" }} size={15}>
+          Your Bio
+        </Text>
+        <Controller
+          name="about"
+          control={control}
+          render={({ field }) => (
+            <Textarea
+              css={{ minWidth: "80px" }}
+              {...field}
+              bordered
+              color="secondary"
+              placeholder={"About Me"}
+              width="500px"
+            />
+          )}
+        />
+      </Container>
+
+      <Separator />
+
+      <Container css={{ ...containerStyle, flexWrap: "wrap" }}>
+        <Text css={{ minWidth: "80px" }} size={15}>
+          Patient Name
+        </Text>
+        <Controller
+          name="patientName"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              bordered
+              size="sm"
+              placeholder={"Patient Name"}
+              color="secondary"
+            />
+          )}
+        />
+
+        <Text css={{ minWidth: "80px" }} size={15}>
+          Condition
+        </Text>
+        <select
+          title="condition"
+          id="condition"
+          {...register("condition", { required: true })}
+          className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
+        >
+          {diseaseLabels.map((d) => (
+            <option value={d.value}>{d.label}</option>
+          ))}
+        </select>
+
+        <Text css={{ minWidth: "80px" }} size={15}>
+          Relationship
+        </Text>
+        <select
+          title="relationship"
+          id="relationship"
+          {...register("relationShipToPatient", { required: true })}
+          className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
+        >
+          <option value="mother">Mother</option>
+          <option value="father">Father</option>
+          <option value="son">Son</option>
+          <option value="daughter">Daughter</option>
+          <option value="wife">Wife</option>
+          <option value="husband">Husband</option>
+        </select>
+      </Container>
+      <Separator />
+
+      <Container css={{ ...containerStyle }}>
+        <Text css={{ minWidth: "80px" }} size={15}>
+          Years of Experience
+        </Text>
+        {radioButtons.map((button) => (
+          <div className="flex items-center justify-center gap-4">
+            <input
+              type="radio"
+              title="experience"
+              value={button.value}
+              {...register("experience", { required: true })}
+              className={`mr-2 accent-caring w-5 aspect-square`}
+            />
+            <label className="text-sm">{button.label}</label>
           </div>
-          <Spacer y={0.5} />
-          <Container gap={0} css={{ d: "flex", flexWrap: "nowrap" }}>
-            <Spacer x={12} />
-            <button
-              type="submit"
-              className="text-sm w-24 h-12 bg-green-900 border-2 hover:bg-green-800 text-white py-2 px-4 rounded-lg border-green-900"
-            >
-              {saveButton}
-            </button>
-            <Spacer x={2} />
-            <button
-              type="button"
-              onClick={() => (window.location.href = "/")}
-              className="w-24 text-sm rounded-lg bg-transparent text-gray-800 hover:bg-gray-200 hover:border-transparent py-2 px-4 border-2 border-gray-300"
-            >
-              Cancel
-            </button>
-          </Container>
-        </form>
-      </section>
-    </>
+        ))}
+      </Container>
+
+      <Separator />
+
+      <Container css={{ ...containerStyle, alignItems: "start" }}>
+        <Text css={{ minWidth: "80px" }} size={15}>
+          Synopsis
+        </Text>
+        <Controller
+          name="synopsis"
+          control={control}
+          render={({ field }) => (
+            <Textarea
+              {...field}
+              bordered
+              color="secondary"
+              placeholder={"Synopsis"}
+              width="500px"
+            />
+          )}
+        />
+      </Container>
+      {/* Form End */}
+      <Separator />
+
+      <Container css={{ ...containerStyle }} className="pb-10">
+        <button
+          type="submit"
+          className="px-4 py-2 text-sm text-white bg-green-900 border-2 border-green-900 rounded-xl h-fit hover:bg-green-800"
+        >
+          {saveButton}
+        </button>
+        <button
+          type="button"
+          onClick={() => (window.location.href = "/")}
+          className="px-4 py-2 text-sm text-gray-800 bg-transparent border-2 border-gray-300 rounded-xl hover:bg-gray-200 hover:border-transparent"
+        >
+          Cancel
+        </button>
+      </Container>
+    </form>
   );
 };
 
@@ -288,3 +473,14 @@ export default function Page() {
     </WithOnBoarding>
   );
 }
+
+const Separator = () => {
+  return (
+    <>
+      <Spacer y={0.5} />
+
+      <div className="flex-grow my-5 border-t border-gray-300" />
+      <Spacer y={0.5} />
+    </>
+  );
+};

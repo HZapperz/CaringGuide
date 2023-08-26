@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { toast } from "react-hot-toast";
 import useHandleErrors from "@/hooks/useHandleErrors";
+import { useApp } from "@/context/app";
+import { useEffect } from "react";
 
 type FormData = {
   firstname: string;
@@ -17,6 +19,7 @@ type FormData = {
 };
 
 const Welcome = () => {
+  const { session } = useApp();
   const supabase = useSupabaseClient();
   const router = useRouter();
   const {
@@ -24,7 +27,15 @@ const Welcome = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
+
   const handleErrors = useHandleErrors();
+
+  useEffect(() => {
+    if (!!session) {
+      router.replace("/dashboard");
+      return;
+    }
+  }, [session]);
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -53,13 +64,13 @@ const Welcome = () => {
     <div className="h-full bg-[url('../../public/images/signinBG.png')] bg-no-repeat bg-cover bg-center bg-fixed">
       <div className="pt-40 background-image: linear-gradient(115deg, #9F7AEA, #FEE2FE) overflow-hidden">
         <div className="container mx-auto">
-          <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-black bg-opacity-80 rounded-xl mx-auto shadow-lg">
+          <div className="flex flex-col w-10/12 mx-auto bg-black shadow-lg lg:flex-row lg:w-8/12 bg-opacity-80 rounded-xl">
             <div className="absolute w-20 p-5">
               <Link href={"/"}>
                 <ChevronLeftIcon color="white" />
               </Link>
             </div>
-            <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12">
+            <div className="flex flex-col items-center justify-center w-full p-12 lg:w-1/2">
               <h1 className="text-white font-poppins text-5xl font-[600] mb-8">
                 Welcome
               </h1>
@@ -69,19 +80,19 @@ const Welcome = () => {
                 </h2>
                 <a
                   href="#"
-                  className="text-white font-semibold underline font-poppins"
+                  className="font-semibold text-white underline font-poppins"
                 >
                   Click to learn more
                 </a>
-                <div className="text-white mt-8 font-poppins">
+                <div className="mt-8 text-white font-poppins">
                   <a> </a>Have an account?{" "}
-                  <Link href="/signin" className="text-caring font-semibold">
+                  <Link href="/signin" className="font-semibold text-caring">
                     Login
                   </Link>
                 </div>
               </div>
             </div>
-            <div className="w-full lg:w-1/2 py-16 px-12">
+            <div className="w-full px-12 py-16 lg:w-1/2">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mt-6">
                   <input
@@ -124,11 +135,11 @@ const Welcome = () => {
                   />
                   <span className="text-white">
                     <a> </a>I accept the{" "}
-                    <a href="#" className="text-caring font-semibold">
+                    <a href="#" className="font-semibold text-caring">
                       Terms of Use
                     </a>{" "}
                     &{" "}
-                    <a href="#" className="text-caring font-semibold">
+                    <a href="#" className="font-semibold text-caring">
                       Privacy Policy
                     </a>
                   </span>
@@ -136,7 +147,7 @@ const Welcome = () => {
                 <div className="mt-5">
                   <button
                     type="submit"
-                    className="w-full bg-caring py-3 text-center text-white rounded-xl"
+                    className="w-full py-3 text-center text-white bg-caring rounded-xl"
                   >
                     Register Now
                   </button>

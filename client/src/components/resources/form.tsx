@@ -23,6 +23,7 @@ import { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { nanoid } from "nanoid";
 import { toast } from "react-hot-toast";
+import { categoryLabels, diseaseLabels } from "@/utils/enumToLabel";
 
 const formSchema = resourceSchema;
 
@@ -34,16 +35,7 @@ interface Props {
   isSubmitting: boolean;
 }
 
-const RESOURCE_CATEGORY = [
-  "Scientific Journal",
-  "Support Group",
-  "Non-Profit",
-  "Product",
-  "Website",
-  "Article",
-];
-
-export default function AccountForm({
+export default function ResourceForm({
   defaultValues,
   onSubmit,
   isSubmitting,
@@ -131,9 +123,38 @@ export default function AccountForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {RESOURCE_CATEGORY.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
+                  {categoryLabels.map((category) => (
+                    <SelectItem key={category.value} value={category.value}>
+                      {category.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="disease"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Disease</FormLabel>
+              <Select defaultValue={field.value} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select disease" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {diseaseLabels.map((disease) => (
+                    <SelectItem
+                      key={disease.value}
+                      value={disease.value}
+                      className="capitalize"
+                    >
+                      {disease.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
