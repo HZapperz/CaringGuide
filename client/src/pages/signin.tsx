@@ -17,13 +17,6 @@ const Login = () => {
   const form = useForm<SignInFormValues>();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!!session) {
-      router.replace("/dashboard");
-      return;
-    }
-  }, [session]);
-
   async function handleLogin(data: SignInFormValues) {
     const { error } = await supabase.auth.signInWithPassword({
       email: data.email,
@@ -34,9 +27,15 @@ const Login = () => {
       toast.error(error.message);
     } else {
       toast.success("Logged in successfully. Redirecting...");
-      router.push("/dashboard");
     }
   }
+
+  useEffect(() => {
+    if (!!session) {
+      router.replace("/dashboard");
+      return;
+    }
+  }, [session]);
 
   return (
     <div className="flex flex-col w-screen h-full">

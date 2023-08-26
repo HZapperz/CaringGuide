@@ -30,13 +30,6 @@ const Welcome = () => {
 
   const handleErrors = useHandleErrors();
 
-  useEffect(() => {
-    if (!!session) {
-      router.replace("/dashboard");
-      return;
-    }
-  }, [session]);
-
   const onSubmit = async (data: FormData) => {
     try {
       const result = registerSchema.parse(data);
@@ -59,6 +52,13 @@ const Welcome = () => {
       handleErrors(error);
     }
   };
+
+  useEffect(() => {
+    if (!!session) {
+      router.replace("/dashboard");
+      return;
+    }
+  }, [session]);
 
   return (
     <div className="h-full bg-[url('../../public/images/signinBG.png')] bg-no-repeat bg-cover bg-center bg-fixed">
