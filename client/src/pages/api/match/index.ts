@@ -19,20 +19,40 @@ export default isLoggedIn(async (req, res, user) => {
           });
         }
 
-        let [mentor, count] = await Promise.all([
-          prisma.profile.findFirst({
-            where: {
-              role: "MENTOR",
-              condition: mentee.condition,
-            },
-            skip,
-          }),
-          prisma.profile.count({
-            where: {
-              role: "MENTOR",
-            },
-          }),
-        ]);
+        const [bestMatch, countryMatch, conditionMatch, count] =
+          await Promise.all([
+            prisma.profile.findFirst({
+              where: {
+                role: "MENTOR",
+                condition: mentee.condition,
+                city: mentee.city,
+                country: mentee.country,
+              },
+              skip,
+            }),
+            prisma.profile.findFirst({
+              where: {
+                role: "MENTOR",
+                condition: mentee.condition,
+                country: mentee.country,
+              },
+              skip,
+            }),
+            prisma.profile.findFirst({
+              where: {
+                role: "MENTOR",
+                condition: mentee.condition,
+              },
+              skip,
+            }),
+            prisma.profile.count({
+              where: {
+                role: "MENTOR",
+              },
+            }),
+          ]);
+
+        let mentor = bestMatch ?? countryMatch ?? conditionMatch;
 
         if (!mentor) {
           mentor = await prisma.profile.findFirst({
