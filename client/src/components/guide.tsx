@@ -378,7 +378,7 @@ const Guide = () => {
               </div>
               <div className="flex flex-col col-span-3 gap-2">
                 <div className="text-[#5E5E5E] text-xl font-poppins">
-                  Short About Section
+                  Tell us Your Story
                 </div>
                 <div className="w-full">
                   <textarea

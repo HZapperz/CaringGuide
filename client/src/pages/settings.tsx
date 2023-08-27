@@ -428,7 +428,7 @@ const SettingsPage = () => {
 
       <Container css={{ ...containerStyle, alignItems: "start" }}>
         <Text css={{ minWidth: "80px" }} size={15}>
-          Synopsis
+          Your Story
         </Text>
         <Controller
           name="synopsis"
