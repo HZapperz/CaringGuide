@@ -38,7 +38,7 @@ const SettingsPage = () => {
     resolver: zodResolver(updateProfileSchema),
     // @ts-ignore
     defaultValues: {
-      ...profile,
+      ...profile, // @ts-ignore
       role: profile.role as "MENTOR" | "MENTEE",
       relation: profile.relationShipToPatient ?? undefined,
     },
