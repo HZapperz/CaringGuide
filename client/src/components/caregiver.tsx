@@ -380,7 +380,7 @@ const Caregiver = () => {
 
             <div className="flex flex-col col-span-3 gap-2 mt-8">
               <div className="text-[#5E5E5E] text-xl font-poppins">
-                Synopsis of Patient Condition
+                Tell us Your Story
               </div>
               <div className="w-full">
                 <textarea

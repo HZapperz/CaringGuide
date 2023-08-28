@@ -77,19 +77,19 @@ const NavbarComp = () => {
           </Navbar.Link>
           <Navbar.Link
             color="primary"
+            href="/resources"
+            as={Link}
+            className="font-poppins text-[25px] font-[400]"
+          >
+            GUIDEBOOK
+          </Navbar.Link>
+          <Navbar.Link
+            color="primary"
             href="/journal"
             as={Link}
             className="font-poppins text-[25px] font-[400]"
           >
             JOURNAL
-          </Navbar.Link>
-          <Navbar.Link
-            color="primary"
-            href="/resources"
-            as={Link}
-            className="font-poppins text-[25px] font-[400]"
-          >
-            RESOURCES
           </Navbar.Link>
           <Navbar.Item>
             <Grid>

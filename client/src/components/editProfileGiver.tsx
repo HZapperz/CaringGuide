@@ -77,7 +77,7 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
                     </div>
                     <div className="flex items-center font-poppins">
                       <p className="text-[15px] lg:text-[20px] font-[300] mr-2">
-                        7 years of caregiving experience
+                         Years of caregiving experience
                       </p>
                     </div>
                     <Link color="black" href="/settings">

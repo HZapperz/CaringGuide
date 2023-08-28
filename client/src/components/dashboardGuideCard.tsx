@@ -35,7 +35,7 @@ const DashboardCard = ({ user, care }: { user: Profile; care: boolean }) => {
   return (
     <div className="w-full rounded-xl overflow-hidden bg-white border-2 border-[#ECEEED] p-4 gap-4 flex flex-col">
       <h1 className="uppercase text-2xl text-[#4e4e4e] font-medium m-0">
-        my mentor
+        my guide
       </h1>
       <div className="flex items-center justify-start w-full gap-4">
         <div className="w-[92px]">
