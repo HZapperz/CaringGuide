@@ -12,7 +12,6 @@ import {
   Spacer,
   Text,
   Textarea,
-  Dropdown,
 } from "@nextui-org/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -31,8 +30,6 @@ const SettingsPage = () => {
   const profile = data.profile!;
   const supabase = useSupabaseClient();
   const queryClient = useQueryClient();
-
-  console.log(profile);
 
   const { handleSubmit, control, setValue, register } = useForm({
     resolver: zodResolver(updateDetail),
@@ -124,6 +121,7 @@ const SettingsPage = () => {
     gap: "$2xl",
     flexWrap: "nowrap",
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative">
@@ -326,84 +324,93 @@ const SettingsPage = () => {
           className={`border-2 rounded-xl text-xs w-20 p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
         >
           {countryList.map((country) => (
-            <option value={country}>{country}</option>
+            <option key={country} value={country}>
+              {country}
+            </option>
           ))}
         </select>
       </Container>
 
-      <Separator />
-
-      <Container css={{ ...containerStyle, alignItems: "start" }}>
-        <Text css={{ minWidth: "80px" }} size={15}>
-          Your Bio
-        </Text>
-        <Controller
-          name="about"
-          control={control}
-          render={({ field }) => (
-            <Textarea
-              css={{ minWidth: "80px" }}
-              {...field}
-              bordered
-              color="secondary"
-              placeholder={"About Me"}
-              width="500px"
+      {data.profile?.role === "MENTOR" && (
+        <>
+          <Separator />
+          <Container css={{ ...containerStyle, alignItems: "start" }}>
+            <Text css={{ minWidth: "80px" }} size={15}>
+              Your Bio
+            </Text>
+            <Controller
+              name="about"
+              control={control}
+              render={({ field }) => (
+                <Textarea
+                  css={{ minWidth: "80px" }}
+                  {...field}
+                  bordered
+                  color="secondary"
+                  placeholder={"About Me"}
+                  width="500px"
+                />
+              )}
             />
-          )}
-        />
-      </Container>
+          </Container>
+        </>
+      )}
 
-      <Separator />
-
-      <Container css={{ ...containerStyle, flexWrap: "wrap" }}>
-        <Text css={{ minWidth: "80px" }} size={15}>
-          Patient Name
-        </Text>
-        <Controller
-          name="patientName"
-          control={control}
-          render={({ field }) => (
-            <Input
-              {...field}
-              bordered
-              size="sm"
-              placeholder={"Patient Name"}
-              color="secondary"
+      {data.profile?.role === "MENTEE" && (
+        <>
+          <Separator />
+          <Container css={{ ...containerStyle, flexWrap: "wrap" }}>
+            <Text css={{ minWidth: "80px" }} size={15}>
+              Patient Name
+            </Text>
+            <Controller
+              name="patientName"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  bordered
+                  size="sm"
+                  placeholder={"Patient Name"}
+                  color="secondary"
+                />
+              )}
             />
-          )}
-        />
 
-        <Text css={{ minWidth: "80px" }} size={15}>
-          Condition
-        </Text>
-        <select
-          title="condition"
-          id="condition"
-          {...register("condition", { required: true })}
-          className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
-        >
-          {diseaseLabels.map((d) => (
-            <option value={d.value}>{d.label}</option>
-          ))}
-        </select>
+            <Text css={{ minWidth: "80px" }} size={15}>
+              Condition
+            </Text>
+            <select
+              title="condition"
+              id="condition"
+              {...register("condition", { required: true })}
+              className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
+            >
+              {diseaseLabels.map((d) => (
+                <option value={d.value}>{d.label}</option>
+              ))}
+            </select>
 
-        <Text css={{ minWidth: "80px" }} size={15}>
-          Relationship
-        </Text>
-        <select
-          title="relationship"
-          id="relationship"
-          {...register("relationShipToPatient", { required: true })}
-          className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
-        >
-          <option value="mother">Mother</option>
-          <option value="father">Father</option>
-          <option value="son">Son</option>
-          <option value="daughter">Daughter</option>
-          <option value="wife">Wife</option>
-          <option value="husband">Husband</option>
-        </select>
-      </Container>
+            <Text css={{ minWidth: "80px" }} size={15}>
+              Relationship
+            </Text>
+            <select
+              title="relationship"
+              id="relationship"
+              {...register("relationShipToPatient", { required: true })}
+              className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
+            >
+              <option value="mother">Mother</option>
+              <option value="father">Father</option>
+              <option value="son">Son</option>
+              <option value="daughter">Daughter</option>
+              <option value="wife">Wife</option>
+              <option value="husband">Husband</option>
+            </select>
+          </Container>
+        </>
+      )}
+
       <Separator />
 
       <Container css={{ ...containerStyle }}>
@@ -424,26 +431,31 @@ const SettingsPage = () => {
         ))}
       </Container>
 
-      <Separator />
-
-      <Container css={{ ...containerStyle, alignItems: "start" }}>
-        <Text css={{ minWidth: "80px" }} size={15}>
-          Synopsis
-        </Text>
-        <Controller
-          name="synopsis"
-          control={control}
-          render={({ field }) => (
-            <Textarea
-              {...field}
-              bordered
-              color="secondary"
-              placeholder={"Synopsis"}
-              width="500px"
+      {data.profile?.role === "MENTEE" && (
+        <>
+          <Separator />
+          <Container css={{ ...containerStyle, alignItems: "start" }}>
+            <Text css={{ minWidth: "80px" }} size={15}>
+              Synopsis
+            </Text>
+            <Controller
+              name="synopsis"
+              control={control}
+              render={({ field }) => (
+                <Textarea
+                  {...field}
+                  onChange={field.onChange}
+                  bordered
+                  color="secondary"
+                  placeholder={"Synopsis"}
+                  width="500px"
+                />
+              )}
             />
-          )}
-        />
-      </Container>
+          </Container>
+        </>
+      )}
+
       {/* Form End */}
       <Separator />
 

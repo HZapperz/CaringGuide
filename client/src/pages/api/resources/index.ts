@@ -16,7 +16,7 @@ export default isLoggedIn(async function handler(req, res, user) {
           where: {
             OR: [
               { disease: loggedInUser?.condition || undefined },
-              { category: "GENERAL" },
+              { category: "GENERAL", disease: "UNKNOWN" },
             ],
           },
           include: {

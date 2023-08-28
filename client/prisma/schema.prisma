@@ -112,6 +112,7 @@ enum Disease {
   PARKINSON
   STROKE
   ALS
+  UNKNOWN
 }
 
 enum Category {
