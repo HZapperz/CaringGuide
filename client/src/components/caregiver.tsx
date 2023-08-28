@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -42,18 +43,12 @@ const Caregiver = () => {
           .upload(session?.user.id, file, { upsert: true });
       }
 
-      const response = await fetch("/api/on-boarding", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...data,
-          isMentee: true,
-        }),
+      await axios.post("/api/on-boarding", {
+        ...data,
+        avatar: file ? session?.user.id : undefined,
+        isMentee: true,
       });
 
-      await response.json();
       toast.success("Onboarding Completed");
       queryClient.invalidateQueries(["profile", session?.user.id]);
       router.push("/dashboard");

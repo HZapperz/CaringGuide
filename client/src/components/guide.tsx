@@ -47,8 +47,9 @@ const Guide = () => {
           .upload(session?.user.id, file, { upsert: true });
       }
 
-      const response = await axios.post("/api/on-boarding", {
+      await axios.post("/api/on-boarding", {
         ...data,
+        avatar: file ? session?.user.id : undefined,
         isMentee: false,
       });
 

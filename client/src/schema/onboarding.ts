@@ -14,6 +14,7 @@ export const commonDetailsSchema = z.object({
   city: z.string(),
   country: z.string(),
   // patient info
+  avatar: z.string().optional(),
   condition: z.nativeEnum(Disease),
   experience: z.nativeEnum(Experience),
 });

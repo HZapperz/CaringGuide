@@ -72,6 +72,7 @@ export default isLoggedIn(async (req, res, user) => {
             ...Object.fromEntries(
               Object.entries(data).filter(([key, _]) => key !== "relation")
             ),
+
             relationShipToPatient:
               data.role === "MENTEE" ? data.relation : null,
           },

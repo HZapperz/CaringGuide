@@ -51,6 +51,7 @@ export default isLoggedIn(async (req, res, user) => {
           patientName: data.role === "MENTEE" ? data.patientName : undefined,
           city: data.city,
           country: data.country,
+          avatar: data.avatar,
         },
       });
 
