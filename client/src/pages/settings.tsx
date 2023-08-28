@@ -123,27 +123,26 @@ const SettingsPage = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="relative">
-        <div className="h-72">
-          <div className="w-full h-36 bg-gradient-to-r from-green-100 to-pink-200"></div>{" "}
-          <label>
-            {file || url ? (
-              <img
-                className="absolute p-0 rounded-full top-24 left-20 w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
-                src={!!file ? URL.createObjectURL(file) : url}
-                alt="default jpeg"
-                width={192}
-                height={192}
-              />
-            ) : (
-              <img
-                className="absolute p-0 rounded-full top-24 left-20 w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
-                src="default.jpeg"
-                alt="default jpeg"
-                width={192}
-                height={192}
-              />
-            )}
+      <Container css={{ ...containerStyle }}>
+        <div className="flex gap-8 py-4 items-center">
+          {file || url ? (
+            <img
+              className="p-0 rounded-full w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
+              src={!!file ? URL.createObjectURL(file) : url}
+              alt="default jpeg"
+              width={192}
+              height={192}
+            />
+          ) : (
+            <img
+              className="p-0 rounded-full w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
+              src="default.jpeg"
+              alt="default jpeg"
+              width={192}
+              height={192}
+            />
+          )}
+          <label className="p-2 text-sm bg-green-800 rounded-xl text-white hover:bg-green-700 cursor-pointer">
             <input
               title="file"
               type="file"
@@ -157,9 +156,11 @@ const SettingsPage = () => {
                 }
               }}
             />
+            Upload Image
           </label>
         </div>
-      </div>
+      </Container>
+
       {/* Form Start */}
       <Container css={{ ...containerStyle }}>
         <Text css={{ minWidth: "80px" }} size={15}>
