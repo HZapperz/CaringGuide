@@ -1,7 +1,7 @@
 import { WithOnBoarding } from "@/components/WithOnboarding";
 import { useApp } from "@/context/app";
 import useHandleErrors from "@/hooks/useHandleErrors";
-import { updateDetail } from "@/schema/onboarding";
+import { updateProfileSchema } from "@/schema/onboarding";
 import countryList from "@/utils/countryList";
 import { diseaseLabels } from "@/utils/enumToLabel";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +18,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { z } from "zod";
 
 const SettingsPage = () => {
   const [open, setOpen] = useState(false);
@@ -31,8 +32,16 @@ const SettingsPage = () => {
   const supabase = useSupabaseClient();
   const queryClient = useQueryClient();
 
-  const { handleSubmit, control, setValue, register } = useForm({
-    resolver: zodResolver(updateDetail),
+  const { handleSubmit, control, register } = useForm<
+    z.infer<typeof updateProfileSchema>
+  >({
+    resolver: zodResolver(updateProfileSchema),
+    // @ts-ignore
+    defaultValues: {
+      ...profile,
+      role: profile.role as "MENTOR" | "MENTEE",
+      relation: profile.relationShipToPatient ?? undefined,
+    },
   });
 
   const handleErrors = useHandleErrors();
@@ -102,16 +111,6 @@ const SettingsPage = () => {
         handleErrors(error);
       }
     })();
-
-    if (!!profile) {
-      for (const key of Object.keys(profile) as Array<keyof typeof profile>) {
-        if (profile[key]) {
-          if (key === "dob")
-            setValue(key, new Date(profile[key]).toISOString().slice(0, 10));
-          else setValue(key, profile[key]);
-        }
-      }
-    }
   }, [profile]);
 
   const containerStyle = {
@@ -235,6 +234,7 @@ const SettingsPage = () => {
           render={({ field }) => (
             <Input
               {...field}
+              value={new Date(profile.dob).toISOString().slice(0, 10)}
               bordered
               size="sm"
               css={{ minWidth: "170px" }}
@@ -397,7 +397,7 @@ const SettingsPage = () => {
             <select
               title="relationship"
               id="relationship"
-              {...register("relationShipToPatient", { required: true })}
+              {...register("relation", { required: true })}
               className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
             >
               <option value="mother">Mother</option>

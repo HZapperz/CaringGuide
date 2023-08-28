@@ -62,8 +62,6 @@ const Guide = () => {
     }
   };
 
-  console.log(errors);
-
   const focusStyle =
     "transition-all focus:bg-transparent focus:border-b-2 focus:rounded-none focus:border-b-caring focus:border-0";
   const selectFocusStyle = "focus:bg-white focus:border w-52";

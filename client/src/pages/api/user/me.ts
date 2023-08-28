@@ -1,3 +1,4 @@
+import { updateProfileSchema } from "@/schema/onboarding";
 import isLoggedIn from "../../../lib/isLoggedIn";
 import { prisma } from "@/lib/client";
 
@@ -49,7 +50,7 @@ export default isLoggedIn(async (req, res, user) => {
       }
 
       case "PATCH": {
-        const data = req.body;
+        const data = updateProfileSchema.parse(req.body);
 
         const existingProfile = await prisma.profile.findUnique({
           where: {
@@ -62,11 +63,18 @@ export default isLoggedIn(async (req, res, user) => {
             message: "User profile not found.",
           });
         }
+
         await prisma.profile.update({
           where: {
             id: user.id,
           },
-          data: data,
+          data: {
+            ...Object.fromEntries(
+              Object.entries(data).filter(([key, _]) => key !== "relation")
+            ),
+            relationShipToPatient:
+              data.role === "MENTEE" ? data.relation : null,
+          },
         });
 
         return res.status(200).json({
@@ -80,6 +88,8 @@ export default isLoggedIn(async (req, res, user) => {
         });
     }
   } catch (error) {
+    console.error(error);
+
     return res.status(500).json({
       message: "Server Error",
       error,

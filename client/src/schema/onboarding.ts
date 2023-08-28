@@ -39,7 +39,10 @@ export const menteeOnboardingSchema = commonDetailsSchema.merge(
   menteeInformationSchema
 );
 
-export const updateDetail = commonDetailsSchema.partial();
+export const updateProfileSchema = z.union([
+  mentorOnboardingSchema.partial(),
+  menteeOnboardingSchema.partial(),
+]);
 
 export const onBoardingSchema = z.union([
   menteeOnboardingSchema,
