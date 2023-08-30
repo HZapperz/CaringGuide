@@ -51,7 +51,7 @@ const OnBoarding = () => {
             }
           >
             <h1 className="font-poppins text-3xl font-[400] text-[#4E4E4E] mb-4">
-              I am Caregiver
+              I am a Caregiver
             </h1>
             <p className="font-poppins text-xl font-[400] text-[#4E4E4E] p-3 hidden md:block">
               Receive guidance with caregiving from an experienced mentor
@@ -69,7 +69,7 @@ const OnBoarding = () => {
             }
           >
             <h1 className="font-poppins text-3xl font-[400] text-[#4E4E4E] mb-4">
-              I am Guide
+              I am a Guide
             </h1>
             <p className="font-poppins text-xl font-[400] text-[#4E4E4E] p-3 hidden md:block">
               Help inexperienced caregivers by offering advice and resources
