@@ -47,8 +47,9 @@ const Guide = () => {
           .upload(session?.user.id, file, { upsert: true });
       }
 
-      const response = await axios.post("/api/on-boarding", {
+      await axios.post("/api/on-boarding", {
         ...data,
+        avatar: file ? session?.user.id : undefined,
         isMentee: false,
       });
 
@@ -62,8 +63,6 @@ const Guide = () => {
     }
   };
 
-  console.log(errors);
-
   const focusStyle =
     "transition-all focus:bg-transparent focus:border-b-2 focus:rounded-none focus:border-b-caring focus:border-0";
   const selectFocusStyle = "focus:bg-white focus:border w-52";
@@ -71,42 +70,40 @@ const Guide = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="relative">
-          <div className="h-72">
-            <div className="w-full h-36 bg-gradient-to-r from-green-100 to-pink-200"></div>{" "}
-            <label>
-              {file || url ? (
-                <img
-                  className="absolute p-0 rounded-full top-24 left-20 w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
-                  src={!!file ? URL.createObjectURL(file) : url}
-                  alt="default jpeg"
-                  width={192}
-                  height={192}
-                />
-              ) : (
-                <img
-                  className="absolute p-0 rounded-full top-24 left-20 w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
-                  src="default.jpeg"
-                  alt="default jpeg"
-                  width={192}
-                  height={192}
-                />
-              )}
-              <input
-                title="file"
-                type="file"
-                name="image"
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
+        <div className="flex gap-8 py-4 items-center">
+          {file || url ? (
+            <img
+              className="p-0 rounded-full w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
+              src={!!file ? URL.createObjectURL(file) : url}
+              alt="default jpeg"
+              width={192}
+              height={192}
+            />
+          ) : (
+            <img
+              className="p-0 rounded-full w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
+              src="default.jpeg"
+              alt="default jpeg"
+              width={192}
+              height={192}
+            />
+          )}
+          <label className="p-2 text-sm bg-green-800 rounded-xl text-white hover:bg-green-700 cursor-pointer">
+            <input
+              title="file"
+              type="file"
+              name="image"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
 
-                  if (file) {
-                    setFile(file);
-                  }
-                }}
-              />
-            </label>
-          </div>
+                if (file) {
+                  setFile(file);
+                }
+              }}
+            />
+            Upload Image
+          </label>
         </div>
         <div className="flex flex-col items-start justify-around w-full px-1 py-10 mb-8 lg:flex-row md:px-4">
           <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">

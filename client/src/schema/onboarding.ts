@@ -18,6 +18,7 @@ export const commonDetailsSchema = z.object({
   zip: z.string(),
   country: z.string(),
   // patient info
+  avatar: z.string().optional(),
   condition: z.nativeEnum(Disease),
   experience: z.nativeEnum(Experience),
 });
@@ -44,7 +45,10 @@ export const menteeOnboardingSchema = commonDetailsSchema.merge(
   menteeInformationSchema
 );
 
-export const updateDetail = commonDetailsSchema.partial();
+export const updateProfileSchema = z.union([
+  mentorOnboardingSchema.partial(),
+  menteeOnboardingSchema.partial(),
+]);
 
 export const onBoardingSchema = z.union([
   menteeOnboardingSchema,

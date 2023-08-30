@@ -49,6 +49,7 @@ const JournalEditor: React.FC = () => {
           },
           body: JSON.stringify(newData),
         });
+        queryClient.invalidateQueries(["profile", session?.user.id]);
 
         setRefresh(!fresh);
         reset();
@@ -69,8 +70,6 @@ const JournalEditor: React.FC = () => {
       handleErrors(error);
     }
   };
-
-  console.log(selectedJournal);
 
   const handleEditJournal = (journal: Journal) => {
     setSelectedJournal(journal);
@@ -119,13 +118,6 @@ const JournalEditor: React.FC = () => {
         <div className="font-poppins text-[#4E4E4E] text-2xl font-medium">
           JOURNAL
         </div>
-        <button
-          type="button"
-          onClick={() => setSelectedJournal(null)}
-          className="bg-[#114D38] text-white rounded-2xl px-4 py-2 text-xl"
-        >
-          NEW ENTRY
-        </button>
       </div>
       <div className="border-2 border-[#ECEEED] flex flex-col md:flex-row justify-start items-start h-[90%] rounded-xl">
         <div className="flex flex-col items-start justify-start max-w-full p-4 md:max-h-full md:h-full md:w-fit md:border-r md:border-r-[#ECEEED] md:border-b-0 border-b border-b-[#ECEEED]">

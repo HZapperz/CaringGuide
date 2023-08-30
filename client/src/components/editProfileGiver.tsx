@@ -60,7 +60,7 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
                   </div>
                   <div className="flex flex-col justify-center items-start w-[60%] text-[#4E4E4E]">
                     <div className="flex items-center gap-2">
-                      <h2 className="text-[20px] lg:text-[30px] font-poppins font-medium leading-3 uppercase ">
+                      <h2 className="text-[20px] lg:text-[30px] font-poppins font-medium leading-3 uppercase overflow-ellipsis">
                         {user.firstName + " " + user.lastName}
                       </h2>
                     </div>
@@ -73,6 +73,9 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
                         {getDiseaseLabel(user.condition) || "Unknown"}
                       </p>
                     </div>
+                    <Link color="black" href="/settings">
+                      Edit Profile
+                    </Link>
                   </div>
                 </div>
               </div>

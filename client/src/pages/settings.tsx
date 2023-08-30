@@ -1,7 +1,7 @@
 import { WithOnBoarding } from "@/components/WithOnboarding";
 import { useApp } from "@/context/app";
 import useHandleErrors from "@/hooks/useHandleErrors";
-import { updateDetail } from "@/schema/onboarding";
+import { updateProfileSchema } from "@/schema/onboarding";
 import countryList from "@/utils/countryList";
 import { diseaseLabels } from "@/utils/enumToLabel";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,13 +12,13 @@ import {
   Spacer,
   Text,
   Textarea,
-  Dropdown,
 } from "@nextui-org/react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { z } from "zod";
 
 const SettingsPage = () => {
   const [open, setOpen] = useState(false);
@@ -32,10 +32,16 @@ const SettingsPage = () => {
   const supabase = useSupabaseClient();
   const queryClient = useQueryClient();
 
-  console.log(profile);
-
-  const { handleSubmit, control, setValue, register } = useForm({
-    resolver: zodResolver(updateDetail),
+  const { handleSubmit, control, register } = useForm<
+    z.infer<typeof updateProfileSchema>
+  >({
+    resolver: zodResolver(updateProfileSchema),
+    // @ts-ignore
+    defaultValues: {
+      ...profile, // @ts-ignore
+      role: profile.role as "MENTOR" | "MENTEE",
+      relation: profile.relationShipToPatient ?? undefined,
+    },
   });
 
   const handleErrors = useHandleErrors();
@@ -105,16 +111,6 @@ const SettingsPage = () => {
         handleErrors(error);
       }
     })();
-
-    if (!!profile) {
-      for (const key of Object.keys(profile) as Array<keyof typeof profile>) {
-        if (profile[key]) {
-          if (key === "dob")
-            setValue(key, new Date(profile[key]).toISOString().slice(0, 10));
-          else setValue(key, profile[key]);
-        }
-      }
-    }
   }, [profile]);
 
   const containerStyle = {
@@ -124,29 +120,29 @@ const SettingsPage = () => {
     gap: "$2xl",
     flexWrap: "nowrap",
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="relative">
-        <div className="h-72">
-          <div className="w-full h-36 bg-gradient-to-r from-green-100 to-pink-200"></div>{" "}
-          <label>
-            {file || url ? (
-              <img
-                className="absolute p-0 rounded-full top-24 left-20 w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
-                src={!!file ? URL.createObjectURL(file) : url}
-                alt="default jpeg"
-                width={192}
-                height={192}
-              />
-            ) : (
-              <img
-                className="absolute p-0 rounded-full top-24 left-20 w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
-                src="default.jpeg"
-                alt="default jpeg"
-                width={192}
-                height={192}
-              />
-            )}
+      <Container css={{ ...containerStyle }}>
+        <div className="flex gap-8 py-4 items-center">
+          {file || url ? (
+            <img
+              className="p-0 rounded-full w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
+              src={!!file ? URL.createObjectURL(file) : url}
+              alt="default jpeg"
+              width={192}
+              height={192}
+            />
+          ) : (
+            <img
+              className="p-0 rounded-full w-36 h-36 ring-4 ring-gray-300 dark:ring-gray-500"
+              src="default.jpeg"
+              alt="default jpeg"
+              width={192}
+              height={192}
+            />
+          )}
+          <label className="p-2 text-sm bg-green-800 rounded-xl text-white hover:bg-green-700 cursor-pointer">
             <input
               title="file"
               type="file"
@@ -160,9 +156,11 @@ const SettingsPage = () => {
                 }
               }}
             />
+            Upload Image
           </label>
         </div>
-      </div>
+      </Container>
+
       {/* Form Start */}
       <Container css={{ ...containerStyle }}>
         <Text css={{ minWidth: "80px" }} size={15}>
@@ -237,6 +235,7 @@ const SettingsPage = () => {
           render={({ field }) => (
             <Input
               {...field}
+              value={new Date(profile.dob).toISOString().slice(0, 10)}
               bordered
               size="sm"
               css={{ minWidth: "170px" }}
@@ -326,84 +325,93 @@ const SettingsPage = () => {
           className={`border-2 rounded-xl text-xs w-20 p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
         >
           {countryList.map((country) => (
-            <option value={country}>{country}</option>
+            <option key={country} value={country}>
+              {country}
+            </option>
           ))}
         </select>
       </Container>
 
-      <Separator />
-
-      <Container css={{ ...containerStyle, alignItems: "start" }}>
-        <Text css={{ minWidth: "80px" }} size={15}>
-          Your Bio
-        </Text>
-        <Controller
-          name="about"
-          control={control}
-          render={({ field }) => (
-            <Textarea
-              css={{ minWidth: "80px" }}
-              {...field}
-              bordered
-              color="secondary"
-              placeholder={"About Me"}
-              width="500px"
+      {data.profile?.role === "MENTOR" && (
+        <>
+          <Separator />
+          <Container css={{ ...containerStyle, alignItems: "start" }}>
+            <Text css={{ minWidth: "80px" }} size={15}>
+              Your Bio
+            </Text>
+            <Controller
+              name="about"
+              control={control}
+              render={({ field }) => (
+                <Textarea
+                  css={{ minWidth: "80px" }}
+                  {...field}
+                  bordered
+                  color="secondary"
+                  placeholder={"About Me"}
+                  width="500px"
+                />
+              )}
             />
-          )}
-        />
-      </Container>
+          </Container>
+        </>
+      )}
 
-      <Separator />
-
-      <Container css={{ ...containerStyle, flexWrap: "wrap" }}>
-        <Text css={{ minWidth: "80px" }} size={15}>
-          Patient Name
-        </Text>
-        <Controller
-          name="patientName"
-          control={control}
-          render={({ field }) => (
-            <Input
-              {...field}
-              bordered
-              size="sm"
-              placeholder={"Patient Name"}
-              color="secondary"
+      {data.profile?.role === "MENTEE" && (
+        <>
+          <Separator />
+          <Container css={{ ...containerStyle, flexWrap: "wrap" }}>
+            <Text css={{ minWidth: "80px" }} size={15}>
+              Patient Name
+            </Text>
+            <Controller
+              name="patientName"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  bordered
+                  size="sm"
+                  placeholder={"Patient Name"}
+                  color="secondary"
+                />
+              )}
             />
-          )}
-        />
 
-        <Text css={{ minWidth: "80px" }} size={15}>
-          Condition
-        </Text>
-        <select
-          title="condition"
-          id="condition"
-          {...register("condition", { required: true })}
-          className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
-        >
-          {diseaseLabels.map((d) => (
-            <option value={d.value}>{d.label}</option>
-          ))}
-        </select>
+            <Text css={{ minWidth: "80px" }} size={15}>
+              Condition
+            </Text>
+            <select
+              title="condition"
+              id="condition"
+              {...register("condition", { required: true })}
+              className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
+            >
+              {diseaseLabels.map((d) => (
+                <option value={d.value}>{d.label}</option>
+              ))}
+            </select>
 
-        <Text css={{ minWidth: "80px" }} size={15}>
-          Relationship
-        </Text>
-        <select
-          title="relationship"
-          id="relationship"
-          {...register("relationShipToPatient", { required: true })}
-          className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
-        >
-          <option value="mother">Mother</option>
-          <option value="father">Father</option>
-          <option value="son">Son</option>
-          <option value="daughter">Daughter</option>
-          <option value="wife">Wife</option>
-          <option value="husband">Husband</option>
-        </select>
-      </Container>
+            <Text css={{ minWidth: "80px" }} size={15}>
+              Relationship
+            </Text>
+            <select
+              title="relationship"
+              id="relationship"
+              {...register("relation", { required: true })}
+              className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
+            >
+              <option value="mother">Mother</option>
+              <option value="father">Father</option>
+              <option value="son">Son</option>
+              <option value="daughter">Daughter</option>
+              <option value="wife">Wife</option>
+              <option value="husband">Husband</option>
+            </select>
+          </Container>
+        </>
+      )}
+
       <Separator />
 
       <Container css={{ ...containerStyle }}>
@@ -424,26 +432,31 @@ const SettingsPage = () => {
         ))}
       </Container>
 
-      <Separator />
-
-      <Container css={{ ...containerStyle, alignItems: "start" }}>
-        <Text css={{ minWidth: "80px" }} size={15}>
-          Your Story
-        </Text>
-        <Controller
-          name="synopsis"
-          control={control}
-          render={({ field }) => (
-            <Textarea
-              {...field}
-              bordered
-              color="secondary"
-              placeholder={"Synopsis"}
-              width="500px"
+      {data.profile?.role === "MENTEE" && (
+        <>
+          <Separator />
+          <Container css={{ ...containerStyle, alignItems: "start" }}>
+            <Text css={{ minWidth: "80px" }} size={15}>
+              Your Story
+            </Text>
+            <Controller
+              name="synopsis"
+              control={control}
+              render={({ field }) => (
+                <Textarea
+                  {...field}
+                  onChange={field.onChange}
+                  bordered
+                  color="secondary"
+                  placeholder={"Synopsis"}
+                  width="500px"
+                />
+              )}
             />
-          )}
-        />
-      </Container>
+          </Container>
+        </>
+      )}
+
       {/* Form End */}
       <Separator />
 
