@@ -54,9 +54,6 @@ const DashboardCard = ({ user, care }: { user: Profile; care: boolean }) => {
             <p className="text-xl font-medium font-poppins whitespace-nowrap">
               {user?.firstName + " " + user?.lastName}
             </p>
-            <p className="text-[#4E4E4E] opacity-50 text-[11px] font-poppins">
-              ({user?.gender === "male" ? "he/him" : "she/her"})
-            </p>
           </div>
           <div className="flex items-center justify-start gap-3 text-xs font-poppins">
             <p className="text-[#4E4E4E]">{age} Years</p>

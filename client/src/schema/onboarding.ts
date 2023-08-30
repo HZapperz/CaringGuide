@@ -11,12 +11,17 @@ export const commonDetailsSchema = z.object({
   email: z.string().email(),
   phone: z.string(),
   // address info
+  address1: z.string().min(2).max(100), 
+  address2: z.string().max(100).optional(),
   city: z.string(),
+  state: z.string(),
+  zip: z.string(),
   country: z.string(),
   // patient info
   condition: z.nativeEnum(Disease),
   experience: z.nativeEnum(Experience),
 });
+
 
 const menteeInformationSchema = z.object({
   role: z.literal(Role.MENTEE),

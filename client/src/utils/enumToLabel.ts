@@ -1,16 +1,17 @@
 import { Disease, Category } from "@prisma/client";
 
 export const diseaseLabels = [
-  { value: Disease.ALS, label: "Als" },
+  { value: Disease.ALS, label: "ALS" },
   { value: Disease.ALZHEIMER, label: "Alzheimer Disease" },
   { value: Disease.MYELOMA, label: "Multiple Myeloma" },
   { value: Disease.PARKINSON, label: "Parkinson Disease" },
   { value: Disease.STROKE, label: "Stroke" },
 ];
 
-export const getDiseaseLabel = (disease: string) => {
+export const getDiseaseLabel = (disease: string | null) => {
+  if (!disease) return null;
   const diseaseLabel = diseaseLabels.find((d) => d.value === disease);
-  return diseaseLabel?.label;
+  return diseaseLabel?.label || null;
 };
 
 export const categoryLabels = [

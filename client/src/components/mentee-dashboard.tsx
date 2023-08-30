@@ -70,7 +70,7 @@ const MenteeDashBoard = () => {
           <div className="flex flex-col justify-center items-start w-[60%]">
             <div className="flex flex-col items-start justify-start gap-1">
               <h2 className="text-2xl font-medium leading-3 uppercase font-poppins whitespace-nowrap">
-                {profile?.firstName + " " + profile?.lastName}
+                {profile?.firstName}
               </h2>
               <EditProfileGiver user={profile} />
             </div>
@@ -95,7 +95,7 @@ const MenteeDashBoard = () => {
               </div>
             ))}
             {favoriteResources.length === 0 && (
-              <p className="text-gray-500">No favorite resources yet</p>
+              <p className="text-gray-500">Test out Our Guidebook</p>
             )}
           </div>
         </div>

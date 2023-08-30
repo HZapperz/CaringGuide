@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Profile } from "@prisma/client";
+import { getDiseaseLabel } from "../utils/enumToLabel";
 
 const EditProfileGiver = ({ user }: { user: Profile }) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -62,22 +63,14 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
                       <h2 className="text-[20px] lg:text-[30px] font-poppins font-medium leading-3 uppercase ">
                         {user.firstName + " " + user.lastName}
                       </h2>
-                      <p className="opacity-50 text-[10px] lg:text-[16px] font-poppins">
-                        ({user.gender === "male" ? "he/him" : "she/her"})
-                      </p>
                     </div>
                     <div className="flex items-center font-poppins">
                       <p className="text-[15px] lg:text-[20px] font-[300] mr-2">
-                        {age} Years
+                        {age} Years of caregiving experience
                       </p>
                       <div className="w-1 bg-black rounded-full aspect-square" />
                       <p className="text-[15px] lg:text-[20px] font-[300] ml-2">
-                        {user.condition}
-                      </p>
-                    </div>
-                    <div className="flex items-center font-poppins">
-                      <p className="text-[15px] lg:text-[20px] font-[300] mr-2">
-                         Years of caregiving experience
+                        {getDiseaseLabel(user.condition) || "Unknown"}
                       </p>
                     </div>
                   </div>
@@ -89,7 +82,7 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
             </div>
             <div className="grid grid-cols-1 gap-10 mt-4 lg:grid-cols-2 xl:grid-cols-3">
               <div className="flex flex-col gap-3">
-                <h3 className="mb-2 text-xl lg:text-2xl font-poppins">About</h3>
+                <h3 className="mb-2 text-xl lg:text-2xl font-poppins">My Story</h3>
                 <p className="text-[16px] lg:text-[20px] font-[300] p-4 rounded-xl font-poppins bg-[#ECEEED] h-fit max-h-60 lg:h-60 overflow-auto">
                   {user.synopsis}
                 </p>

@@ -43,9 +43,6 @@ const DashboardCareCard = ({ profile }: { profile: Profile }) => {
               <h2 className="text-xl font-poppins mr-2">
                 {profile.firstName + " " + profile.lastName}
               </h2>
-              <p className="text-gray-600 ml-2 font-poppins">
-                ({profile.gender === "male" ? "he/him" : "she/her"})
-              </p>
             </div>
             <div className="flex justify-start items-center font-poppins">
               <p className="text-gray-600 mr-2"> {age} Years</p>

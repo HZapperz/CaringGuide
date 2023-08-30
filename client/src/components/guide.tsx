@@ -229,9 +229,32 @@ const Guide = () => {
             <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="text"
+                placeholder="Address Line 1"
+                {...register("address1", { required: true })}
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
+                  errors.address1 ? " border border-red-500" : ""
+                }`}
+              />
+              {errors.address1 && (
+                <p className="mt-2 text-red-500">Address Line 1 is required</p>
+              )}
+            </div>
+
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
+              <input
+                type="text"
+                placeholder="Address Line 2"
+                {...register("address2")}
+                className="font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl"
+              />
+            </div>
+
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
+              <input
+                type="text"
                 placeholder="City"
                 {...register("city", { required: true })}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.city ? " border border-red-500" : ""
                 }`}
               />
@@ -241,16 +264,49 @@ const Guide = () => {
             </div>
 
             <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
+              <input
+                type="text"
+                placeholder="State"
+                {...register("state", { required: true })}
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
+                  errors.state ? " border border-red-500" : ""
+                }`}
+              />
+              {errors.state && (
+                <p className="mt-2 text-red-500">State is required</p>
+              )}
+            </div>
+
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
+              <input
+                type="text"
+                placeholder="Zip"
+                {...register("zip", { required: true })}
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
+                  errors.zip ? " border border-red-500" : ""
+                }`}
+              />
+              {errors.zip && (
+                <p className="mt-2 text-red-500">Zip is required</p>
+              )}
+            </div>
+
+            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
               <select
+                style={{ width: "209px" }}
                 title="country"
                 {...register("country", { required: true })}
-                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] w-52 rounded-xl ${selectFocusStyle} ${
+                className={`font-poppins text-xs bg-[#ECEEED] px-4 h-[48px] rounded-xl ${
                   errors.country ? " border border-red-500" : ""
                 }`}
               >
                 <option value={""}>Select Country</option>
                 {countryList.map((country) => (
-                  <option value={country} key={country}>
+                  <option
+                    value={country}
+                    key={country}
+                    selected={country === "United States of America (the)"}
+                  >
                     {country}
                   </option>
                 ))}

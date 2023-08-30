@@ -96,13 +96,6 @@ const MentorMatch: React.FC = () => {
                   <h2 className="text-2xl font-poppins mr-1 font-medium">
                     {profile.firstName + " " + profile.lastName}
                   </h2>
-                  <p className="text-[#4E4E4E] opacity-50 text-[11px] ml-2 font-poppins">
-                    {profile.gender === "male"
-                      ? "He/him"
-                      : profile.gender === "female"
-                      ? "She/her"
-                      : "Other"}
-                  </p>
                 </div>
                 <div className="flex justify-start items-center font-poppins">
                   <p className="text-[#4E4E4E] text-[15px] mr-2">

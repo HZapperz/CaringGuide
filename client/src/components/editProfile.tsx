@@ -68,9 +68,6 @@ const EditProfile = (props: any) => {
                     <h2 className="text-[20px] lg:text-[30px] font-poppins mr-1 font-medium">
                       {props.user?.firstName + " " + props.user?.lastName}
                     </h2>
-                    <p className="text-[#4E4E4E] opacity-50 text-[10px] lg:text-[16px] ml-2 font-poppins">
-                      ({props.user?.gender === "male" ? "he/him" : "she/her"})
-                    </p>
                   </div>
                   <div className="flex items-center justify-start font-poppins">
                     <p className="text-[#4E4E4E] text-[15px] lg:text-[20px] font-[300] mr-2">
@@ -96,7 +93,7 @@ const EditProfile = (props: any) => {
             </div>
             <div className="grid grid-cols-1 gap-10 mt-4 lg:grid-cols-2">
               <div>
-                <h3 className="mb-2 text-xl lg:text-2xl font-poppins">About</h3>
+                <h3 className="mb-2 text-xl lg:text-2xl font-poppins">My Story</h3>
                 <p className="text-[#4E4E4E] text-[16px] lg:text-[20px] font-[300] p-4 rounded-xl font-poppins bg-[#ECEEED] h-fit max-h-60 lg:h-60 overflow-auto">
                   {props.user?.about}
                 </p>

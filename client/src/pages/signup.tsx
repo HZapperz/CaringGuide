@@ -61,7 +61,7 @@ const Welcome = () => {
   }, [session]);
 
   return (
-    <div className="h-full bg-[url('../../public/images/signinBG.png')] bg-no-repeat bg-cover bg-center bg-fixed">
+    <div className="h-full bg-[url('../../public/images/trailguide.png')] bg-no-repeat bg-cover bg-center bg-fixed">
       <div className="pt-40 background-image: linear-gradient(115deg, #9F7AEA, #FEE2FE) overflow-hidden">
         <div className="container mx-auto">
           <div className="flex flex-col w-10/12 mx-auto bg-black shadow-lg lg:flex-row lg:w-8/12 bg-opacity-80 rounded-xl">
