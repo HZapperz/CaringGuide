@@ -42,8 +42,9 @@ const Login = () => {
     <div className="flex flex-col w-screen h-full">
       <div className="flex w-full h-full">
         <div className="h-full w-[50%] lg:block hidden">
-          <div className="h-full bg-[url('../../public/images/signinBG.png')] bg-no-repeat bg-cover bg-center"></div>
+          <div className="h-full bg-[url('../../public/images/waterhike.jpg')] bg-no-repeat bg-cover bg-bottom"></div>
         </div>
+
         <div className="lg:w-[50%] w-full h-full bg-white flex flex-col justify-center items-center">
           <div className="text-[#4E4E4E] text-center font-poppins text-4xl font-medium leading-normal">
             LOG IN
@@ -93,7 +94,7 @@ const Login = () => {
             <hr className="w-full" />
           </div>
           <div>
-          <form onSubmit={handleSubmit(handleLogin)}>
+            <form onSubmit={handleSubmit(handleLogin)}>
               <div className="flex flex-col mt-6">
                 <label
                   htmlFor="email"
