@@ -65,9 +65,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) setSession(session);
-      if (!session) {
-        router.replace("/signin");
+      if (session) {
+        setSession(session);
+
+        // Redirect if they are on restricted pages while logged in
+        if (["/signup", "/signin", "/"].includes(router.pathname)) {
+          router.replace("/dashboard"); // Or whichever route you'd like to redirect them to
+        }
       }
 
       setLoading(false);

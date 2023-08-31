@@ -15,6 +15,7 @@ const Login = () => {
   const { session } = useApp();
   const supabase = useSupabaseClient();
   const form = useForm<SignInFormValues>();
+  const { handleSubmit } = form;
   const router = useRouter();
 
   async function handleLogin(data: SignInFormValues) {
@@ -92,7 +93,7 @@ const Login = () => {
             <hr className="w-full" />
           </div>
           <div>
-            <form {...form} onSubmit={form.handleSubmit(handleLogin)}>
+          <form onSubmit={handleSubmit(handleLogin)}>
               <div className="flex flex-col mt-6">
                 <label
                   htmlFor="email"

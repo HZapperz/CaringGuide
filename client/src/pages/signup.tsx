@@ -22,6 +22,7 @@ const Welcome = () => {
   const { session } = useApp();
   const supabase = useSupabaseClient();
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -54,11 +55,17 @@ const Welcome = () => {
   };
 
   useEffect(() => {
-    if (!!session) {
-      router.replace("/dashboard");
-      return;
-    }
-  }, [session]);
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        console.log("Auth state changed!", event, session);
+      }
+    );
+
+    // Cleanup the listener when the component unmounts
+    return () => {
+      authListener?.subscription?.unsubscribe();
+    };
+  }, []);
 
   return (
     <div className="h-full bg-[url('../../public/images/trailguide.png')] bg-no-repeat bg-cover bg-center bg-fixed">
@@ -93,6 +100,42 @@ const Welcome = () => {
               </div>
             </div>
             <div className="w-full px-12 py-16 lg:w-1/2">
+              <button
+                type="button"
+                className="flex justify-between items-center bg-[#FFFFFF] text-white px-6 py-2 lg:px-6 lg:py-3 rounded-full tracking-normal text-left w-[250px] sm:w-[350px] border border-[#4E4E4E]"
+                onClick={() =>
+                  supabase.auth.signInWithOAuth({
+                    provider: "google",
+                  })
+                }
+              >
+                <p className="mr-4 font-poppins font-medium text-lg text-[#4E4E4E]">
+                  Sign Up With Google
+                </p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 533.5 544.3"
+                  className="w-5 h-5"
+                >
+                  <path
+                    fill="#4E4E4E"
+                    d="M533.5 278.4c0-19.4-1.6-38.3-4.6-56.7H272.2v107.2h149.7c-6.2 33.6-24.3 62.1-51.5 80.7v66h83.4c48.9-45.1 76.8-111.7 76.8-197.2z"
+                  />
+                  <path
+                    fill="#4E4E4E"
+                    d="M272.2 544.3c69.7 0 128.1-22.9 170.7-62.4l-83.4-66c-23.2 15.6-52.9 24.8-87.3 24.8-66.8 0-123.4-45.1-143.8-105.7H38.6v66c42.6 83.4 128.1 138.3 233.6 138.3z"
+                  />
+                  <path
+                    fill="#4E4E4E"
+                    d="M128.4 324.1a162.2 162.2 0 0 1-8.9-51.3c0-17.8 3-35.1 8.9-51.3V155H38.6a278.2 278.2 0 0 0 0 234.3l89.8-65.2z"
+                  />
+                  <path
+                    fill="#4E4E4E"
+                    d="M272.2 107.7c37.9 0 72.3 13.1 99.2 34.1l75.1-75.1C400.3 22.9 341.9 0 272.2 0 166.7 0 81.2 54.9 38.6 138.3l89.8 65.2c20.4-60.6 77-105.7 143.8-105.7z"
+                  />
+                </svg>
+              </button>
+
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mt-6">
                   <input
