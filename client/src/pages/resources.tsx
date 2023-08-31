@@ -66,7 +66,7 @@ const Feedpage = () => {
           ))}
         </div>
 
-        <div className="flex flex-wrap gap-4 p-8 mx-auto max-w-7xl">
+        <div className="grid grid-cols-1 gap-4 p-8 mx-auto lg:grid-cols-2 max-w-7xl">
           {resources
             .sort((a: any, b: any) => {
               const netLikesA = a.favoritedBy.reduce(
@@ -75,7 +75,7 @@ const Feedpage = () => {
                     count + (obj.isLiked ? 1 : 0) - (obj.isDisliked ? 1 : 0)
                   );
                 },
-                
+                0
               );
 
               const netLikesB = b.favoritedBy.reduce(
