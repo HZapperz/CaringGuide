@@ -37,7 +37,7 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
       <button
         type="button"
         onClick={togglePopup}
-        className="opacity-50 text-[15px] leading-3 font-[300] font-poppins"
+        className="opacity-50 text-[15px] leading-3 font-[50] font-poppins font-black"
       >
         view my profile
       </button>
@@ -65,16 +65,14 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
                       </h2>
                     </div>
                     <div className="flex items-center font-poppins">
-                      <p className="text-[15px] lg:text-[20px] font-[300] mr-2">
-                        {age} Years of caregiving experience
-                      </p>
-                      <div className="w-1 bg-black rounded-full aspect-square" />
                       <p className="text-[15px] lg:text-[20px] font-[300] ml-2">
-                        {getDiseaseLabel(user.condition) || "Unknown"}
+                        {getDiseaseLabel(user.condition) || "Unknown"} CareGiver
                       </p>
                     </div>
-                    <Link color="black" href="/settings">
-                      Edit Profile
+                    <Link href="/settings">
+                      <span className="opacity-50 font-poppins text-black cursor-pointer">
+                        Edit Profile
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -85,7 +83,9 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
             </div>
             <div className="grid grid-cols-1 gap-10 mt-4 lg:grid-cols-2 xl:grid-cols-3">
               <div className="flex flex-col gap-3">
-                <h3 className="mb-2 text-xl lg:text-2xl font-poppins">My Story</h3>
+                <h3 className="mb-2 text-xl lg:text-2xl font-poppins">
+                  My Story
+                </h3>
                 <p className="text-[16px] lg:text-[20px] font-[300] p-4 rounded-xl font-poppins bg-[#ECEEED] h-fit max-h-60 lg:h-60 overflow-auto">
                   {user.synopsis}
                 </p>
@@ -118,7 +118,7 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
                 <div className="p-4 rounded-xl bg-[#ECEEED] h-fit max-h-60 lg:h-60">
                   <div className="text-[#4E4E4E]">
                     <p className="opacity-50 text-[15px] leading-3">
-                      PATIENT RELATIONSHIP
+                      RELATIONSHIP TO LOVED ONE
                     </p>
                     <p className="text-[18px] font-[300]">
                       {user.relationShipToPatient}
@@ -126,7 +126,7 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
                   </div>
                   <div className="mt-4">
                     <p className="opacity-50 text-[15px] leading-3">
-                      PATIENT CONDITION
+                      LOVED ONES CONDITION
                     </p>
                     <p className="text-[18px] font-[300]">{user.condition}</p>
                   </div>

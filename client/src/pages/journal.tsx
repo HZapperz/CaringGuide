@@ -121,7 +121,8 @@ const JournalEditor: React.FC = () => {
       </div>
       <div className="border-2 border-[#ECEEED] flex flex-col md:flex-row justify-start items-start h-[90%] rounded-xl">
         <div className="flex flex-col items-start justify-start max-w-full p-4 md:max-h-full md:h-full md:w-fit md:border-r md:border-r-[#ECEEED] md:border-b-0 border-b border-b-[#ECEEED]">
-          <div className="flex w-full gap-4 overflow-auto h-fit md:h-full md:grid-cols-1 md:grid md:w-80">
+        <div className="flex flex-col w-full gap-4 overflow-auto md:grid-cols-1 md:grid md:w-80">
+
             {journals.map((journal, index) => (
               <div key={index}>
                 <JournalCard data={journal} onEdit={handleEditJournal} />
@@ -132,7 +133,7 @@ const JournalEditor: React.FC = () => {
         <div className="flex flex-col items-start justify-between w-full h-full p-4 ">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col items-start justify-between w-full h-full p-4"
+            className="flex flex-col h-full w-full p-4"
           >
             <CustomInput
               register={register}
@@ -141,17 +142,16 @@ const JournalEditor: React.FC = () => {
               placeholder="Title"
               className="font-poppins text-[30px] text-[#4E4E4E] font-[500] w-full mb-2"
             />
-
             <CustomTextArea
               name="description"
               register={register}
               errors={errors}
               rules={{ required: "Description is required" }}
-              className="font-poppins text-[20px] resize-none w-full h-full text-[#4E4E4E] font-[300]"
+              className="font-poppins text-[20px] resize-none w-full flex-grow text-[#4E4E4E] font-[300] mb-4"
               placeholder="Description"
             />
 
-            <div className="flex mt-4">
+            <div className="mt-4 flex justify-end">
               {selectedJournal ? (
                 <button
                   type="button"

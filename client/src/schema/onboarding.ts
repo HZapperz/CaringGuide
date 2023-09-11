@@ -13,9 +13,9 @@ export const commonDetailsSchema = z.object({
   // address info
   address1: z.string().min(2).max(100), 
   address2: z.string().max(100).optional(),
-  city: z.string(),
-  state: z.string(),
-  zip: z.string(),
+  city: z.string().min(2).max(100),
+  state: z.string().min(2).max(100),
+  zip: z.string().min(2).max(100),
   country: z.string(),
   // patient info
   avatar: z.string().optional(),

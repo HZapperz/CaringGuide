@@ -9,6 +9,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import Loader from "./loader";
+import Link from "next/link";
 
 interface JournalData {
   jId: string;
@@ -95,7 +96,14 @@ const MenteeDashBoard = () => {
               </div>
             ))}
             {favoriteResources.length === 0 && (
-              <p className="text-gray-500">Test out Our Guidebook</p>
+              <div
+                className="opacity-50 font-poppins text-black cursor-pointer"
+                onClick={() => {
+                  router.push("/resources");
+                }}
+              >
+                You don't have any favorite resources, check Out Our guideBook
+              </div>
             )}
           </div>
         </div>
@@ -116,6 +124,17 @@ const MenteeDashBoard = () => {
               {journals.map((journal, index) => (
                 <JournalCard data={journal} key={index} isDashboard />
               ))}
+
+              {journals.length === 0 && (
+                <div
+                  className="opacity-50 font-poppins text-black cursor-pointer"
+                  onClick={() => {
+                    router.push("/journal");
+                  }}
+                >
+                  Click here to add a journal
+                </div>
+              )}
             </div>
           </div>
         </div>

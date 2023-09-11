@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import Image from "next/image";
 import logo from "../../public/logo.png";
+import { Text } from "@nextui-org/react";
 import welcomeBG from "../../public/images/greenhike.jpg";
 
 type Props = {};
@@ -13,15 +14,22 @@ const WelcomePage = (props: Props) => {
     <div className="bg-white text-black font-poppins flex flex-grow">
       <div className="w-1/2 bg-white flex flex-col justify-center px-8 py-16">
         <div className="text-left ml-8 mr-4">
-          <div className="flex items-center">
-            <h1 className="text-red-600 text-8xl md:text-7xl font-bold mb-5">
+          <div className="flex items-center" >
+            <Text
+              h1
+              weight="bold"
+              css={{
+                fontSize: '4.4rem',
+                textGradient: "45deg, $green900 -10%, $red800 50%",
+              }}
+            >
               CaringGuide
-            </h1>
+            </Text>
             <Image
               src={logo}
               alt="Your Image"
-              width={60}  // Adjust as per your requirement
-              height={60} // Adjust as per your requirement
+              width={60}
+              height={60}
               className="ml-4"
             />
           </div>

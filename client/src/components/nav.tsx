@@ -20,7 +20,6 @@ const Nav = () => {
         onClick={() => (window.location.href = "/")}
         className="cursor-pointer"
       >
-        <Image src="/logo.png" alt="Logo" width={40} height={40} />
         <Text
           h2
           weight="bold"
@@ -28,8 +27,9 @@ const Nav = () => {
             textGradient: "45deg, $green900 -10%, $red800 50%",
           }}
         >
-          Caring Guide
+          CaringGuide
         </Text>
+        <Image src="/logo.png" alt="Logo" width={40} height={40} />
       </Navbar.Brand>
       {user ? (
         <Navbar.Content>

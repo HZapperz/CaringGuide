@@ -23,6 +23,7 @@ const Guide = () => {
   const handleErrors = useHandleErrors();
   const queryClient = useQueryClient();
   const supabase = useSupabaseClient();
+  const [hasValueOrFocus, setHasValueOrFocus] = useState(false);
 
   const [file, setFile] = useState<File | null>(null);
   const [url, setUrl] = useState("");
@@ -149,15 +150,21 @@ const Guide = () => {
                 <p className="mt-2 text-red-500">Last Name is required</p>
               )}
             </div>
-            <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
+            <div className="relative flex flex-col items-center justify-center sm:justify-start sm:items-start">
               <input
                 type="date"
-                placeholder="Date of Birth"
                 {...register("dob", { required: true })}
+                onFocus={() => setHasValueOrFocus(true)}
+                onBlur={(e) => setHasValueOrFocus(e.target.value !== "")}
                 className={`font-poppins bg-[#ECEEED] px-4 w-52 h-[48px] rounded-xl ${focusStyle} ${
                   errors.dob ? " border border-red-500" : ""
-                }`}
+                } ${!hasValueOrFocus ? "text-transparent" : "text-gray-900"}`}
               />
+              {!hasValueOrFocus && (
+                <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+                  Date of Birth
+                </span>
+              )}
               {errors.dob && (
                 <p className="mt-2 text-red-500">Age is required</p>
               )}

@@ -34,7 +34,7 @@ const OnBoarding = () => {
 
   return (
     <>
-      <div className="p-2 bg-white md:p-16">
+      <div className="p-2 bg-green-50 md:p-16">
         <div className="pb-8">
           <h1 className="font-poppins text-3xl font-[600]">Onboarding</h1>
         </div>
@@ -53,9 +53,6 @@ const OnBoarding = () => {
             <h1 className="font-poppins text-3xl font-[400] text-[#4E4E4E] mb-4">
               I am a Caregiver
             </h1>
-            <p className="font-poppins text-xl font-[400] text-[#4E4E4E] p-3 hidden md:block">
-              Receive guidance with caregiving from an experienced mentor
-            </p>
           </div>
           <div
             onClick={() => {
@@ -71,9 +68,6 @@ const OnBoarding = () => {
             <h1 className="font-poppins text-3xl font-[400] text-[#4E4E4E] mb-4">
               I am a Guide
             </h1>
-            <p className="font-poppins text-xl font-[400] text-[#4E4E4E] p-3 hidden md:block">
-              Help inexperienced caregivers by offering advice and resources
-            </p>
           </div>
         </div>
         <hr />
