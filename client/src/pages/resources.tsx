@@ -14,8 +14,8 @@ const Feedpage = () => {
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   const [resources, setResources] = useState<Resources[]>([]);
+  const handleErrors = useHandleErrors();
 
-  // Setting the initial selectedCategory based on URL query
   const initialCategory = Array.isArray(router.query.category)
     ? router.query.category[0]
     : router.query.category || "ALL";

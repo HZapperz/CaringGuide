@@ -467,8 +467,7 @@ const SettingsPage = () => {
 
       <Container css={{ ...containerStyle }} className="pb-10">
         <button
-          type="button"
-          onClick={() => onSubmit()}
+          type="submit"
           className="px-4 py-2 text-sm text-white bg-green-900 border-2 border-green-900 rounded-xl h-fit hover:bg-green-800"
         >
           {saveButton}
