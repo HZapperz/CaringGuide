@@ -35,7 +35,11 @@ const NavbarComp = () => {
     })();
   }, [profile?.avatar]);
 
-  if (router.pathname.includes("/admin")) {
+  if (
+    router.pathname.includes("/admin") ||
+    router.pathname.includes("/onboarding") ||
+    router.pathname.includes("/welcome")
+  ) {
     return null;
   }
 
@@ -45,8 +49,8 @@ const NavbarComp = () => {
       variant="sticky"
       maxWidth="fluid"
       css={{
-        $$navbarBackgroundColor: "#FFFFFF80",
-        $$navbarBlurBackgroundColor: "#FFFFFF80",
+        $$navbarBackgroundColor: "#f0f0f0", 
+        $$navbarBlurBackgroundColor: "#f0f0f0",
       }}
     >
       <Navbar.Brand

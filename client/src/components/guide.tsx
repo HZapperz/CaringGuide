@@ -17,7 +17,7 @@ import axios from "axios";
 
 type FormValues = z.infer<typeof mentorOnboardingSchema>;
 
-const Guide = () => {
+const Guide: React.FC = () => {
   const router = useRouter();
   const { session } = useApp();
   const handleErrors = useHandleErrors();
@@ -200,6 +200,7 @@ const Guide = () => {
               <input
                 type="email"
                 placeholder="Email"
+                defaultValue={session?.user?.email}
                 {...register("email", { required: true })}
                 className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
                   errors.email ? " border border-red-500" : ""

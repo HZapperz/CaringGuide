@@ -10,6 +10,9 @@ import { useEffect, useState } from "react";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import Loader from "./loader";
 import Link from "next/link";
+import { ICategory } from "@/types/category";
+import { categoryLabels } from "@/utils/enumToLabel";
+import CategoryCard from "@/components/category/category-card";
 
 interface JournalData {
   jId: string;
@@ -29,6 +32,17 @@ const MenteeDashBoard = () => {
   const supabase = useSupabaseClient();
   const handleErrors = useHandleErrors();
   const mentor = profile?.mentor;
+  const [selectedCategory, setSelectedCategory] =
+    useState<ICategory["value"]>("ALL");
+
+  useEffect(() => {
+    if (router.query.category) {
+      console.log("Category from URL:", router.query.category);
+      setSelectedCategory(router.query.category as string);
+    } else {
+      setSelectedCategory("ALL");
+    }
+  }, [router.query]);
 
   useEffect(() => {
     (async () => {
@@ -82,10 +96,44 @@ const MenteeDashBoard = () => {
         </div>
       </div>
       <div className="flex flex-col items-center justify-start w-full gap-4 xl:flex-row md:items-start sm:h-full">
-        <div className="flex flex-col justify-start items-start max-h-full rounded-xl border-2 border-[#ECEEED] p-4 w-full">
+        <div className="flex flex-col justify-start items-start max-h-full rounded-xl border-4 border-[#ECEEED] p-4 w-full">
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="mb-0 text-3xl text-center md:text-4xl md:text-left">
+              Resources Categories
+            </h1>
+            <div className="ml-4">
+              <button
+                onClick={() => setSelectedCategory("ALL")}
+                className="px-4 py-2 text-sm text-white bg-green-900 border-2 border-green-900 rounded-xl h-fit hover:bg-green-800"
+              >
+                Show All
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 p-6 overflow-x-auto no-scrollbar bg-slate-50 mb-4">
+            {categoryLabels.map((category) => (
+              <Link
+                href={`/resources?category=${category.value}`}
+                key={category.label}
+                passHref
+              >
+                <CategoryCard
+                  key={category.label}
+                  {...category}
+                  setSelectedCategory={(categoryValue) => {
+                    setSelectedCategory(categoryValue);
+                    router.push(`/resources?category=${categoryValue}`);
+                  }}
+                />
+              </Link>
+            ))}
+          </div>
+
           <div className="font-poppins text-[#4E4E4E] text-2xl font-medium mb-4">
             FAVORITE RESOURCES
           </div>
+
           <div className="grid w-full grid-cols-1 gap-4 overflow-auto min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {favoriteResources.map((data, index) => (
               <div

@@ -40,7 +40,7 @@ const Login = () => {
 
   return (
     <div className="h-screen bg-[url('../../public/images/waterhike.jpg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
-      <div className="bg-white p-8 rounded-xl shadow-md w-96">
+      <div className="bg-white p-8 rounded-xl shadow-md w-100 ">
         <div className="text-center font-poppins text-4xl font-medium text-[#4E4E4E] mb-8">
           LOG IN
         </div>

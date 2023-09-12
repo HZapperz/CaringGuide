@@ -20,7 +20,6 @@ export const categoryLabels = [
   { value: Category.EMOTIONAL, label: "Emotional" },
   { value: Category.HOME_CARE, label: "Home Care" },
   { value: Category.FINANCIAL_LEGAL, label: "Financial/Legal" },
-  { value: Category.END_OF_LIFE, label: "EOL REMOVE" },
 ];
 
 export const getCategoryLabel = (category: string) => {

@@ -8,13 +8,20 @@ import { Resources } from "@prisma/client";
 import { categoryLabels } from "@/utils/enumToLabel";
 import { ICategory } from "@/types/category";
 import CategoryCard from "@/components/category/category-card";
+import { useRouter } from "next/router";
 
 const Feedpage = () => {
+  const router = useRouter();
   const [loader, setLoader] = useState(false);
   const [resources, setResources] = useState<Resources[]>([]);
+
+  // Setting the initial selectedCategory based on URL query
+  const initialCategory = Array.isArray(router.query.category)
+    ? router.query.category[0]
+    : router.query.category || "ALL";
+
   const [selectedCategory, setSelectedCategory] =
-    useState<ICategory["value"]>("ALL");
-  const handleErrors = useHandleErrors();
+    useState<ICategory["value"]>(initialCategory);
 
   const getAllResources = async () => {
     setLoader(true);
@@ -46,52 +53,52 @@ const Feedpage = () => {
       <div className="flex flex-col items-start justify-start">
         <div className="flex items-center justify-between w-full p-6 pb-0 bg-slate-50">
           <h1 className="mb-0 text-3xl text-center md:text-4xl md:text-left">
-            Resources Categories
+            {selectedCategory === "ALL"
+              ? "Resources Categories"
+              : selectedCategory}
           </h1>
-          <button
-            onClick={() => setSelectedCategory("ALL")}
-            className="px-4 py-2 text-sm text-white bg-green-900 border-2 border-green-900 rounded-xl h-fit hover:bg-green-800"
-          >
-            Show All
-          </button>
+
+          {selectedCategory !== "ALL" ? (
+            <button
+              onClick={() => setSelectedCategory("ALL")}
+              className="px-4 py-2 text-sm text-white bg-red-600 border-2 border-red-600 rounded-xl h-fit hover:bg-red-500"
+            >
+              Return
+            </button>
+          ) : (
+            <button
+              onClick={() => setSelectedCategory("ALL")}
+              className="px-4 py-2 text-sm text-white bg-green-900 border-2 border-green-900 rounded-xl h-fit hover:bg-green-800"
+            >
+              Show All
+            </button>
+          )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 p-6 overflow-x-auto no-scrollbar bg-slate-50">
-          {categoryLabels.map((category) => (
-            <CategoryCard
-              key={category.label}
-              {...category}
-              setSelectedCategory={setSelectedCategory}
-            />
-          ))}
-        </div>
+        {selectedCategory === "ALL" && (
+          <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 p-6 overflow-x-auto no-scrollbar bg-slate-50">
+            {categoryLabels.map((category) => (
+              <CategoryCard
+                key={category.label}
+                {...category}
+                setSelectedCategory={setSelectedCategory}
+              />
+            ))}
+          </div>
+        )}
 
-        <div className="grid grid-cols-1 gap-4 p-8 mx-auto lg:grid-cols-2 max-w-7xl">
+        <div
+          className={`grid grid-cols-1 gap-4 p-8 mx-auto ${
+            selectedCategory !== "ALL"
+              ? "max-w-full"
+              : "lg:grid-cols-2 max-w-7xl"
+          }`}
+        >
           {resources
-            .sort((a: any, b: any) => {
-              const netLikesA = a.favoritedBy.reduce(
-                (count: number, obj: any) => {
-                  return (
-                    count + (obj.isLiked ? 1 : 0) - (obj.isDisliked ? 1 : 0)
-                  );
-                },
-                0
-              );
-
-              const netLikesB = b.favoritedBy.reduce(
-                (count: number, obj: any) => {
-                  return (
-                    count + (obj.isLiked ? 1 : 0) - (obj.isDisliked ? 1 : 0)
-                  );
-                },
-                0
-              );
-
-              return netLikesB - netLikesA;
-            })
-            .filter((resources) => {
+            .sort()
+            .filter((resource) => {
               if (selectedCategory === "ALL") return true;
-              return resources.category === selectedCategory;
+              return resource.category === selectedCategory;
             })
             .map((resource, index) => (
               <FeedCard key={index} data={resource} />

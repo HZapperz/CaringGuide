@@ -15,7 +15,7 @@ import { z } from "zod";
 
 type FormValues = z.infer<typeof menteeOnboardingSchema>;
 
-const Caregiver = () => {
+const Caregiver: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [url, setUrl] = useState("");
 
@@ -195,6 +195,7 @@ const Caregiver = () => {
                 <input
                   type="email"
                   placeholder="Email"
+                  defaultValue={session?.user?.email}
                   {...register("email", { required: true })}
                   className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
                     errors.email ? " border border-red-500" : ""
@@ -458,16 +459,16 @@ const Caregiver = () => {
             </div>
           </div>
           <div className="col-span-3 mt-8 text-center">
-                <button
-                  className="flex items-center gap-2 p-3 mx-auto font-normal text-white bg-caring rounded-full font-poppins shadow-xl"
-                  type="submit"
-                >
-                  <p className="text-3xl">Complete Onboarding</p>
-                  <div className="scale-[2]">
-                    <ChevronRightIcon />
-                  </div>
-                </button>
+            <button
+              className="flex items-center gap-2 p-3 mx-auto font-normal text-white bg-caring rounded-full font-poppins shadow-xl"
+              type="submit"
+            >
+              <p className="text-3xl">Complete Onboarding</p>
+              <div className="scale-[2]">
+                <ChevronRightIcon />
               </div>
+            </button>
+          </div>
         </div>
       </form>
     </>

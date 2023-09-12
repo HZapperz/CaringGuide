@@ -47,7 +47,10 @@ const SettingsPage = () => {
   const handleErrors = useHandleErrors();
 
   const onSubmit = async (data: any) => {
+    console.log("onSubmit called");
     try {
+      setSaveButton(<Loading size="xs" color={"white"} />); // Moved to the top
+
       if (!session?.user) {
         console.log("returning");
         return;
@@ -59,8 +62,7 @@ const SettingsPage = () => {
           .upload(session.user.id, file, { upsert: true });
       }
 
-      setSaveButton(<Loading size="xs" color={"white"} />);
-
+      console.log("Data:", data);
       await fetch("/api/user/me", {
         method: "PATCH",
         headers: {
@@ -73,8 +75,11 @@ const SettingsPage = () => {
       setSaveButton("Save");
       queryClient.invalidateQueries(["profile", session?.user.id]);
       toast.success("Profile Updated");
+      window.location.href = "/dashboard";
     } catch (error) {
       handleErrors(error);
+      setSaveButton("Save");
+      console.error("Error in onSubmit:", error);
     }
   };
 
@@ -462,14 +467,15 @@ const SettingsPage = () => {
 
       <Container css={{ ...containerStyle }} className="pb-10">
         <button
-          type="submit"
+          type="button"
+          onClick={() => onSubmit()}
           className="px-4 py-2 text-sm text-white bg-green-900 border-2 border-green-900 rounded-xl h-fit hover:bg-green-800"
         >
           {saveButton}
         </button>
         <button
           type="button"
-          onClick={() => (window.location.href = "/")}
+          onClick={() => (window.location.href = "/dashboard")}
           className="px-4 py-2 text-sm text-gray-800 bg-transparent border-2 border-gray-300 rounded-xl hover:bg-gray-200 hover:border-transparent"
         >
           Cancel
