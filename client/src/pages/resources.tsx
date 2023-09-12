@@ -89,9 +89,7 @@ const Feedpage = () => {
 
         <div
           className={`grid grid-cols-1 gap-4 p-8 mx-auto ${
-            selectedCategory !== "ALL"
-              ? "max-w-full"
-              : "lg:grid-cols-2 max-w-7xl"
+            selectedCategory !== "ALL" ? "w-full" : "lg:grid-cols-2 max-w-7xl"
           }`}
         >
           {resources

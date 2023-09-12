@@ -182,7 +182,7 @@ const FeedCard = (props: any) => {
   return (
     <Link
       href={props.data.link}
-      className="relative flex p-2 items-center bg-white border-2 border-[#D9D9D9] rounded-2xl hover:border-[#245B48] md:max-w-4xl dark:border-[#D9D9D9] dark:bg-white"
+      className="relative flex p-2 items-center bg-white border-2 border-[#D9D9D9] rounded-2xl hover:border-[#245B48] w-full dark:border-[#D9D9D9] dark:bg-white"
       target="_blank"
       rel="noopener noreferrer"
     >
