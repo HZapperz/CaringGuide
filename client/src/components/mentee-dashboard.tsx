@@ -103,9 +103,9 @@ const MenteeDashBoard = () => {
             </h1>
             <div className="ml-4">
               <button
-                 onClick={() => {
+                onClick={() => {
                   setSelectedCategory("ALL");
-                  router.push('/resources');
+                  router.push("/resources");
                 }}
                 className="px-4 py-2 text-sm text-white bg-green-900 border-2 border-green-900 rounded-xl h-fit hover:bg-green-800"
               >
@@ -128,6 +128,7 @@ const MenteeDashBoard = () => {
                     setSelectedCategory(categoryValue);
                     router.push(`/resources?category=${categoryValue}`);
                   }}
+                  selectedCategory={selectedCategory} // <-- Add this line
                 />
               </Link>
             ))}
