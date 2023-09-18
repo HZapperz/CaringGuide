@@ -54,7 +54,7 @@ const NavbarComp = () => {
       }}
     >
       <Navbar.Brand
-        onClick={() => (window.location.href = "/")}
+        onClick={() => (window.location.href = "/dashboard")}
         className="cursor-pointer"
       >
         <Text
@@ -71,30 +71,6 @@ const NavbarComp = () => {
 
       <div className="hidden lg:block">
         <Navbar.Content>
-          <Navbar.Link
-            color="primary"
-            href="/dashboard"
-            as={Link}
-            className="font-poppins text-[25px] font-[400]"
-          >
-            DASHBOARD
-          </Navbar.Link>
-          <Navbar.Link
-            color="primary"
-            href="/resources"
-            as={Link}
-            className="font-poppins text-[25px] font-[400]"
-          >
-            GUIDEBOOK
-          </Navbar.Link>
-          <Navbar.Link
-            color="primary"
-            href="/journal"
-            as={Link}
-            className="font-poppins text-[25px] font-[400]"
-          >
-            JOURNAL
-          </Navbar.Link>
           <Navbar.Item>
             <Grid>
               <Dropdown placement="bottom-left">

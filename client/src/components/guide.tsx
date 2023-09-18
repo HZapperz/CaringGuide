@@ -385,6 +385,7 @@ const Guide: React.FC = () => {
                 <p className="mt-2 text-red-500">Condition is required</p>
               )}
             </div>
+            
             <div className="flex flex-col gap-8 mt-6">
               <div className="flex flex-col w-full col-span-3 gap-4">
                 <div className="text-[#5E5E5E] text-xl font-poppins">
@@ -437,6 +438,31 @@ const Guide: React.FC = () => {
                   </p>
                 )}
               </div>
+                <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
+                  <select
+                    title="relationship"
+                    id="relationship"
+                    {...register("relation", { required: true })}
+                    defaultValue={"Relationship to Patient"}
+                    className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${selectFocusStyle} ${
+                      errors.relation ? " border border-red-500" : ""
+                    }`}
+                  >
+                    <option value="">Select Relationship</option>
+                    <option value="mother">Mother</option>
+                    <option value="father">Father</option>
+                    <option value="son">Son</option>
+                    <option value="daughter">Daughter</option>
+                    <option value="wife">Wife</option>
+                    <option value="husband">Husband</option>
+                    <option value="husband">Other</option>
+                  </select>
+                  {errors.relation && (
+                    <p className="mt-2 text-red-500">
+                      Relationship is required
+                    </p>
+                  )}
+                </div>
               <div className="flex flex-col col-span-3 gap-2">
                 <div className="text-[#5E5E5E] text-xl font-poppins">
                   Tell us Your Story

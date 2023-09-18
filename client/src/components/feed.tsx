@@ -7,7 +7,8 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
+import { FaStar, FaRegStar } from "react-icons/fa";
+import Share_The_Care_Logo from "../../public/Share_The_Care_Logo.png";
 
 const FeedCard = (props: any) => {
   const [isStarred, setIsStarred] = useState(false);
@@ -234,13 +235,13 @@ const FeedCard = (props: any) => {
       </div>
       <div className="absolute top-2 right-2">
         {isStarred ? (
-          <BsBookmarkFill
+          <FaStar
             className="text-yellow-500 cursor-pointer"
             size={20}
             onClick={(event) => handleStarClick(event, false)}
           />
         ) : (
-          <BsBookmark
+          <FaRegStar
             className="text-gray-500 cursor-pointer"
             size={20}
             onClick={(event) => handleStarClick(event, true)}

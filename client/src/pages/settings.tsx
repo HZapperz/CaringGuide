@@ -31,6 +31,7 @@ const SettingsPage = () => {
   const profile = data.profile!;
   const supabase = useSupabaseClient();
   const queryClient = useQueryClient();
+  const [theme, setTheme] = useState<"light" | "dark">("light");
 
   const { handleSubmit, control, register } = useForm<
     z.infer<typeof updateProfileSchema>
@@ -479,6 +480,16 @@ const SettingsPage = () => {
         >
           Cancel
         </button>
+        <div className="theme-toggle-section">
+          <span>{theme === "light" ? "🌞" : "🌚"}</span>
+          <button
+            onClick={() =>
+              setTheme((prev) => (prev === "light" ? "dark" : "light"))
+            }
+          >
+            Click switch to {theme === "light" ? "dark" : "light"} mode
+          </button>
+        </div>
       </Container>
     </form>
   );

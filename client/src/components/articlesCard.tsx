@@ -5,9 +5,15 @@ import { useEffect, useState } from "react";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getCategoryLabel, categoryLabels } from "../utils/enumToLabel"; 
 
 const ArticlesCard = ({ resource }: { resource: Resources }) => {
-  const [imageUrl, setImageUrl] = useState<string>("/images/articles1.jpeg");
+  const getDefaultCategoryImage = (category: string) => {
+    const categoryInfo = categoryLabels.find((c) => c.value === category);
+    return categoryInfo?.defaultImage || "/images/articles1.jpeg"; 
+  };
+  
+  const [imageUrl, setImageUrl] = useState<string>(getDefaultCategoryImage(resource.category));
   const supabase = useSupabaseClient();
   const router = useRouter();
 
@@ -18,7 +24,7 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
       }
 
       if (resource.image.startsWith("http")) {
-        return setImageUrl(resource.image ?? null);
+        return setImageUrl(resource.image);
       }
 
       const { data, error } = await supabase.storage

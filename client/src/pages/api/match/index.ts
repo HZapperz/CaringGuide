@@ -19,8 +19,35 @@ export default isLoggedIn(async (req, res, user) => {
           });
         }
 
-        const [bestMatch, countryMatch, conditionMatch, count] =
+        const [conditionMatch, genderMatch, relationshipMatch, locationMatch, ageMatch, count] =
           await Promise.all([
+            // Priority 1: Match based on disease/condition
+            prisma.profile.findFirst({
+              where: {
+                role: "MENTOR",
+                condition: mentee.condition,
+              },
+              skip,
+            }),
+            // Priority 2: Match based on gender
+            prisma.profile.findFirst({
+              where: {
+                role: "MENTOR",
+                condition: mentee.condition,
+                gender: mentee.gender,
+              },
+              skip,
+            }),
+            // Priority 3: Match based on relationship to loved one
+            prisma.profile.findFirst({
+              where: {
+                role: "MENTOR",
+                condition: mentee.condition,
+                relationShipToPatient: mentee.relationShipToPatient,
+              },
+              skip,
+            }),
+            // Priority 4: Match based on location
             prisma.profile.findFirst({
               where: {
                 role: "MENTOR",
@@ -30,18 +57,16 @@ export default isLoggedIn(async (req, res, user) => {
               },
               skip,
             }),
+            // Priority 5: Match based on age (you might need to adjust this to your needs)
             prisma.profile.findFirst({
               where: {
                 role: "MENTOR",
                 condition: mentee.condition,
-                country: mentee.country,
-              },
-              skip,
-            }),
-            prisma.profile.findFirst({
-              where: {
-                role: "MENTOR",
-                condition: mentee.condition,
+                dob: {
+                  // For simplicity: Assuming a mentor and mentee with the same DOB are the same age
+                  // You can refine this further if needed
+                  equals: mentee.dob,
+                },
               },
               skip,
             }),
@@ -52,7 +77,7 @@ export default isLoggedIn(async (req, res, user) => {
             }),
           ]);
 
-        let mentor = bestMatch ?? countryMatch ?? conditionMatch;
+        let mentor = conditionMatch ?? genderMatch ?? relationshipMatch ?? locationMatch ?? ageMatch;
 
         if (!mentor) {
           mentor = await prisma.profile.findFirst({

@@ -15,14 +15,16 @@ export const getDiseaseLabel = (disease: string | null) => {
 };
 
 export const categoryLabels = [
-  { value: Category.GENERAL, label: "General" },
-  { value: Category.PHYSICAL, label: "Physical" },
-  { value: Category.EMOTIONAL, label: "Emotional" },
-  { value: Category.HOME_CARE, label: "Home Care" },
-  { value: Category.FINANCIAL_LEGAL, label: "Financial/Legal" },
+  { value: Category.GENERAL, label: "General", defaultImage: "/articleimgs/general_default.png" },
+  { value: Category.PHYSICAL, label: "Physical", defaultImage: "/articleimgs/physical_default.png" },
+  { value: Category.EMOTIONAL, label: "Emotional", defaultImage: "/articleimgs/emotional_default.jpg" },
+  { value: Category.HOME_CARE, label: "Home Care", defaultImage: "/articleimgs/homecare_default.jpg" },
+  { value: Category.FINANCIAL_LEGAL, label: "Financial/Legal", defaultImage: "/articleimgs/financial_legal_default.jpg" },
 ];
+
 
 export const getCategoryLabel = (category: string) => {
   const categoryLabel = categoryLabels.find((c) => c.value === category);
   return categoryLabel?.label;
 };
+

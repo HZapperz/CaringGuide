@@ -75,17 +75,16 @@ const Feedpage = () => {
           )}
         </div>
 
-        {selectedCategory === "ALL" && (
-          <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 p-6 overflow-x-auto no-scrollbar bg-slate-50">
-            {categoryLabels.map((category) => (
-              <CategoryCard
-                key={category.label}
-                {...category}
-                setSelectedCategory={setSelectedCategory}
-              />
-            ))}
-          </div>
-        )}
+        <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 p-6 overflow-x-auto no-scrollbar bg-slate-50">
+          {categoryLabels.map((category) => (
+            <CategoryCard
+              key={category.label}
+              {...category}
+              setSelectedCategory={setSelectedCategory}
+              selectedCategory={selectedCategory}
+            />
+          ))}
+        </div>
 
         <div
           className={`grid grid-cols-1 gap-4 p-8 mx-auto ${
