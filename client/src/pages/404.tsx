@@ -13,9 +13,9 @@ function NoPage() {
       <div className="mt-5">
         <Link
           className="relative inline-block text-sm font-medium text-red-500 group active:text-red-500 focus:outline-none focus:ring border-2 border-red-500 px-8 py-2"
-          href={"/"}
+          href={"/dashboard"}
         >
-          Go Home
+          Return to Dashboard
         </Link>
       </div>
     </main>

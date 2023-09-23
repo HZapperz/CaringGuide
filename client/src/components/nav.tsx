@@ -1,10 +1,19 @@
 import { Navbar, Text, Image, Button } from "@nextui-org/react";
 import Link from "next/link";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 const Nav = () => {
   const user = useUser();
   const supabase = useSupabaseClient();
+  const router = useRouter();
+
+  if (
+    router.pathname.includes("/signin") ||
+    router.pathname.includes("/signup")
+  ) {
+    return null;
+  }
 
   return (
     <Navbar

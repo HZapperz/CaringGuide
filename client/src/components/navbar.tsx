@@ -49,7 +49,7 @@ const NavbarComp = () => {
       variant="sticky"
       maxWidth="fluid"
       css={{
-        $$navbarBackgroundColor: "#f0f0f0", 
+        $$navbarBackgroundColor: "#f0f0f0",
         $$navbarBlurBackgroundColor: "#f0f0f0",
       }}
     >
@@ -96,13 +96,16 @@ const NavbarComp = () => {
                 <Dropdown.Menu
                   color="secondary"
                   aria-label="Avatar Actions"
-                  onAction={(key) =>
-                    key === "logout" && supabase.auth.signOut()
-                  }
+                  onAction={async (key) => {
+                    if (key === "logout") {
+                      await supabase.auth.signOut();
+                      router.push("/signin");
+                    } else if (key === "settings") {
+                      router.push("/settings");
+                    }
+                  }}
                 >
-                  <Dropdown.Item key="settings">
-                    <Link href="/settings">Edit Profile</Link>
-                  </Dropdown.Item>
+                  <Dropdown.Item key="settings">Edit Profile</Dropdown.Item>
                   <Dropdown.Item key="logout" color="error" withDivider>
                     <Link href="/signin">Log Out</Link>
                   </Dropdown.Item>
@@ -151,13 +154,16 @@ const NavbarComp = () => {
                 <Dropdown.Menu
                   color="secondary"
                   aria-label="Avatar Actions"
-                  onAction={(key) =>
-                    key === "logout" && supabase.auth.signOut()
-                  }
+                  onAction={async (key) => {
+                    if (key === "logout") {
+                      await supabase.auth.signOut();
+                      router.push("/signin");
+                    } else if (key === "settings") {
+                      router.push("/settings");
+                    }
+                  }}
                 >
-                  <Dropdown.Item key="settings">
-                    <Link href="/settings">Edit Profile</Link>
-                  </Dropdown.Item>
+                  <Dropdown.Item key="settings">Edit Profile</Dropdown.Item>
                   <Dropdown.Item key="logout" color="error" withDivider>
                     <Link href="/signin">Log Out</Link>
                   </Dropdown.Item>

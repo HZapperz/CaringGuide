@@ -85,6 +85,9 @@ const DashboardCard = ({ user, care }: { user: Profile; care: boolean }) => {
               </p>
             </div>
           </div>
+          <p className="text-xs opacity-70 text-[#4E4E4E] mt-2 mx-auto text-center">
+            Don't hesitate to reach out to your guide for assistance!
+          </p>
         </div>
 
         <div className="font-poppins">

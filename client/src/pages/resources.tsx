@@ -9,6 +9,7 @@ import { categoryLabels } from "@/utils/enumToLabel";
 import { ICategory } from "@/types/category";
 import CategoryCard from "@/components/category/category-card";
 import { useRouter } from "next/router";
+import ArticlesCard from "@/components/articlesCard";
 
 const Feedpage = () => {
   const router = useRouter();
@@ -48,19 +49,26 @@ const Feedpage = () => {
   }, []);
   console.log(selectedCategory);
 
+  const handleReturnClick = () => {
+    router.push('/dashboard');
+  };
+
+
   return (
     <main className="h-full bg-white">
       <div className="flex flex-col items-start justify-start">
         <div className="flex items-center justify-between w-full p-6 pb-0 bg-slate-50">
           <h1 className="mb-0 text-3xl text-center md:text-4xl md:text-left">
             {selectedCategory === "ALL"
-              ? "Resources Categories"
-              : selectedCategory}
+              ? "Resource Categories"
+              : categoryLabels.find(
+                  (category) => category.value === selectedCategory
+                )?.label || selectedCategory}
           </h1>
 
           {selectedCategory !== "ALL" ? (
             <button
-              onClick={() => setSelectedCategory("ALL")}
+              onClick={handleReturnClick}
               className="px-4 py-2 text-sm text-white bg-red-600 border-2 border-red-600 rounded-xl h-fit hover:bg-red-500"
             >
               Return
@@ -86,11 +94,7 @@ const Feedpage = () => {
           ))}
         </div>
 
-        <div
-          className={`grid grid-cols-1 gap-4 p-8 mx-auto ${
-            selectedCategory !== "ALL" ? "w-full" : "lg:grid-cols-2 max-w-7xl"
-          }`}
-        >
+        <div className="grid w-full grid-cols-1 gap-4 overflow-auto min-[400px]:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 p-8 mx-auto">
           {resources
             .sort()
             .filter((resource) => {
@@ -98,8 +102,14 @@ const Feedpage = () => {
               return resource.category === selectedCategory;
             })
             .map((resource, index) => (
-              <FeedCard key={index} data={resource} />
+              <div
+                key={index}
+                className="flex items-center justify-center sm:w-full mx-4"
+              >
+                <ArticlesCard key={`${resource.id}-${selectedCategory}`} resource={resource}/>
+              </div>
             ))}
+          ``
         </div>
       </div>
     </main>

@@ -10,7 +10,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";0
 import { z } from "zod";
 
 type FormValues = z.infer<typeof menteeOnboardingSchema>;
@@ -177,7 +177,6 @@ const Caregiver: React.FC = () => {
                   <option value="">Select Gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
-                  <option value="other">Other</option>
                 </select>
                 {errors.gender && (
                   <p className="mt-2 text-red-500">Gender is required</p>

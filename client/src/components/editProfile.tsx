@@ -85,7 +85,7 @@ const EditProfile = (props: any) => {
                         : props.user?.experience === "BETWEEN_2_AND_4"
                         ? "2 - 4 "
                         : "4+ "}
-                      years of Guiding experience
+                      years of caregiving experience
                     </p>
                   </div>
                 </div>

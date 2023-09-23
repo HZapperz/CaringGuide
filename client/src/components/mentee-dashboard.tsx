@@ -101,37 +101,28 @@ const MenteeDashBoard = () => {
             <h1 className="mb-0 text-3xl text-center md:text-4xl md:text-left">
               Resources Categories
             </h1>
-            <div className="ml-4">
-              <button
-                onClick={() => {
-                  setSelectedCategory("ALL");
-                  router.push("/resources");
-                }}
-                className="px-4 py-2 text-sm text-white bg-green-900 border-2 border-green-900 rounded-xl h-fit hover:bg-green-800"
-              >
-                Show All
-              </button>
-            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 p-6 bg-slate-50 mb-4">
-            {categoryLabels.map((category) => (
-              <Link
-                href={`/resources?category=${category.value}`}
-                key={category.label}
-                passHref
-              >
-                <CategoryCard
+          <div className="flex justify-center items-center w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 p-6 bg-slate-50 mb-4">
+              {categoryLabels.map((category) => (
+                <Link
+                  href={`/resources?category=${category.value}`}
                   key={category.label}
-                  {...category}
-                  setSelectedCategory={(categoryValue) => {
-                    setSelectedCategory(categoryValue);
-                    router.push(`/resources?category=${categoryValue}`);
-                  }}
-                  selectedCategory={selectedCategory} // <-- Add this line
-                />
-              </Link>
-            ))}
+                  passHref
+                >
+                  <CategoryCard
+                    key={category.label}
+                    {...category}
+                    setSelectedCategory={(categoryValue) => {
+                      setSelectedCategory(categoryValue);
+                      router.push(`/resources?category=${categoryValue}`);
+                    }}
+                    selectedCategory={selectedCategory} // <-- Add this line
+                  />
+                </Link>
+              ))}
+            </div>
           </div>
 
           <div className="font-poppins text-[#4E4E4E] text-2xl font-medium mb-4">

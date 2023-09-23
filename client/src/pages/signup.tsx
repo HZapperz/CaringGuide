@@ -30,7 +30,6 @@ const Welcome = () => {
   } = useForm<FormData>();
 
   const handleErrors = useHandleErrors();
-
   const onSubmit = async (data: FormData) => {
     try {
       const result = registerSchema.parse(data);
@@ -41,14 +40,23 @@ const Welcome = () => {
       });
 
       if (error) {
-        return toast.error(error.message);
+        if (error.message.includes("password")) {
+          return toast.error(
+            "The password does not meet the requirements. Please try again."
+          );
+        } else if (error.message.includes("email")) {
+          return toast.error(
+            "The email address is not valid or already in use. Please try again."
+          );
+        } else {
+          return toast.error(error.message);
+        }
       } else {
         toast.success("Kindly check your email for verification.");
+        setTimeout(() => {
+          router.push("/signin");
+        }, 2000);
       }
-
-      setTimeout(() => {
-        router.push("/signin");
-      }, 2000);
     } catch (error) {
       handleErrors(error);
     }
@@ -73,9 +81,9 @@ const Welcome = () => {
         <div className="container mx-auto">
           <div className="flex flex-col w-10/12 mx-auto bg-black shadow-lg lg:flex-row lg:w-8/12 bg-opacity-80 rounded-xl">
             <div className="absolute w-20 p-5">
-              <Link href={"/"}>
+              {/* <Link href={"/"}>
                 <ChevronLeftIcon color="white" />
-              </Link>
+              </Link> */}
             </div>
             <div className="flex flex-col items-center justify-center w-full p-12 lg:w-1/2">
               <h1 className="text-white font-poppins text-5xl font-[600] mb-8">
