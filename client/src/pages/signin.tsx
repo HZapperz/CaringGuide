@@ -15,7 +15,7 @@ type SignInFormValues = {
 };
 
 const Login = () => {
-  const { session, isLoading } = useApp();
+  const { session, profile, isLoading } = useApp();
   const supabase = useSupabaseClient();
   const form = useForm<SignInFormValues>();
   const { handleSubmit } = form;
@@ -53,11 +53,12 @@ const Login = () => {
   
 
   useEffect(() => {
-    if (!!session) {
+    if (session && profile) {
       router.replace("/dashboard");
       return;
     }
-  }, [session]);
+  }, [session, profile]);
+  
 
   const handleSignIn = async () => {
     setLoading(true);
