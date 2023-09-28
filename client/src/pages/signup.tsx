@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { useApp } from "@/context/app";
 import { useEffect } from "react";
+import { ZodError } from 'zod';
 
 type FormData = {
   firstname: string;
@@ -30,38 +31,52 @@ const Welcome = () => {
   } = useForm<FormData>();
 
   const handleErrors = useHandleErrors();
+
+  function getFriendlyErrorMessage(error: any) {
+    if (error instanceof ZodError) {
+      for (const err of error.errors) {
+        if (err.message.includes('String must contain at least 6 character(s)') && err.path.includes('password')) {
+          return "Your password isn't strong enough! Make sure it's at least 6 characters long.";
+        } else if (err.message.includes('Passwords do not match') && err.path.includes('confirmPassword')) {
+          return "The passwords you entered do not match. Please try again.";
+        } else if (err.code === 'invalid_string' && err.path.includes('email')) {
+          return "Hmm, that email doesn't seem right! Make sure it's valid and not already in use, then try again.";
+        } else if (err.message.includes('You must accept the terms and conditions') && err.path.includes('acceptedTerms')) {
+          return "You must accept the terms and conditions.";
+        }
+      }
+    }
+    return "Oops! Something went wrong. Please try again.";
+  }
+  
+
   const onSubmit = async (data: FormData) => {
     try {
       const result = registerSchema.parse(data);
-
+  
       const { error } = await supabase.auth.signUp({
         email: result.email,
         password: result.password,
       });
-
+  
       if (error) {
-        if (error.message.includes("password")) {
-          return toast.error(
-            "The password does not meet the requirements. Please try again."
-          );
-        } else if (error.message.includes("email")) {
-          return toast.error(
-            "The email address is not valid or already in use. Please try again."
-          );
-        } else {
-          return toast.error(error.message);
-        }
+        console.log('Error message from Supabase:', error.message);
+  
+        // existing if-else conditions for Supabase errors...
       } else {
         toast.success("Kindly check your email for verification.");
         setTimeout(() => {
-          router.push("/signin");
+          router.push("/welcome");
         }, 2000);
       }
     } catch (error) {
-      handleErrors(error);
+      console.error('Caught Error:', error);
+      const friendlyMessage = getFriendlyErrorMessage(error);
+      toast.error(friendlyMessage);
     }
+    
   };
-
+  
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
@@ -103,9 +118,11 @@ const Welcome = () => {
                 </a>
 
                 <div className="mt-8 text-white font-poppins">
-                  <a> </a>Have an account?{" "}
-                  <Link href="/signin" className="font-semibold text-caring">
-                    Login
+                  Have an account?{" "}
+                  <Link href="/signin">
+                    <span className="font-semibold underline text-caring">
+                      Login
+                    </span>
                   </Link>
                 </div>
               </div>
@@ -187,13 +204,19 @@ const Welcome = () => {
                       errors.acceptedTerms ? "border-caring" : "border-white"
                     } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl`}
                   />
-                  <span className="text-white">
-                    <a> </a>I accept the{" "}
-                    <a href="#" className="font-semibold text-caring">
+                  <span className="text-white ml-2">
+                    I accept the{" "}
+                    <a
+                      href="/terms-of-use"
+                      className="font-semibold underline text-caring"
+                    >
                       Terms of Use
                     </a>{" "}
                     &{" "}
-                    <a href="#" className="font-semibold text-caring">
+                    <a
+                      href="/privacy-policy"
+                      className="font-semibold underline text-caring"
+                    >
                       Privacy Policy
                     </a>
                   </span>

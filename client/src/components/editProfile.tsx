@@ -21,6 +21,12 @@ const EditProfile = (props: any) => {
     setAge(age);
   }, [age]);
 
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      togglePopup();
+    }
+  };
+
   return (
     <>
       <button
@@ -31,7 +37,10 @@ const EditProfile = (props: any) => {
         {props?.care ? "Edit Profile" : "See Profile"}
       </button>
       {showPopup && (
-        <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+          onClick={handleBackdropClick}
+        >
           <div className="flex flex-col bg-white p-6 rounded-2xl shadow-lg w-[70%]">
             <div className="flex items-end justify-between">
               {props?.care ? (
@@ -93,7 +102,9 @@ const EditProfile = (props: any) => {
             </div>
             <div className="grid grid-cols-1 gap-10 mt-4 lg:grid-cols-2">
               <div>
-                <h3 className="mb-2 text-xl lg:text-2xl font-poppins">My Story</h3>
+                <h3 className="mb-2 text-xl lg:text-2xl font-poppins">
+                  My Story
+                </h3>
                 <p className="text-[#4E4E4E] text-[16px] lg:text-[20px] font-[300] p-4 rounded-xl font-poppins bg-[#ECEEED] h-fit max-h-60 lg:h-60 overflow-auto">
                   {props.user?.about}
                 </p>
@@ -114,6 +125,9 @@ const EditProfile = (props: any) => {
                     <p className="text-[18px] font-[300]">
                       {props.user?.email ? props.user?.email : "Not Provided"}
                     </p>
+                  </div>
+                  <div className="mt-8 text-lg text-center font-bold">
+                    Reach out to your mentor today!
                   </div>
                 </div>
               </div>

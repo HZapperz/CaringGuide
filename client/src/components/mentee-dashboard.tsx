@@ -99,7 +99,7 @@ const MenteeDashBoard = () => {
         <div className="flex flex-col justify-start items-start max-h-full rounded-xl border-4 border-[#ECEEED] p-4 w-full">
           <div className="flex justify-between items-center mb-4">
             <h1 className="mb-0 text-3xl text-center md:text-4xl md:text-left">
-              Resources Categories
+              Resource Categories
             </h1>
           </div>
 
@@ -118,7 +118,7 @@ const MenteeDashBoard = () => {
                       setSelectedCategory(categoryValue);
                       router.push(`/resources?category=${categoryValue}`);
                     }}
-                    selectedCategory={selectedCategory} // <-- Add this line
+                    selectedCategory={selectedCategory}
                   />
                 </Link>
               ))}
@@ -140,12 +140,12 @@ const MenteeDashBoard = () => {
             ))}
             {favoriteResources.length === 0 && (
               <div
-                className="opacity-50 font-poppins text-black cursor-pointer"
+                className="opacity-50 font-poppins text-black cursor-pointer col-span-5" 
                 onClick={() => {
                   router.push("/resources");
                 }}
               >
-                You don't have any favorite resources, check Out Our guideBook
+                You don't have any favorite resources, check out your guidebook.
               </div>
             )}
           </div>

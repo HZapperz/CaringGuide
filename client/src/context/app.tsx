@@ -67,20 +67,20 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         setSession(session);
-
-        // Redirect if they are on restricted pages while logged in
+  
         if (["/signup", "/signin", "/"].includes(router.pathname)) {
-          router.replace("/dashboard"); // Or whichever route you'd like to redirect them to
+          router.replace("/dashboard"); 
         }
       }
-
+  
       setLoading(false);
     });
-
+  
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
   }, []);
+  
 
   const isLoading = !router.isReady || loading || profileQuery.isLoading;
 

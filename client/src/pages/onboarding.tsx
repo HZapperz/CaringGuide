@@ -34,7 +34,7 @@ const OnBoarding = () => {
 
   return (
     <>
-      <div className="p-2 bg-green-50 md:p-16">
+      <div className="p-2 bg-white md:p-16">
         <div className="pb-8">
           <h1 className="font-poppins text-3xl font-[600]">Onboarding</h1>
         </div>

@@ -42,7 +42,7 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
         view my profile
       </button>
       {showPopup && (
-        <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="flex flex-col bg-white p-6 rounded-2xl shadow-lg w-[70%]">
             <div className="flex items-start justify-between">
               <div className="flex items-start justify-between w-full mt-2">

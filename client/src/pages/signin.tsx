@@ -8,19 +8,21 @@ import { useEffect } from "react";
 import { useState } from "react";
 import useHandleErrors from "@/hooks/useHandleErrors";
 
+
 type SignInFormValues = {
   email: string;
   password: string;
 };
 
 const Login = () => {
-  const { session } = useApp();
+  const { session, isLoading } = useApp();
   const supabase = useSupabaseClient();
   const form = useForm<SignInFormValues>();
   const { handleSubmit } = form;
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const handleErrors = useHandleErrors();
+
 
   async function handleLogin(data: SignInFormValues) {
     try {
@@ -33,7 +35,9 @@ const Login = () => {
         if (error.message.includes("credentials")) {
           return toast.error("Invalid login credentials. Please try again.");
         } else if (error.message.includes("verified")) {
-          return toast.error("Your account is not verified. Please verify your email.");
+          return toast.error(
+            "Your account is not verified. Please verify your email."
+          );
         } else {
           return toast.error(error.message);
         }
@@ -42,11 +46,10 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Login error", error);
-      toast.error("An unexpected error occurred. Please try again.");
+      // Remove this toast.error line for testing
+      // toast.error("An unexpected error occurred. Please try again.");
     }
   }
-  
-  
   
 
   useEffect(() => {
@@ -169,8 +172,10 @@ const Login = () => {
           <div className="mt-4 text-center">
             <span className="font-poppins text-2xl font-medium text-white">
               {`Don't have an account? `}
-              <Link href="/signup" className="font-semibold text-caring">
-                Sign Up
+              <Link href="/signup">
+                <span className="font-semibold underline text-caring">
+                  Sign Up
+                </span>
               </Link>
             </span>
           </div>
