@@ -37,9 +37,9 @@ const EditProfileGiver = ({ user }: { user: Profile }) => {
       <button
         type="button"
         onClick={togglePopup}
-        className="opacity-50 text-[15px] leading-3 font-[50] font-poppins font-black"
+        className="opacity-50 text-[15px] leading-3 font-[50] font-poppins font-black button-hover"
       >
-        view my profile
+        View my profile
       </button>
       {showPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">

@@ -21,8 +21,8 @@ const Nav = () => {
       variant="sticky"
       maxWidth="fluid"
       css={{
-        $$navbarBackgroundColor: "#f0f0f0", 
-        $$navbarBlurBackgroundColor: "#f0f0f0",
+        $$navbarBackgroundColor: "rgba(240, 240, 240, 0.7)",
+        $$navbarBlurBackgroundColor: "rgba(240, 240, 240, 0.7)",
       }}
     >
       <Navbar.Brand
@@ -65,7 +65,7 @@ const Nav = () => {
             className="relative inline-block font-bold transition-colors duration-300 text-black"
           >
             <p className=" text-bold relative group">
-              <span className="">Login</span>
+              <span className="">Log In</span>
               <span className="absolute -bottom-1 left-0 w-0 h-1 bg-caring transition-all group-hover:w-full"></span>
             </p>
           </Navbar.Link>

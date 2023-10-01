@@ -69,7 +69,7 @@ const Feedpage = () => {
           {selectedCategory !== "ALL" ? (
             <button
               onClick={handleReturnClick}
-              className="px-4 py-2 text-sm text-white bg-red-600 border-2 border-red-600 rounded-xl h-fit hover:bg-red-500"
+              className="px-4 py-2 text-sm text-white bg-red-600 border-2 border-red-600 rounded-xl h-fit hover:bg-red-500 button-hover"
             >
               Return
             </button>

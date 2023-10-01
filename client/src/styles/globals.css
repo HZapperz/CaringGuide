@@ -131,3 +131,51 @@ a {
   /* Firefox */
   scrollbar-width: none;
 }
+
+.placeholder-smaller::placeholder {
+  transition: transform 0.15s ease;
+  transform: scale(0.9);
+}
+
+.button-hover {
+  transition: transform 0.2s ease-in-out;
+}
+
+.button-hover:hover {
+  transform: scale(1.05);
+}
+
+.star-hover {
+  transition: transform 0.1s ease-in-out;
+}
+
+.star-hover:hover {
+  transform: scale(1.3);
+}
+
+.continue-hover {
+  transition: transform 0.2s ease-in-out;
+}
+
+.continue-hover:hover {
+  transform: scale(1.05);
+}
+
+.checkbox-animation {
+  transition: transform 0.1s ease-in-out, border-color 0.1s ease-in-out;
+}
+
+.checkbox-animation:checked {
+  transform: scale(1.1);
+  border-color: #BE1347;
+}
+
+.google-button-hover {
+  transition: background-color 0.3s ease;
+  transition: transform 0.2s ease-in-out;
+}
+
+.google-button-hover:hover {
+  background-color: #f2f2f2;
+  transform: scale(1.025);
+}

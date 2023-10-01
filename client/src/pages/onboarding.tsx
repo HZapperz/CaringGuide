@@ -1,3 +1,5 @@
+import { Navbar, Text, Image, Button } from "@nextui-org/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import Caregiver from "../components/caregiver";
 import Guide from "../components/guide";
@@ -34,10 +36,41 @@ const OnBoarding = () => {
 
   return (
     <>
+    <Navbar
+      isBordered
+      variant="sticky"
+      maxWidth="fluid"
+      css={{
+        $$navbarBackgroundColor: "rgba(12, 69, 27, 0.4)", 
+        $$navbarBlurBackgroundColor: "rgba(12, 69, 27, 0.4)",
+      }}
+    >
+      <Navbar.Brand
+        onClick={() => (window.location.href = "/")}
+        className="cursor-pointer"
+      >
+        <Text
+          h2
+          weight="bold"
+          css={{
+            textGradient: "45deg, $green900 -10%, $red800 50%",
+          }}
+        >
+          CaringGuide
+        </Text>
+        <Image src="/logo.png" alt="Logo" width={40} height={40} />
+      </Navbar.Brand>
+
+      <Navbar.Content>
+          <Navbar.Item as={Link} href={"/signup"}>
+            <Button flat color="error" auto href="#">
+              Log Out
+            </Button>
+          </Navbar.Item>
+        </Navbar.Content>
+      
+    </Navbar>
       <div className="p-2 bg-white md:p-16">
-        <div className="pb-8">
-          <h1 className="font-poppins text-3xl font-[600]">Onboarding</h1>
-        </div>
         <div className="flex items-center justify-around mb-8">
           <div
             onClick={() => {

@@ -32,7 +32,7 @@ const EditProfile = (props: any) => {
       <button
         type="button"
         onClick={togglePopup}
-        className="flex justify-center uppercase items-center border-2 border-[#ECEEED] rounded-2xl text-[#4E4E4E] px-4 py-2 lg:px-8 lg:py-4 mt-2 font-poppins font-[400] text-[16px] tracking-normal text-center w-full"
+        className="flex justify-center uppercase button-hover items-center border-2 border-[#ECEEED] rounded-2xl text-[#4E4E4E] px-4 py-2 lg:px-8 lg:py-4 mt-2 font-poppins font-[400] text-[16px] tracking-normal text-center w-full"
       >
         {props?.care ? "Edit Profile" : "See Profile"}
       </button>

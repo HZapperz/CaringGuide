@@ -126,7 +126,7 @@ const MenteeDashBoard = () => {
           </div>
 
           <div className="font-poppins text-[#4E4E4E] text-2xl font-medium mb-4">
-            FAVORITE RESOURCES
+            Favorite Resources
           </div>
 
           <div className="grid w-full grid-cols-1 gap-4 overflow-auto min-[400px]:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
@@ -145,7 +145,7 @@ const MenteeDashBoard = () => {
                   router.push("/resources");
                 }}
               >
-                You don't have any favorite resources, check out your guidebook.
+                Get started with your favorite resources! Check out your guidebook to explore.
               </div>
             )}
           </div>

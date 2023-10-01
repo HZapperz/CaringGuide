@@ -49,7 +49,7 @@ const WelcomePage = (props: Props) => {
           <div className="mt-8 mr-8">
             <button
               onClick={() => router.push("/onboarding")}
-              className="bg-[#245B48] hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full shadow-lg font-poppins"
+              className="bg-[#245B48] text-white font-bold py-4 px-8 rounded-full shadow-lg font-poppins button-hover"
             >
               Continue to onboarding
             </button>

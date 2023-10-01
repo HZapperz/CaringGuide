@@ -108,7 +108,7 @@ const Guide: React.FC = () => {
         </div>
         <div className="flex flex-col items-start justify-around w-full px-1 py-10 mb-8 lg:flex-row md:px-4">
           <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
-            PERSONAL DETAILS
+          Personal Details
           </div>
           <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
             <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
@@ -191,7 +191,7 @@ const Guide: React.FC = () => {
         </div>
         <hr />
         <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
-          <div className="font-poppins uppercase text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
+          <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
             Contact Information
           </div>
           <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
@@ -226,7 +226,7 @@ const Guide: React.FC = () => {
         </div>
         <hr />
         <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
-          <div className="font-poppins uppercase text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
+          <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
             Address Details
           </div>
           <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
@@ -323,7 +323,7 @@ const Guide: React.FC = () => {
         </div>
         <hr />
         <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
-          <div className="font-poppins uppercase text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
+          <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
             Code
           </div>
           <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:w-4/6">
@@ -360,7 +360,7 @@ const Guide: React.FC = () => {
         <hr />
         <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
             <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
-              LOVED ONE INFORMATION
+              Loved One Information
             </div>
             <div className="flex flex-col w-full lg:w-4/6">
               <div className="grid content-center w-full grid-cols-1 mb-4 sm:grid-cols-2 md:grid-cols-3 gap-x-30 gap-y-4">
@@ -496,10 +496,10 @@ const Guide: React.FC = () => {
           </div>
         <div className="col-span-3 mt-8 text-center">
                 <button
-                  className="flex items-center gap-2 p-3 mx-auto font-normal text-white bg-caring rounded-xl font-poppins"
+                  className="flex items-center gap-3 p-4 mx-auto font-normal text-white bg-caring rounded-xl font-poppins"
                   type="submit"
                 >
-                  <p className="text-3xl">Complete Onboarding</p>
+                  <p className="text-3xl button-hover">Complete Onboarding</p>
                   <div className="scale-[2]">
                     <ChevronRightIcon />
                   </div>

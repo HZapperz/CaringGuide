@@ -104,7 +104,7 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
   return (
     <div
       onClick={() => router.push(resource.link)}
-      className="bg-[#ECEEED] cursor-pointer rounded-2xl w-full aspect-[2/1] min-[400px]:aspect-square"
+      className="bg-[#ECEEED] cursor-pointer rounded-2xl w-full aspect-[2/1] min-[400px]:aspect-square button-hover"
     >
       <div className="flex items-center justify-center w-full h-full">
         <img
@@ -123,7 +123,7 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
           <p className="opacity-50 text-[10px] font-poppins whitespace-nowrap text-ellipsis overflow-hidden">
             {resource.description}
           </p>
-          <div className="w-10 cursor-pointer" onClick={handleStarClick}>
+          <div className="w-10 cursor-pointer star-hover" onClick={handleStarClick}>
             {isStarred ? (
               <FaStar className="text-yellow-500" size={20} />
             ) : (

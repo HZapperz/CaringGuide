@@ -100,7 +100,7 @@ const MentorMatch: React.FC = () => {
                 <div className="flex justify-start items-center font-poppins">
                   <p className="text-[#4E4E4E] text-[15px] mr-2">
                     {new Date().getFullYear() -
-                      new Date(profile.dob ?? 0).getFullYear()}
+                      new Date(profile.dob ?? 0).getFullYear()}&nbsp;
                     Years
                   </p>
                   <div className="w-1 bg-black aspect-square rounded-full"></div>
@@ -126,7 +126,7 @@ const MentorMatch: React.FC = () => {
               size={"sm"}
               color={"success"}
               onClick={() => acceptMatch.mutate()}
-              className="flex justify-center items-center gap-1 w-12"
+              className="flex justify-center items-center gap-1 w-12 button-hover"
             >
               {!acceptMatch.isLoading ? (
                 <>
@@ -145,7 +145,7 @@ const MentorMatch: React.FC = () => {
               size={"sm"}
               color={"primary"}
               onClick={() => setSkip(skip + 1)}
-              className="flex justify-center items-center gap-1 w-12"
+              className="flex justify-center items-center gap-1 w-12 button-hover"
             >
               {!fetchMatch.isFetching ? (
                 <>

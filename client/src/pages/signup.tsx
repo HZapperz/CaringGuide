@@ -7,7 +7,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { toast } from "react-hot-toast";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { useApp } from "@/context/app";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ZodError } from 'zod';
 
 type FormData = {
@@ -23,6 +23,9 @@ const Welcome = () => {
   const { session } = useApp();
   const supabase = useSupabaseClient();
   const router = useRouter();
+  const [isEmailClicked, setEmailClicked] = useState(false);
+  const [isPasswordClicked, setPasswordClicked] = useState(false);
+  const [isPasswordConfirmClicked, setPasswordConfirmedClicked] = useState(false);
 
   const {
     register,
@@ -41,6 +44,8 @@ const Welcome = () => {
           return "The passwords you entered do not match. Please try again.";
         } else if (err.code === 'invalid_string' && err.path.includes('email')) {
           return "Hmm, that email doesn't seem right! Make sure it's valid and not already in use, then try again.";
+        } else if (err.message.includes('User already registered')) {
+          return "You seem to already have an account under this email. Try logging in instead.";
         } else if (err.message.includes('You must accept the terms and conditions') && err.path.includes('acceptedTerms')) {
           return "You must accept the terms and conditions.";
         }
@@ -61,10 +66,13 @@ const Welcome = () => {
   
       if (error) {
         console.log('Error message from Supabase:', error.message);
+        if (error.message.includes('User already registered')) {
+          toast.error("You seem to already have an account under this email. Try logging in instead.");
+        }
   
         // existing if-else conditions for Supabase errors...
       } else {
-        toast.success("Kindly check your email for verification.");
+        toast.success("Success! Please check your email for verification.");
         setTimeout(() => {
           router.push("/welcome");
         }, 2000);
@@ -118,7 +126,7 @@ const Welcome = () => {
                 </a>
 
                 <div className="mt-8 text-white font-poppins">
-                  Have an account?{" "}
+                  Already have an account?{" "}
                   <Link href="/signin">
                     <span className="font-semibold underline text-caring">
                       Login
@@ -130,7 +138,7 @@ const Welcome = () => {
             <div className="w-full px-12 py-16 lg:w-1/2">
               <button
                 type="button"
-                className="flex justify-between items-center bg-[#FFFFFF] text-white px-6 py-2 lg:px-6 lg:py-3 rounded-full tracking-normal text-left w-[250px] sm:w-[350px] border border-[#4E4E4E]"
+                className="flex justify-between items-center bg-[#FFFFFF] google-button-hover text-white px-6 py-2 lg:px-6 lg:py-3 rounded-full tracking-normal text-left w-[250px] sm:w-[350px] border border-[#4E4E4E]"
                 onClick={() =>
                   supabase.auth.signInWithOAuth({
                     provider: "google",
@@ -172,7 +180,10 @@ const Welcome = () => {
                     {...register("email", { required: true })}
                     className={`border-2 ${
                       errors.email ? "border-caring" : "border-white"
-                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl w-full`}
+                    } placeholder:text-grey bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl w-full
+                    ${isEmailClicked ? "placeholder-smaller" : ""}`}
+                    onClick={() => setEmailClicked(true)}
+                    onBlur={() => setEmailClicked(false)}
                   />
                 </div>
                 <div className="mt-6">
@@ -182,7 +193,10 @@ const Welcome = () => {
                     {...register("password", { required: true })}
                     className={`border-2 ${
                       errors.password ? "border-caring" : "border-white"
-                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl w-full`}
+                    } placeholder:text-grey bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl w-full
+                    ${isPasswordClicked ? "placeholder-smaller" : ""}`}
+                    onClick={() => setPasswordClicked(true)}
+                    onBlur={() => setPasswordClicked(false)}
                   />
                 </div>
                 <div className="mt-6">
@@ -192,7 +206,10 @@ const Welcome = () => {
                     {...register("confirmPassword", { required: true })}
                     className={`border-2 ${
                       errors.confirmPassword ? "border-caring" : "border-white"
-                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl w-full`}
+                    } placeholder:text-grey bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl w-full
+                    ${isPasswordConfirmClicked ? "placeholder-smaller" : ""}`}
+                    onClick={() => setPasswordConfirmedClicked(true)}
+                    onBlur={() => setPasswordConfirmedClicked(false)}
                   />
                 </div>
                 <div className="mt-6">
@@ -202,7 +219,7 @@ const Welcome = () => {
                     {...register("acceptedTerms")}
                     className={`border-2 ${
                       errors.acceptedTerms ? "border-caring" : "border-white"
-                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl`}
+                    } placeholder:text-white bg-[#eceeed] bg-opacity-40 py-2 px-4 rounded-xl checkbox-animation`}
                   />
                   <span className="text-white ml-2">
                     I accept the{" "}
@@ -224,7 +241,7 @@ const Welcome = () => {
                 <div className="mt-5">
                   <button
                     type="submit"
-                    className="w-full py-3 text-center text-white bg-caring rounded-xl"
+                    className="w-full py-3 text-center text-white bg-caring rounded-xl button-hover"
                   >
                     Register Now
                   </button>

@@ -4,7 +4,7 @@ export const diseaseLabels = [
   { value: Disease.ALS, label: "ALS" },
   { value: Disease.ALZHEIMER, label: "Alzheimer Disease" },
   { value: Disease.MYELOMA, label: "Multiple Myeloma" },
-  { value: Disease.PARKINSON, label: "Parkinson Disease" },
+  { value: Disease.PARKINSON, label: "Parkinson's Disease" },
   { value: Disease.STROKE, label: "Stroke" },
 ];
 

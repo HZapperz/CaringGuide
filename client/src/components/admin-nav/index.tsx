@@ -85,7 +85,9 @@ export default function AdminDashboard({ children }: PropsWithChildren) {
               <Button
                 className="justify-start w-full"
                 variant={
-                  route.startsWith("/admin/invite-codes") ? "secondary" : "ghost"
+                  route.startsWith("/admin/invite-codes")
+                    ? "secondary"
+                    : "ghost"
                 }
                 onClick={() => router.push("/admin/invite-codes")}
               >
