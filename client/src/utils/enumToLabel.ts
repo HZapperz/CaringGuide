@@ -15,41 +15,41 @@ export const getDiseaseLabel = (disease: string | null) => {
 };
 
 export const categoryLabels = [
-  { 
-    value: Category.GENERAL, 
-    label: "General", 
+  {
+    value: Category.GENERAL,
+    label: "General",
     defaultImage: "/articleimgs/general_default.png",
-    description: "General resources for a variety of needs and situations."
+    description: "General resources for a variety of needs and situations.",
   },
-  { 
-    value: Category.PHYSICAL, 
-    label: "Physical", 
+  {
+    value: Category.PHYSICAL,
+    label: "Physical",
     defaultImage: "/articleimgs/physical_default.png",
-    description: "Resources focused on physical health and well-being."
+    description: "Resources focused on physical health and well-being.",
   },
-  { 
-    value: Category.EMOTIONAL, 
-    label: "Emotional", 
+  {
+    value: Category.EMOTIONAL,
+    label: "Emotional",
     defaultImage: "/articleimgs/emotional_default.jpg",
-    description: "Support for emotional health and building mental resilience."
+    description: "Support for emotional health and building mental resilience.",
   },
-  { 
-    value: Category.HOME_CARE, 
-    label: "Home Care", 
+  {
+    value: Category.HOME_CARE,
+    label: "Home Care",
     defaultImage: "/articleimgs/homecare_default.jpg",
-    description: "Home care resources for maintaining a safe and supportive environment."
+    description:
+      "Home care resources for maintaining a safe and supportive environment.",
   },
-  { 
-    value: Category.FINANCIAL_LEGAL, 
-    label: "Financial/Legal", 
+  {
+    value: Category.FINANCIAL_LEGAL,
+    label: "Financial/Legal",
     defaultImage: "/articleimgs/financial_legal_default.jpg",
-    description: "Financial and legal guidance for navigating challenges and planning for the future."
+    description:
+      "Financial and legal guidance for navigating challenges and planning for the future.",
   },
 ];
-
 
 export const getCategoryLabel = (category: string) => {
   const categoryLabel = categoryLabels.find((c) => c.value === category);
   return categoryLabel?.label;
 };
-

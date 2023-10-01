@@ -25,13 +25,12 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
   const getDefaultCategoryImage = (category: string) => {
     const categoryInfo = categoryLabels.find((c) => c.value === category);
     return categoryInfo?.defaultImage || "/images/articles1.jpeg";
-};
-
+  };
 
   const [imageUrl, setImageUrl] = useState<string>(
-    getDefaultCategoryImage(resource.category)
+    getDefaultCategoryImage(resource.category),
   );
-  
+
   const addUserFavorite = async (resourceId: any, isStarred: boolean) => {
     try {
       const response = await fetch("/api/userFavourites", {
@@ -52,7 +51,7 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
   };
 
   const handleStarClick = async (event: React.MouseEvent) => {
-    event.stopPropagation(); 
+    event.stopPropagation();
 
     setIsStarred((prevState) => !prevState);
     try {
@@ -61,9 +60,7 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
     } catch (error) {
       console.error("Error adding user favorite:", error);
     }
-};
-
-
+  };
 
   useEffect(() => {
     (async () => {
@@ -93,7 +90,7 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
       const response = await fetch(`/api/userFavourites`);
       const userFavorites = await handleApiResponse(response);
       const matchingFavorite = userFavorites.find(
-        (favorite: { resourceId: any }) => favorite.resourceId === resource.id
+        (favorite: { resourceId: any }) => favorite.resourceId === resource.id,
       );
       if (matchingFavorite) {
         setIsStarred(matchingFavorite.isStarred);
@@ -123,7 +120,10 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
           <p className="opacity-50 text-[10px] font-poppins whitespace-nowrap text-ellipsis overflow-hidden">
             {resource.description}
           </p>
-          <div className="w-10 cursor-pointer star-hover" onClick={handleStarClick}>
+          <div
+            className="w-10 cursor-pointer star-hover"
+            onClick={handleStarClick}
+          >
             {isStarred ? (
               <FaStar className="text-yellow-500" size={20} />
             ) : (

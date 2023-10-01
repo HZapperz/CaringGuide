@@ -17,7 +17,9 @@ const Footer = () => {
             />
           </div>
         </div>
-        <p className="text-center">© 2023 Caring Guide. All rights reserved.</p>
+        <p className="text-center">
+          © 2023 Caring Guide. All rights reserved.
+        </p>
       </div>
     </footer>
   );

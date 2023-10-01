@@ -50,9 +50,8 @@ const Feedpage = () => {
   console.log(selectedCategory);
 
   const handleReturnClick = () => {
-    router.push('/dashboard');
+    router.push("/dashboard");
   };
-
 
   return (
     <main className="h-full bg-white">
@@ -62,7 +61,7 @@ const Feedpage = () => {
             {selectedCategory === "ALL"
               ? "Resource Categories"
               : categoryLabels.find(
-                  (category) => category.value === selectedCategory
+                  (category) => category.value === selectedCategory,
                 )?.label || selectedCategory}
           </h1>
 
@@ -106,7 +105,10 @@ const Feedpage = () => {
                 key={index}
                 className="flex items-center justify-center sm:w-full mx-4"
               >
-                <ArticlesCard key={`${resource.id}-${selectedCategory}`} resource={resource}/>
+                <ArticlesCard
+                  key={`${resource.id}-${selectedCategory}`}
+                  resource={resource}
+                />
               </div>
             ))}
           ``

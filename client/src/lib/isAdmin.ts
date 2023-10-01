@@ -11,7 +11,7 @@ type LoggedInHandler<T> = (
   req: NextApiRequest,
   res: NextApiResponse<T>,
   user: User,
-  supabaseClient: SupabaseClient<any, "public", any>
+  supabaseClient: SupabaseClient<any, "public", any>,
 ) => void;
 
 export default function isAdmin<T>(handler: LoggedInHandler<T>) {

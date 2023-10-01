@@ -83,7 +83,7 @@ export function ResourcesDataTable() {
       ).data;
 
       return data;
-    }
+    },
   );
 
   const deleteResources = useMutation(
@@ -107,7 +107,7 @@ export function ResourcesDataTable() {
         fetchResources.refetch();
       },
       onError: handleErrors,
-    }
+    },
   );
 
   const createMutation = useMutation(
@@ -124,7 +124,7 @@ export function ResourcesDataTable() {
         fetchResources.refetch();
       },
       onError: handleErrors,
-    }
+    },
   );
 
   const updateMutation = useMutation(
@@ -141,7 +141,7 @@ export function ResourcesDataTable() {
         fetchResources.refetch();
       },
       onError: handleErrors,
-    }
+    },
   );
 
   const handleFormSubmit = async (data: ResourcesFormValues) => {
@@ -179,7 +179,7 @@ export function ResourcesDataTable() {
         onEdit: handleEdit,
         onDelete: handleDelete,
       }),
-    []
+    [],
   );
 
   const table = useReactTable({
@@ -251,7 +251,7 @@ export function ResourcesDataTable() {
                 deleteResources.mutate(
                   mode === "delete" && !!selected
                     ? [selected.id]
-                    : table.getSelectedRowModel().rows.map((r) => r.id)
+                    : table.getSelectedRowModel().rows.map((r) => r.id),
                 )
               }
             >

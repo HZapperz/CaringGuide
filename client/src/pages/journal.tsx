@@ -121,8 +121,7 @@ const JournalEditor: React.FC = () => {
       </div>
       <div className="border-2 border-[#ECEEED] flex flex-col md:flex-row justify-start items-start h-[90%] rounded-xl">
         <div className="flex flex-col items-start justify-start max-w-full p-4 md:max-h-full md:h-full md:w-fit md:border-r md:border-r-[#ECEEED] md:border-b-0 border-b border-b-[#ECEEED]">
-        <div className="flex flex-col w-full gap-4 overflow-auto md:grid-cols-1 md:grid md:w-80">
-
+          <div className="flex flex-col w-full gap-4 overflow-auto md:grid-cols-1 md:grid md:w-80">
             {journals.map((journal, index) => (
               <div key={index}>
                 <JournalCard data={journal} onEdit={handleEditJournal} />

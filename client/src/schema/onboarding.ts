@@ -11,7 +11,7 @@ export const commonDetailsSchema = z.object({
   email: z.string().email(),
   phone: z.string(),
   // address info
-  address1: z.string().min(2).max(100), 
+  address1: z.string().min(2).max(100),
   address2: z.string().max(100).optional(),
   city: z.string().min(2).max(100),
   state: z.string().min(2).max(100),
@@ -22,7 +22,6 @@ export const commonDetailsSchema = z.object({
   condition: z.nativeEnum(Disease),
   experience: z.nativeEnum(Experience),
 });
-
 
 const menteeInformationSchema = z.object({
   role: z.literal(Role.MENTEE),
@@ -41,11 +40,11 @@ const mentorInformationSchema = z.object({
 });
 
 export const mentorOnboardingSchema = commonDetailsSchema.merge(
-  mentorInformationSchema
+  mentorInformationSchema,
 );
 
 export const menteeOnboardingSchema = commonDetailsSchema.merge(
-  menteeInformationSchema
+  menteeInformationSchema,
 );
 
 export const updateProfileSchema = z.union([

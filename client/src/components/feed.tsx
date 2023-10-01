@@ -21,7 +21,7 @@ const FeedCard = (props: any) => {
         return count + 1;
       }
       return count;
-    }, 0)
+    }, 0),
   );
 
   const supabase = useSupabaseClient();
@@ -50,7 +50,7 @@ const FeedCard = (props: any) => {
     resourceId: any,
     isStarred: boolean | undefined,
     isLiked: boolean | undefined,
-    isDisliked: boolean | undefined
+    isDisliked: boolean | undefined,
   ) {
     try {
       console.log(resourceId, isStarred, isLiked, isDisliked);
@@ -79,7 +79,7 @@ const FeedCard = (props: any) => {
 
   const handleStarClick = async (
     e: React.MouseEvent<SVGElement, MouseEvent>,
-    status: boolean
+    status: boolean,
   ) => {
     e.preventDefault();
     await setValues();
@@ -88,7 +88,7 @@ const FeedCard = (props: any) => {
         props.data.id,
         status,
         isLiked,
-        isDisliked
+        isDisliked,
       );
       console.log("New user favorite:", createdFavorite);
     } catch (error) {
@@ -100,7 +100,7 @@ const FeedCard = (props: any) => {
 
   const handleLikeClick = async (
     e: React.MouseEvent<SVGElement, MouseEvent>,
-    status: boolean
+    status: boolean,
   ) => {
     e.preventDefault();
     setIsDisliked(false);
@@ -112,7 +112,7 @@ const FeedCard = (props: any) => {
         props.data.id,
         isStarred,
         status,
-        false
+        false,
       );
       queryClient.invalidateQueries(["profile", session?.user.id]);
     } catch (error) {
@@ -122,7 +122,7 @@ const FeedCard = (props: any) => {
 
   const handleDislikeClick = async (
     e: React.MouseEvent<SVGElement, MouseEvent>,
-    status: boolean
+    status: boolean,
   ) => {
     e.preventDefault();
     setIsLiked(false);
@@ -132,7 +132,7 @@ const FeedCard = (props: any) => {
         props.data.id,
         isStarred,
         false,
-        status
+        status,
       );
       queryClient.invalidateQueries(["profile", session?.user.id]);
     } catch (error) {
@@ -158,7 +158,7 @@ const FeedCard = (props: any) => {
       .then((userFavorites) => {
         const matchingFavorite = userFavorites.find(
           (favorite: { resourceId: any }) =>
-            favorite.resourceId === props.data.id
+            favorite.resourceId === props.data.id,
         );
 
         if (matchingFavorite) {

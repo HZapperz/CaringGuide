@@ -40,7 +40,7 @@ export default function AdminDashboard({ children }: PropsWithChildren) {
     <div className="flex min-h-screen bg-background">
       <nav
         className={cn(
-          "hidden w-full max-w-[18rem] border-r border-zinc-200 pb-12 dark:border-zinc-900 md:block"
+          "hidden w-full max-w-[18rem] border-r border-zinc-200 pb-12 dark:border-zinc-900 md:block",
         )}
       >
         <div className="py-4 space-y-4">

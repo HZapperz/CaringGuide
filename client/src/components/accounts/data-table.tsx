@@ -62,7 +62,7 @@ export function AccountsDataTable() {
 
   const [selected, setSelected] = React.useState<Profile>();
   const [mode, setMode] = React.useState<"view" | "edit" | "delete" | "create">(
-    "view"
+    "view",
   );
 
   const handleErrors = useHandleErrors();
@@ -85,7 +85,7 @@ export function AccountsDataTable() {
       ).data;
 
       return data;
-    }
+    },
   );
 
   const deleteAccount = useMutation(
@@ -103,7 +103,7 @@ export function AccountsDataTable() {
         fetchAccounts.refetch();
       },
       onError: handleErrors,
-    }
+    },
   );
 
   const createMutation = useMutation(
@@ -120,14 +120,14 @@ export function AccountsDataTable() {
         toast.success(data.message);
       },
       onError: handleErrors,
-    }
+    },
   );
 
   const updateMutation = useMutation(
     async (
       body: AccountFormValues & {
         id: Profile["id"];
-      }
+      },
     ) => {
       const data: {
         message: string;
@@ -141,7 +141,7 @@ export function AccountsDataTable() {
         fetchAccounts.refetch();
       },
       onError: handleErrors,
-    }
+    },
   );
 
   const handleFormSubmit = async (data: AccountFormValues) => {
@@ -180,7 +180,7 @@ export function AccountsDataTable() {
         onEdit: handleEdit,
         onDelete: handleDelete,
       }),
-    []
+    [],
   );
 
   const table = useReactTable({

@@ -24,7 +24,7 @@ const MentorMatch: React.FC = () => {
     ["mentor", "match", skip],
     async () => {
       const response = await axios.get(
-        `/api/match?skip=${skip === total ? 0 : skip}`
+        `/api/match?skip=${skip === total ? 0 : skip}`,
       );
 
       return response.data as {
@@ -37,7 +37,7 @@ const MentorMatch: React.FC = () => {
         setTotal(data?.count ?? 0);
       },
       onError: handleError,
-    }
+    },
   );
 
   const acceptMatch = useMutation(
@@ -60,7 +60,7 @@ const MentorMatch: React.FC = () => {
         router.replace("/dashboard");
       },
       onError: handleError,
-    }
+    },
   );
 
   const profile = fetchMatch.data?.mentor;
@@ -100,8 +100,8 @@ const MentorMatch: React.FC = () => {
                 <div className="flex justify-start items-center font-poppins">
                   <p className="text-[#4E4E4E] text-[15px] mr-2">
                     {new Date().getFullYear() -
-                      new Date(profile.dob ?? 0).getFullYear()}&nbsp;
-                    Years
+                      new Date(profile.dob ?? 0).getFullYear()}
+                    &nbsp; Years
                   </p>
                   <div className="w-1 bg-black aspect-square rounded-full"></div>
                   <p className="text-[#4E4E4E] text-[15px] ml-2">

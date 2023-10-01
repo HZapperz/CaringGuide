@@ -47,7 +47,7 @@ export function InviteCodeDataTable() {
 
   const [selected, setSelected] = React.useState<InviteCode>();
   const [mode, setMode] = React.useState<"view" | "delete" | "bulk_delete">(
-    "view"
+    "view",
   );
   const [query, setQuery] = React.useState("");
 
@@ -68,7 +68,7 @@ export function InviteCodeDataTable() {
       ).data;
       console.log(data);
       return data;
-    }
+    },
   );
 
   const deleteCodesMutation = useMutation(
@@ -93,7 +93,7 @@ export function InviteCodeDataTable() {
         fetchCodes.refetch();
       },
       onError: handleErrors,
-    }
+    },
   );
 
   const createMutation = useMutation(
@@ -114,7 +114,7 @@ export function InviteCodeDataTable() {
         fetchCodes.refetch();
       },
       onError: handleErrors,
-    }
+    },
   );
 
   const handleDelete = (inviteCode: InviteCode) => {
@@ -139,7 +139,7 @@ export function InviteCodeDataTable() {
         onDelete: handleDelete,
         onCopy: handleCopy,
       }),
-    []
+    [],
   );
 
   const table = useReactTable({
@@ -215,7 +215,7 @@ export function InviteCodeDataTable() {
                 deleteCodesMutation.mutate(
                   mode === "delete" && !!selected
                     ? [selected.code]
-                    : table.getSelectedRowModel().rows.map((r) => r.id)
+                    : table.getSelectedRowModel().rows.map((r) => r.id),
                 )
               }
             >

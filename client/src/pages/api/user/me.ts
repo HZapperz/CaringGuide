@@ -70,7 +70,7 @@ export default isLoggedIn(async (req, res, user) => {
           },
           data: {
             ...Object.fromEntries(
-              Object.entries(data).filter(([key, _]) => key !== "relation")
+              Object.entries(data).filter(([key, _]) => key !== "relation"),
             ),
 
             relationShipToPatient:

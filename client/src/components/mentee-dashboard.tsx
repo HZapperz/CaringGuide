@@ -140,12 +140,13 @@ const MenteeDashBoard = () => {
             ))}
             {favoriteResources.length === 0 && (
               <div
-                className="opacity-50 font-poppins text-black cursor-pointer col-span-5" 
+                className="opacity-50 font-poppins text-black cursor-pointer col-span-5"
                 onClick={() => {
                   router.push("/resources");
                 }}
               >
-                Get started with your favorite resources! Check out your guidebook to explore.
+                Get started with your favorite resources! Check out your
+                guidebook to explore.
               </div>
             )}
           </div>

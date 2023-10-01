@@ -9,7 +9,7 @@ export default isAdmin(async function handler(req, res, user) {
       try {
         const { skip, take } = paginationSchema.parse(req.query);
         console.log(
-          `Getting invite codes with skip: ${skip} and take: ${take}`
+          `Getting invite codes with skip: ${skip} and take: ${take}`,
         );
         const [items, count] = await prisma.$transaction([
           prisma.inviteCode.findMany({

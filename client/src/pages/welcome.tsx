@@ -14,12 +14,12 @@ const WelcomePage = (props: Props) => {
     <div className="bg-white text-black font-poppins flex flex-grow">
       <div className="w-1/2 bg-white flex flex-col justify-center px-8 py-16">
         <div className="text-left ml-8 mr-4">
-          <div className="flex items-center" >
+          <div className="flex items-center">
             <Text
               h1
               weight="bold"
               css={{
-                fontSize: '4.4rem',
+                fontSize: "4.4rem",
                 textGradient: "45deg, $green900 -10%, $red800 50%",
               }}
             >

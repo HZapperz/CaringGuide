@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import useHandleErrors from "@/hooks/useHandleErrors";
 
-
 type SignInFormValues = {
   email: string;
   password: string;
@@ -23,20 +22,19 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const handleErrors = useHandleErrors();
 
-
   async function handleLogin(data: SignInFormValues) {
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email: data.email,
         password: data.password,
       });
-  
+
       if (error) {
         if (error.message.includes("credentials")) {
           return toast.error("Invalid login credentials. Please try again.");
         } else if (error.message.includes("verified")) {
           return toast.error(
-            "Your account is not verified. Please verify your email."
+            "Your account is not verified. Please verify your email.",
           );
         } else {
           return toast.error(error.message);
@@ -50,7 +48,6 @@ const Login = () => {
       // toast.error("An unexpected error occurred. Please try again.");
     }
   }
-  
 
   useEffect(() => {
     if (session && profile) {
@@ -58,7 +55,6 @@ const Login = () => {
       return;
     }
   }, [session, profile]);
-  
 
   const handleSignIn = async () => {
     setLoading(true);

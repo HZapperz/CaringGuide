@@ -8,7 +8,7 @@ import { env } from "@/env.mjs";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   try {
     switch (req.method) {
@@ -23,7 +23,7 @@ export default async function handler(
           {
             supabaseKey: env.NEXT_SUPABASE_SERVICE_KEY,
             supabaseUrl: env.NEXT_PUBLIC_SUPABASE_URL,
-          }
+          },
         );
 
         if (data.password) {
@@ -60,7 +60,7 @@ export default async function handler(
           {
             supabaseKey: env.NEXT_SUPABASE_SERVICE_KEY,
             supabaseUrl: env.NEXT_PUBLIC_SUPABASE_URL,
-          }
+          },
         );
 
         await supabase.auth.admin.deleteUser(id);

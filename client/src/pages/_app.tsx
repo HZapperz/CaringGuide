@@ -55,14 +55,14 @@ function App({ Component, pageProps }: AppProps) {
             refetchOnMount: false,
           },
         },
-      })
+      }),
   );
 
   const [supabaseClient] = useState(() =>
     createPagesBrowserClient({
       supabaseKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       supabaseUrl: env.NEXT_PUBLIC_SUPABASE_URL,
-    })
+    }),
   );
 
   return (

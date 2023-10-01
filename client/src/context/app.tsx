@@ -60,27 +60,26 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
           return;
         }
       },
-    }
+    },
   );
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         setSession(session);
-  
+
         if (["/signup", "/signin", "/"].includes(router.pathname)) {
-          router.replace("/dashboard"); 
+          router.replace("/dashboard");
         }
       }
-  
+
       setLoading(false);
     });
-  
+
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
   }, []);
-  
 
   const isLoading = !router.isReady || loading || profileQuery.isLoading;
 

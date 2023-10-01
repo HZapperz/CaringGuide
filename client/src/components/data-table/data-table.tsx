@@ -35,7 +35,7 @@ export function DataTable<T>({ table }: DataTableProps<T>) {
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
-                        header.getContext()
+                        header.getContext(),
                       )}
                 </TableHead>
               );

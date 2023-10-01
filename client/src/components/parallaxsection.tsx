@@ -20,29 +20,31 @@ const ParallaxSection = () => {
             delay={1500}
           />
         </div>
-        <div className="bg-caring px-10 py-64 flex-1 ml-40 mt-96 mr-40" >
-        <div className="absolute bottom-1/3 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-          <div className="flex items-center justify-between">
-            <button
-              color="grey"
-              onClick={() =>
-                window.scrollTo({
-                  top: window.innerHeight - 90,
-                  behavior: "smooth",
-                })
-              }
-              className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700"
-            >
-              Learn More
-            </button>
-            <button color="secondary"  className="ml-4 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700">
-              Get Started
-            </button>
+        <div className="bg-caring px-10 py-64 flex-1 ml-40 mt-96 mr-40">
+          <div className="absolute bottom-1/3 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+            <div className="flex items-center justify-between">
+              <button
+                color="grey"
+                onClick={() =>
+                  window.scrollTo({
+                    top: window.innerHeight - 90,
+                    behavior: "smooth",
+                  })
+                }
+                className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700"
+              >
+                Learn More
+              </button>
+              <button
+                color="secondary"
+                className="ml-4 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700"
+              >
+                Get Started
+              </button>
+            </div>
           </div>
-          
+          <hr className="w-96 h-1 mx-auto bg-gray-100 border-0 rounded ml-84 mb-4 mt-4" />
         </div>
-        <hr className="w-96 h-1 mx-auto bg-gray-100 border-0 rounded ml-84 mb-4 mt-4"/>
-        </div> 
       </div>
     </Parallax>
   );

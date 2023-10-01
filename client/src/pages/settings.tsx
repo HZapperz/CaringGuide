@@ -23,7 +23,7 @@ import { z } from "zod";
 const SettingsPage = () => {
   const [open, setOpen] = useState(false);
   const [saveButton, setSaveButton] = useState<React.ReactNode | string>(
-    "Save"
+    "Save",
   );
   const { session, ...data } = useApp();
   const [url, setUrl] = useState("");

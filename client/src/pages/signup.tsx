@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 import useHandleErrors from "@/hooks/useHandleErrors";
 import { useApp } from "@/context/app";
 import { useState, useEffect } from "react";
-import { ZodError } from 'zod';
+import { ZodError } from "zod";
 
 type FormData = {
   firstname: string;
@@ -25,7 +25,8 @@ const Welcome = () => {
   const router = useRouter();
   const [isEmailClicked, setEmailClicked] = useState(false);
   const [isPasswordClicked, setPasswordClicked] = useState(false);
-  const [isPasswordConfirmClicked, setPasswordConfirmedClicked] = useState(false);
+  const [isPasswordConfirmClicked, setPasswordConfirmedClicked] =
+    useState(false);
 
   const {
     register,
@@ -38,38 +39,51 @@ const Welcome = () => {
   function getFriendlyErrorMessage(error: any) {
     if (error instanceof ZodError) {
       for (const err of error.errors) {
-        if (err.message.includes('String must contain at least 6 character(s)') && err.path.includes('password')) {
+        if (
+          err.message.includes("String must contain at least 6 character(s)") &&
+          err.path.includes("password")
+        ) {
           return "Your password isn't strong enough! Make sure it's at least 6 characters long.";
-        } else if (err.message.includes('Passwords do not match') && err.path.includes('confirmPassword')) {
+        } else if (
+          err.message.includes("Passwords do not match") &&
+          err.path.includes("confirmPassword")
+        ) {
           return "The passwords you entered do not match. Please try again.";
-        } else if (err.code === 'invalid_string' && err.path.includes('email')) {
+        } else if (
+          err.code === "invalid_string" &&
+          err.path.includes("email")
+        ) {
           return "Hmm, that email doesn't seem right! Make sure it's valid and not already in use, then try again.";
-        } else if (err.message.includes('User already registered')) {
+        } else if (err.message.includes("User already registered")) {
           return "You seem to already have an account under this email. Try logging in instead.";
-        } else if (err.message.includes('You must accept the terms and conditions') && err.path.includes('acceptedTerms')) {
+        } else if (
+          err.message.includes("You must accept the terms and conditions") &&
+          err.path.includes("acceptedTerms")
+        ) {
           return "You must accept the terms and conditions.";
         }
       }
     }
     return "Oops! Something went wrong. Please try again.";
   }
-  
 
   const onSubmit = async (data: FormData) => {
     try {
       const result = registerSchema.parse(data);
-  
+
       const { error } = await supabase.auth.signUp({
         email: result.email,
         password: result.password,
       });
-  
+
       if (error) {
-        console.log('Error message from Supabase:', error.message);
-        if (error.message.includes('User already registered')) {
-          toast.error("You seem to already have an account under this email. Try logging in instead.");
+        console.log("Error message from Supabase:", error.message);
+        if (error.message.includes("User already registered")) {
+          toast.error(
+            "You seem to already have an account under this email. Try logging in instead.",
+          );
         }
-  
+
         // existing if-else conditions for Supabase errors...
       } else {
         toast.success("Success! Please check your email for verification.");
@@ -78,18 +92,17 @@ const Welcome = () => {
         }, 2000);
       }
     } catch (error) {
-      console.error('Caught Error:', error);
+      console.error("Caught Error:", error);
       const friendlyMessage = getFriendlyErrorMessage(error);
       toast.error(friendlyMessage);
     }
-    
   };
-  
+
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         console.log("Auth state changed!", event, session);
-      }
+      },
     );
 
     // Cleanup the listener when the component unmounts

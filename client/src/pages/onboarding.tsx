@@ -36,40 +36,39 @@ const OnBoarding = () => {
 
   return (
     <>
-    <Navbar
-      isBordered
-      variant="sticky"
-      maxWidth="fluid"
-      css={{
-        $$navbarBackgroundColor: "rgba(12, 69, 27, 0.4)", 
-        $$navbarBlurBackgroundColor: "rgba(12, 69, 27, 0.4)",
-      }}
-    >
-      <Navbar.Brand
-        onClick={() => (window.location.href = "/")}
-        className="cursor-pointer"
+      <Navbar
+        isBordered
+        variant="sticky"
+        maxWidth="fluid"
+        css={{
+          $$navbarBackgroundColor: "rgba(12, 69, 27, 0.4)",
+          $$navbarBlurBackgroundColor: "rgba(12, 69, 27, 0.4)",
+        }}
       >
-        <Text
-          h2
-          weight="bold"
-          css={{
-            textGradient: "45deg, $green900 -10%, $red800 50%",
-          }}
+        <Navbar.Brand
+          onClick={() => (window.location.href = "/")}
+          className="cursor-pointer"
         >
-          CaringGuide
-        </Text>
-        <Image src="/logo.png" alt="Logo" width={40} height={40} />
-      </Navbar.Brand>
+          <Text
+            h2
+            weight="bold"
+            css={{
+              textGradient: "45deg, $green900 -10%, $red800 50%",
+            }}
+          >
+            CaringGuide
+          </Text>
+          <Image src="/logo.png" alt="Logo" width={40} height={40} />
+        </Navbar.Brand>
 
-      <Navbar.Content>
+        <Navbar.Content>
           <Navbar.Item as={Link} href={"/signup"}>
             <Button flat color="error" auto href="#">
               Log Out
             </Button>
           </Navbar.Item>
         </Navbar.Content>
-      
-    </Navbar>
+      </Navbar>
       <div className="p-2 bg-white md:p-16">
         <div className="flex items-center justify-around mb-8">
           <div

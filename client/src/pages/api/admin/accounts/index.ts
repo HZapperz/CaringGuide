@@ -9,7 +9,7 @@ import { createAccountSchema } from "@/schema/accounts";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   try {
     switch (req.method) {
@@ -41,7 +41,7 @@ export default async function handler(
           {
             supabaseKey: env.NEXT_SUPABASE_SERVICE_KEY,
             supabaseUrl: env.NEXT_PUBLIC_SUPABASE_URL,
-          }
+          },
         );
 
         const { data: supaData, error } = await supabase.auth.admin.createUser({
