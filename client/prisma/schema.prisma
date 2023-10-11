@@ -45,6 +45,7 @@ model Profile {
   mentees  MentorMenteeMatch[] @relation(name: "Mentors")
   mentor   MentorMenteeMatch?  @relation(name: "Mentee")
   journals Journal[]
+  reviews     Review[] 
 }
 
 model MentorMenteeMatch {
@@ -76,6 +77,7 @@ model Resources {
   disease     Disease
 
   favoritedBy UserFavourites[]
+  reviews     Review[] 
 }
 
 model UserFavourites {
@@ -94,6 +96,19 @@ model InviteCode {
   code      String   @id
   createdAt DateTime @default(now())
 }
+
+  model Review {
+    id          String   @id @default(uuid())
+    resourceId  String
+    userId      String
+    comment     String
+    rating      Int
+    createdAt   DateTime @default(now())
+
+    resource    Resources @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+    user        Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  }
+
 
 enum Role {
   MENTOR
@@ -122,5 +137,6 @@ enum Category {
   EMOTIONAL
   HOME_CARE
   FINANCIAL_LEGAL
-  END_OF_LIFE
+  END_OF_LIFE 
 }
+  

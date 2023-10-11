@@ -1,7 +1,8 @@
 import { Resources } from "@prisma/client";
+import ReviewForm from "./reviewForm";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
-import { FaStar, FaRegStar } from "react-icons/fa";
+import { FaStar, FaRegStar, FaThumbsUp, FaThumbsDown } from "react-icons/fa"; 
 import { useRouter } from "next/router";
 import { getCategoryLabel, categoryLabels } from "../utils/enumToLabel";
 import { useApp } from "@/context/app";
@@ -13,6 +14,24 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
   const router = useRouter();
   const { session } = useApp(); // Get session from useApp hook
   const queryClient = useQueryClient();
+
+  const [reviews, setReviews] = useState<any[]>([]);
+
+  // useEffect(() => {
+  //   const fetchReviews = async () => {
+  //     const response = await fetch(`/api/reviews/${resource.id}`);
+  //     const data = await response.json();
+  //     if (Array.isArray(data)) {
+  //       setReviews(data);
+  //     } else {
+  //       // Handle error or set a default state here
+  //       console.error("Expected reviews to be an array, got:", data);
+  //       setReviews([]);
+  //     }
+  //   };
+
+  //   fetchReviews();
+  // }, [resource.id]);
 
   const handleApiResponse = async (response: Response) => {
     if (!response.ok) {
@@ -28,7 +47,7 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
   };
 
   const [imageUrl, setImageUrl] = useState<string>(
-    getDefaultCategoryImage(resource.category),
+    getDefaultCategoryImage(resource.category)
   );
 
   const addUserFavorite = async (resourceId: any, isStarred: boolean) => {
@@ -90,7 +109,7 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
       const response = await fetch(`/api/userFavourites`);
       const userFavorites = await handleApiResponse(response);
       const matchingFavorite = userFavorites.find(
-        (favorite: { resourceId: any }) => favorite.resourceId === resource.id,
+        (favorite: { resourceId: any }) => favorite.resourceId === resource.id
       );
       if (matchingFavorite) {
         setIsStarred(matchingFavorite.isStarred);
@@ -100,38 +119,79 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
 
   return (
     <div
-      onClick={() => router.push(resource.link)}
-      className="bg-[#ECEEED] cursor-pointer rounded-2xl w-full aspect-[2/1] min-[400px]:aspect-square button-hover"
+      onClick={() => router.push(resource.link)} // Making the entire card clickable
+      className="bg-[#ECEEED] cursor-pointer rounded-2xl w-full p-4 shadow-md hover:shadow-lg transition-shadow duration-300"
     >
-      <div className="flex items-center justify-center w-full h-full">
-        <img
-          src={imageUrl}
-          alt=""
-          width={200}
-          height={200}
-          className="object-cover w-full h-full rounded-t-2xl"
-        />
-      </div>
-      <div className="flex flex-col p-2">
-        <p className="text-sm font-[400] font-poppins whitespace-nowrap text-ellipsis overflow-hidden">
-          {resource.title}
-        </p>
-        <div className="flex items-center justify-between gap-2">
-          <p className="opacity-50 text-[10px] font-poppins whitespace-nowrap text-ellipsis overflow-hidden">
-            {resource.description}
-          </p>
-          <div
-            className="w-10 cursor-pointer star-hover"
-            onClick={handleStarClick}
-          >
-            {isStarred ? (
-              <FaStar className="text-yellow-500" size={20} />
-            ) : (
-              <FaRegStar className="text-gray-500" size={20} />
-            )}
+      {/* Title, Image as profile and Star Icon */}
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center">
+          <img
+            src={imageUrl}
+            alt={resource.title}
+            width={48}
+            height={48}
+            className="mr-3 rounded-full object-cover"
+          />
+          <div>
+            <h3 className="font-medium">{resource.title}</h3>
+            <span className="text-xs opacity-80">Wrote an Article</span>
           </div>
         </div>
+
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            handleStarClick(e);
+          }}
+          className="cursor-pointer"
+        >
+          {isStarred ? (
+            <FaStar className="text-yellow-500" size={20} />
+          ) : (
+            <FaRegStar className="text-gray-500" size={20} />
+          )}
+        </div>
       </div>
+
+      {/* Resource Description */}
+      <div className="mt-4 mb-4 p-3 bg-gray-100 rounded-md">
+        {resource.description}
+      </div>
+
+      {/* Reviews */}
+      <div>
+        {Array.isArray(reviews) &&
+          reviews.map((review) => (
+            <div
+              key={review.id}
+              className="bg-white p-3 rounded mt-2 shadow-sm"
+            >
+              <h4 className="font-medium">{review.authorName}</h4>
+              <div className="flex items-center mt-2 mb-2">
+                {/* Display thumbs up or thumbs down based on rating */}
+                {review.rating >= 3 ? (
+                  <FaThumbsUp className="text-green-500" size={14} />
+                ) : (
+                  <FaThumbsDown className="text-red-500" size={14} />
+                )}
+              </div>
+              <div className="text-xs">{review.comment}</div>
+            </div>
+          ))}
+      </div>
+
+      {/* Review Form */}
+      {session && (
+        <ReviewForm
+          resourceId={resource.id}
+          userId={session.user.id}
+          onNewReview={(review) =>
+            setReviews((prev) =>
+              Array.isArray(prev) ? [...prev, review] : [review]
+            )
+          }
+        />
+      )}
     </div>
   );
 };

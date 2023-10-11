@@ -1,4 +1,5 @@
 import ArticlesCard from "@/components/articlesCard";
+import DashboardArticleCard from "./dashboardCard";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import DashboardCard from "@/components/dashboardGuideCard";
 import JournalCard from "@/components/journalCard";
@@ -13,6 +14,9 @@ import Link from "next/link";
 import { ICategory } from "@/types/category";
 import { categoryLabels } from "@/utils/enumToLabel";
 import CategoryCard from "@/components/category/category-card";
+import MatchButton from "./matchButton";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 interface JournalData {
   jId: string;
@@ -32,6 +36,13 @@ const MenteeDashBoard = () => {
   const supabase = useSupabaseClient();
   const handleErrors = useHandleErrors();
   const mentor = profile?.mentor;
+  const [matchedMentor, setMatchedMentor] = useState<typeof mentor | null>(
+    mentor
+  );
+  const [previousMatchedMentor, setPreviousMatchedMentor] = useState<
+    typeof mentor | null
+  >(null);
+
   const [selectedCategory, setSelectedCategory] =
     useState<ICategory["value"]>("ALL");
 
@@ -43,6 +54,23 @@ const MenteeDashBoard = () => {
       setSelectedCategory("ALL");
     }
   }, [router.query]);
+
+  const handleUnmatch = () => {
+    if (matchedMentor) {
+      setPreviousMatchedMentor(matchedMentor);
+      setMatchedMentor(null); // Clear the current matched mentor
+    }
+  };
+
+  const handleRematch = () => {
+    setMatchedMentor(previousMatchedMentor);
+    setPreviousMatchedMentor(null);
+  };
+
+  const fetchMatch = useQuery(["mentor", "match"], async () => {
+    const response = await axios.get("/api/match");
+    return response.data;
+  });
 
   useEffect(() => {
     (async () => {
@@ -92,7 +120,23 @@ const MenteeDashBoard = () => {
           </div>
         </div>
         <div className="w-full mx-auto">
-          <DashboardCard user={mentor} care={false} />
+          {matchedMentor ? (
+            <div>
+              <DashboardCard user={matchedMentor} care={false} />
+              <MatchButton
+                currentMatchId={matchedMentor?.id}
+                onUnmatch={handleUnmatch}
+              />
+            </div>
+          ) : (
+            <div>
+              No mentor matched. Find a match.
+              <MatchButton
+                onUnmatch={handleUnmatch}
+                onRematch={handleRematch} // Add this
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-col items-center justify-start w-full gap-4 xl:flex-row md:items-start sm:h-full">
@@ -135,7 +179,7 @@ const MenteeDashBoard = () => {
                 key={index}
                 className="flex items-center justify-center sm:w-full"
               >
-                <ArticlesCard resource={data} />
+                <DashboardArticleCard resource={data} />
               </div>
             ))}
             {favoriteResources.length === 0 && (
