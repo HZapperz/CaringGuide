@@ -2,7 +2,7 @@ import { Resources } from "@prisma/client";
 import ReviewForm from "./reviewForm";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
-import { FaStar, FaRegStar, FaThumbsUp, FaThumbsDown } from "react-icons/fa"; 
+import { FaStar, FaRegStar, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { getCategoryLabel, categoryLabels } from "../utils/enumToLabel";
 import { useApp } from "@/context/app";
@@ -32,6 +32,18 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
 
   //   fetchReviews();
   // }, [resource.id]);
+
+  const getFaviconLink = (link: string) => {
+    try {
+      const url = new URL(link);
+      return `${url.origin}/favicon.ico`;
+    } catch (err) {
+      console.error("Error generating favicon link:", err);
+      return ""; // default or error image link
+    }
+  };
+
+  const faviconLink = getFaviconLink(resource.link);
 
   const handleApiResponse = async (response: Response) => {
     if (!response.ok) {
@@ -126,7 +138,7 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center">
           <img
-            src={imageUrl}
+            src={faviconLink || imageUrl} // fallback to `imageUrl` if favicon link is not valid
             alt={resource.title}
             width={48}
             height={48}
