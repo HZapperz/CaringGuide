@@ -17,6 +17,7 @@ type AppContext = {
   session: Session | null;
   profile?: ProfileResponse;
   isLoading: boolean;
+  logout: () => Promise<void>;
 };
 
 const AppContext = createContext<AppContext | null>(null);
@@ -63,6 +64,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     },
   );
 
+
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
@@ -76,16 +79,27 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(false);
     });
 
-    supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
+
+    return () => {
+      authListener.unsubscribe();
+    };
   }, []);
 
   const isLoading = !router.isReady || loading || profileQuery.isLoading;
 
+  // New logout function
+  const logout = async () => {
+    await supabase.auth.signOut(); // Sign out from Supabase
+    setSession(null); // Clear the session state
+    router.push('/signin'); // Redirect to the sign-in page
+  };
+
   return (
     <AppContext.Provider
-      value={{ profile: profileQuery.data, isLoading, session }}
+      value={{ profile: profileQuery.data, isLoading, session, logout }}
     >
       {children}
     </AppContext.Provider>

@@ -34,6 +34,10 @@ const OnBoarding = () => {
 
   if (isLoading || !session || profile) return <Loader />;
 
+  const handleLogout = async () => {
+    await logout();
+  };
+
   return (
     <>
       <Navbar
@@ -62,8 +66,8 @@ const OnBoarding = () => {
         </Navbar.Brand>
 
         <Navbar.Content>
-          <Navbar.Item as={Link} href={"/signup"}>
-            <Button flat color="error" auto href="#">
+          <Navbar.Item>
+            <Button flat color="error" auto onClick={handleLogout}>
               Log Out
             </Button>
           </Navbar.Item>
