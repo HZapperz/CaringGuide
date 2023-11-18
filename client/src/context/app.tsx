@@ -64,7 +64,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
 
-
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
@@ -89,7 +88,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const isLoading = !router.isReady || loading || profileQuery.isLoading;
-
+  const profile = profileQuery.data;
   // New logout function
   const logout = async () => {
     await supabase.auth.signOut(); // Sign out from Supabase
