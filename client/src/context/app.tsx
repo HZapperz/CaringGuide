@@ -24,13 +24,12 @@ const AppContext = createContext<AppContext | null>(null);
 
 export const useApp = () => {
   const context = useContext(AppContext);
-
   if (!context) {
-    throw new Error("useApp must be used within a AppProvider");
+    throw new Error("useApp must be used within an AppProvider");
   }
-
   return context;
 };
+
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -99,10 +98,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AppContext.Provider
-      value={{ profile: profileQuery.data, isLoading, session, logout }}
-    >
-      {children}
-    </AppContext.Provider>
+    <AppContext.Provider value={{ profile, isLoading, session, logout }}>
+    {children}
+  </AppContext.Provider>
   );
 };

@@ -12,6 +12,7 @@ const OnBoarding = () => {
   const [role, setRole] = useState<Role>(Role.MENTEE);
   const { profile, isLoading, session } = useApp();
   const router = useRouter();
+  const { logout } = useApp();
 
   useEffect(() => {
     if (isLoading) return;
