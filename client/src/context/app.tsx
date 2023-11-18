@@ -70,22 +70,21 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         setSession(session);
-  
         if (["/signup", "/signin", "/"].includes(router.pathname)) {
           router.replace("/dashboard");
         }
       }
-  
       setLoading(false);
     });
   
-    const authListener = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
   
     return () => {
-      if (authListener && typeof authListener === 'function') {
-        authListener(); // Unsubscribe when the component unmounts
+      // Unsubscribe when the component unmounts
+      if (authListener && authListener.subscription) {
+        authListener.subscription.unsubscribe();
       }
     };
   }, []);
