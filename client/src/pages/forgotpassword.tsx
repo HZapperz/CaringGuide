@@ -12,7 +12,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.auth.api.resetPasswordForEmail(email);
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
 
     if (error) {
       toast.error(error.message);
