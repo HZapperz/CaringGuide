@@ -119,19 +119,7 @@ const MenteeDashBoard = () => {
             </div>
           </div>
         </div>
-        <div className="w-full mx-auto">
-          {matchedMentor ? (
-            <div>
-              {/* <MatchButton ...props /> */}
-
-              
-            </div>
-          ) : (
-            {/* This section intentionally left blank or you can add alternative content here */}
-         
-          )}
         </div>
-      </div>
       <div className="flex flex-col items-center justify-start w-full gap-4 xl:flex-row md:items-start sm:h-full">
         <div className="flex flex-col justify-start items-start max-h-full rounded-xl border-4 border-[#ECEEED] p-4 w-full">
           <div className="flex justify-between items-center mb-4">
