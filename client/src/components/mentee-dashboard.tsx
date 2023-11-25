@@ -123,19 +123,11 @@ const MenteeDashBoard = () => {
           {matchedMentor ? (
             <div>
               <DashboardCard user={matchedMentor} care={false} />
-              <MatchButton
-                currentMatchId={matchedMentor?.id}
-                onUnmatch={handleUnmatch}
-              />
+              
             </div>
           ) : (
-            <div>
-              No mentor matched. Find a match.
-              <MatchButton
-                onUnmatch={handleUnmatch}
-                onRematch={handleRematch} // Add this
-              />
-            </div>
+            {/* This section intentionally left blank or you can add alternative content here */}
+         
           )}
         </div>
       </div>

@@ -23,6 +23,7 @@ const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   
+  
 
   async function handleLogin(data: SignInFormValues) {
     try {
@@ -151,9 +152,9 @@ const Login = () => {
             <span className="font-poppins text-2xl font-medium text-white">
               {`Don't have an account? `}
               <Link href="/signup">
-                <a className="font-semibold underline text-caring">
+                <span className="font-semibold underline text-caring cursor-pointer">
                   Sign Up
-                </a>
+                </span>
               </Link>
             </span>
           </div>

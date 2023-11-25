@@ -236,19 +236,17 @@ const Welcome = () => {
                   />
                   <span className="text-white ml-2">
                     I accept the{" "}
-                    <a
-                      href="/terms-of-use"
-                      className="font-semibold underline text-caring"
-                    >
-                      Terms of Use
-                    </a>{" "}
+                    <Link href="/terms-of-use">
+                      <span className="font-semibold underline text-caring cursor-pointer">
+                        Terms of Use
+                      </span>
+                    </Link>{" "}
                     &{" "}
-                    <a
-                      href="/privacy-policy"
-                      className="font-semibold underline text-caring"
-                    >
-                      Privacy Policy
-                    </a>
+                    <Link href="/privacy-policy">
+                      <span className="font-semibold underline text-caring cursor-pointer">
+                        Privacy Policy
+                      </span>
+                    </Link>
                   </span>
                 </div>
                 <div className="mt-5">

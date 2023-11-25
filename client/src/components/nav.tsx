@@ -2,16 +2,20 @@ import { Navbar, Text, Image, Button } from "@nextui-org/react";
 import Link from "next/link";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
+import { useState, useEffect } from 'react';
 
 const Nav = () => {
   const user = useUser();
   const supabase = useSupabaseClient();
   const router = useRouter();
+  const [showNav, setShowNav] = useState(true);
 
-  if (
-    router.pathname.includes("/signin") ||
-    router.pathname.includes("/signup")
-  ) {
+  useEffect(() => {
+    const excludedRoutes = ["/signin", "/signup", "/terms-of-use", "/privacy-policy"];
+    setShowNav(!excludedRoutes.includes(router.pathname));
+  }, [router.pathname]);
+
+  if (!showNav) {
     return null;
   }
 

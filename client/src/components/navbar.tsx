@@ -38,7 +38,9 @@ const NavbarComp = () => {
   if (
     router.pathname.includes("/admin") ||
     router.pathname.includes("/onboarding") ||
-    router.pathname.includes("/welcome")
+    router.pathname.includes("/welcome") ||
+    router.pathname.includes("/terms-of-use") ||
+    router.pathname.includes("/privacy-policy")
   ) {
     return null;
   }
