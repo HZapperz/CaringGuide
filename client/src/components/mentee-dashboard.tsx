@@ -122,7 +122,8 @@ const MenteeDashBoard = () => {
         <div className="w-full mx-auto">
           {matchedMentor ? (
             <div>
-              <DashboardCard user={matchedMentor} care={false} />
+              {/* <MatchButton ...props /> */}
+
               
             </div>
           ) : (
