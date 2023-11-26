@@ -81,10 +81,10 @@ const MenteeDashBoard = () => {
     })();
   }, [profile?.avatar]);
 
-  const handleFavoriteToggle = async (resourceId, newFavoriteStatus) => {
+  const handleFavoriteToggle = async (resourceId: string, newFavoriteStatus: boolean) => {
     try {
       await axios.post('/api/userFavorites', { resourceId, isStarred: newFavoriteStatus });
-      
+
       if (!newFavoriteStatus) {
         // Immediately remove the unfavorited resource from the list
         setFavoriteResources(prevResources => prevResources.filter(resource => resource.id !== resourceId));
