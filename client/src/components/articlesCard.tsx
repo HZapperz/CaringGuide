@@ -130,26 +130,26 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
   }, [resource.id]);
 
   return (
-    <div
-      onClick={() => router.push(resource.link)} // Making the entire card clickable
-      className="bg-[#ECEEED] cursor-pointer rounded-2xl w-full p-4 shadow-md hover:shadow-lg transition-shadow duration-300"
-    >
+    <div className="bg-[#ECEEED] cursor-pointer rounded-2xl w-full p-4 shadow-md hover:shadow-lg transition-shadow duration-300">
       {/* Title, Image as profile and Star Icon */}
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center">
+        <a
+          href={resource.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center"
+        >
           <img
-            src={faviconLink || imageUrl} // fallback to `imageUrl` if favicon link is not valid
+            src={faviconLink || imageUrl}
             alt={resource.title}
             width={48}
             height={48}
             className="mr-3 rounded-full object-cover"
           />
-          <div>
-            <h3 className="font-medium">{resource.title}</h3>
-            <span className="text-xs opacity-80">Wrote an Article</span>
-          </div>
-        </div>
+          <h3 className="font-medium">{resource.title}</h3>
+        </a>
 
+        {/* Star Icon Clickable Area */}
         <div
           onClick={(e) => {
             e.stopPropagation();
@@ -170,30 +170,36 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
         {resource.description}
       </div>
 
-      {/* Reviews */}
-      <div>
-        {Array.isArray(reviews) &&
-          reviews.map((review) => (
-            <div
-              key={review.id}
-              className="bg-white p-3 rounded mt-2 shadow-sm"
-            >
-              <h4 className="font-medium">{review.authorName}</h4>
-              <div className="flex items-center mt-2 mb-2">
-                {/* Display thumbs up or thumbs down based on rating */}
-                {review.rating >= 3 ? (
-                  <FaThumbsUp className="text-green-500" size={14} />
-                ) : (
-                  <FaThumbsDown className="text-red-500" size={14} />
-                )}
-              </div>
-              <div className="text-xs">{review.comment}</div>
-            </div>
-          ))}
-      </div>
+      {/* Reviews and Review Form sections commented out */}
+    </div>
+  );
+};
 
-      {/* Review Form */}
-      {session && (
+export default ArticlesCard;
+
+
+      {/* Commented out Reviews */}
+      {/* {Array.isArray(reviews) &&
+        reviews.map((review) => (
+          <div
+            key={review.id}
+            className="bg-white p-3 rounded mt-2 shadow-sm"
+          >
+            <h4 className="font-medium">{review.authorName}</h4>
+            <div className="flex items-center mt-2 mb-2">
+              {review.rating >= 3 ? (
+                <FaThumbsUp className="text-green-500" size={14} />
+              ) : (
+                <FaThumbsDown className="text-red-500" size={14} />
+              )}
+            </div>
+            <div className="text-xs">{review.comment}</div>
+          </div>
+        ))
+      } */}
+
+      {/* Commented out Review Form */}
+      {/* {session && (
         <ReviewForm
           resourceId={resource.id}
           userId={session.user.id}
@@ -203,9 +209,4 @@ const ArticlesCard = ({ resource }: { resource: Resources }) => {
             )
           }
         />
-      )}
-    </div>
-  );
-};
-
-export default ArticlesCard;
+      )} */}

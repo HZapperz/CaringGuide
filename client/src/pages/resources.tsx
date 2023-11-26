@@ -53,6 +53,8 @@ const Feedpage = () => {
     router.push("/dashboard");
   };
 
+
+  
   return (
     <main className="h-full bg-white">
       <div className="flex flex-col items-start justify-start">
@@ -95,23 +97,18 @@ const Feedpage = () => {
 
         <div className="grid w-full grid-cols-1 gap-4 overflow-auto min-[400px]:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 p-8 mx-auto">
           {resources
-            .sort()
             .filter((resource) => {
               if (selectedCategory === "ALL") return true;
               return resource.category === selectedCategory;
             })
-            .map((resource, index) => (
+            .map((resource) => (
               <div
-                key={index}
-                className="flex items-center justify-center sm:w-full mx-4"
+                key={resource.id}
+                className="card-container mx-4" // Apply the card-container class here
               >
-                <ArticlesCard
-                  key={`${resource.id}-${selectedCategory}`}
-                  resource={resource}
-                />
+                <ArticlesCard resource={resource} />
               </div>
             ))}
-          ``
         </div>
       </div>
     </main>
@@ -124,4 +121,4 @@ export default function Page() {
       <Feedpage />
     </WithOnBoarding>
   );
-}
+};

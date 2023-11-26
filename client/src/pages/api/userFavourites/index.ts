@@ -3,32 +3,31 @@ import { prisma } from "@/lib/client";
 
 export default isLoggedIn(async (req, res, user) => {
   switch (req.method) {
-    case "GET":
-      {
-        try {
-          let userId = user.id;
-          if (!userId || typeof userId !== "string") {
-            return res
-              .status(400)
-              .json({ message: "Invalid or missing userId" });
-          }
-
-          const userFavorites = await prisma.userFavourites.findMany({
-            where: {
-              userId,
-            },
-          });
-
-          res.status(200).json(userFavorites);
-        } catch (error) {
-          res
-            .status(500)
-            .json({ message: "Error retrieving user favorites", error: error });
+    case "GET": {
+      try {
+        let userId = user.id;
+        if (!userId || typeof userId !== "string") {
+          return res
+            .status(400)
+            .json({ message: "Invalid or missing userId" });
         }
+
+        const userFavorites = await prisma.userFavourites.findMany({
+          where: {
+            userId,
+          },
+        });
+
+        res.status(200).json(userFavorites);
+      } catch (error) {
+        res
+          .status(500)
+          .json({ message: "Error retrieving user favorites", error: error });
       }
       break;
+    }
 
-    case "POST":
+    case "POST": {
       try {
         const { resourceId, isStarred, isLiked, isDisliked } = req.body;
         const userId = user.id;
@@ -78,6 +77,8 @@ export default isLoggedIn(async (req, res, user) => {
           error: error,
         });
       }
+      break;
+    }
 
     default:
       res.status(405).json({ message: "Method not allowed" });

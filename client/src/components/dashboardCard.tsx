@@ -1,13 +1,15 @@
 import { Resources } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { FaStar, FaRegStar } from "react-icons/fa";
-import { useRouter } from "next/router";
-import { useApp } from "@/context/app";
 import { categoryLabels } from "../utils/enumToLabel";
+import axios from "axios"; // Assuming you're using axios for HTTP requests
 
-const DashboardCard = ({ resource }: { resource: Resources }) => {
-  const router = useRouter();
-  const [isStarred, setIsStarred] = useState(false);
+const DashboardCard = ({ resource, isFavorited, onFavoriteToggle }: { resource: Resources, isFavorited: boolean, onFavoriteToggle: (resourceId: string, newStatus: boolean) => void }) => {
+  const [isStarred, setIsStarred] = useState(isFavorited);
+
+  useEffect(() => {
+    setIsStarred(isFavorited);
+  }, [isFavorited]);
 
   const getDefaultCategoryImage = (category: string) => {
     const categoryInfo = categoryLabels.find((c) => c.value === category);
@@ -18,14 +20,28 @@ const DashboardCard = ({ resource }: { resource: Resources }) => {
     getDefaultCategoryImage(resource.category)
   );
 
-  const handleStarClick = (event: React.MouseEvent) => {
+  const handleStarClick = async (event: React.MouseEvent) => {
     event.stopPropagation();
-    setIsStarred((prevState) => !prevState);
+    const newStarredStatus = !isStarred;
+    setIsStarred(newStarredStatus);
+
+    try {
+      // Update favorite status in the database
+      await axios.post('/api/userFavourites', { 
+        resourceId: resource.id, 
+        isStarred: newStarredStatus 
+      });
+      onFavoriteToggle(resource.id, newStarredStatus); // Notify parent component to update the list
+    } catch (error) {
+      console.error("Error updating favorite status:", error);
+      // Optionally, revert the UI state if the update fails
+      setIsStarred(!newStarredStatus);
+    }
   };
 
   return (
     <div
-      onClick={() => router.push(resource.link)}
+      onClick={() => window.open(resource.link, '_blank')}
       className="bg-[#ECEEED] cursor-pointer rounded-2xl w-full p-4 shadow-md hover:shadow-lg transition-shadow duration-300"
     >
       {/* Resource Image */}

@@ -330,10 +330,11 @@ const SettingsPage = () => {
           className={`border-2 rounded-xl text-xs w-20 p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
         >
           {countryList.map((country) => (
-            <option key={country} value={country}>
-              {country}
-            </option>
+              <option key={country} value={country}>
+                  {country}
+              </option>
           ))}
+
         </select>
       </Container>
 
@@ -393,7 +394,9 @@ const SettingsPage = () => {
               className={`border-2 rounded-xl text-xs p-2 border-[#D9D9D9] hover:border-caring focus:border-caring focus:-translate-y-0.5 transition-all min-w-[170px]`}
             >
               {diseaseLabels.map((d) => (
-                <option value={d.value}>{d.label}</option>
+                  <option key={d.value} value={d.value}>
+                    {d.label}
+                  </option>
               ))}
             </select>
 
@@ -424,16 +427,16 @@ const SettingsPage = () => {
           Years of Experience
         </Text>
         {radioButtons.map((button) => (
-          <div className="flex items-center justify-center gap-4">
-            <input
-              type="radio"
-              title="experience"
-              value={button.value}
-              {...register("experience", { required: true })}
-              className={`mr-2 accent-caring w-5 aspect-square`}
-            />
-            <label className="text-sm">{button.label}</label>
-          </div>
+            <div key={button.value} className="flex items-center justify-center gap-4">
+                <input
+                    type="radio"
+                    title="experience"
+                    value={button.value}
+                    {...register("experience", { required: true })}
+                    className={`mr-2 accent-caring w-5 aspect-square`}
+                />
+                <label className="text-sm">{button.label}</label>
+            </div>
         ))}
       </Container>
 
