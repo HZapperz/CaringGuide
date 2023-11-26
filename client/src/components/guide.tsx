@@ -17,7 +17,7 @@ import axios from "axios";
 
 type FormValues = z.infer<typeof mentorOnboardingSchema>;
 
-const Guide: React.FC = () => {
+const Guide = () => {
   const router = useRouter();
   const { session } = useApp();
   const handleErrors = useHandleErrors();
@@ -108,7 +108,7 @@ const Guide: React.FC = () => {
         </div>
         <div className="flex flex-col items-start justify-around w-full px-1 py-10 mb-8 lg:flex-row md:px-4">
           <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
-            Personal Details
+            PERSONAL DETAILS
           </div>
           <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
             <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
@@ -182,6 +182,7 @@ const Guide: React.FC = () => {
                 <option value="">Select Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
+                <option value="other">Other</option>
               </select>
               {errors.gender && (
                 <p className="mt-2 text-red-500">Gender is required</p>
@@ -191,7 +192,7 @@ const Guide: React.FC = () => {
         </div>
         <hr />
         <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
-          <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
+          <div className="font-poppins uppercase text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
             Contact Information
           </div>
           <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
@@ -199,7 +200,6 @@ const Guide: React.FC = () => {
               <input
                 type="email"
                 placeholder="Email"
-                defaultValue={session?.user?.email}
                 {...register("email", { required: true })}
                 className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
                   errors.email ? " border border-red-500" : ""
@@ -226,7 +226,7 @@ const Guide: React.FC = () => {
         </div>
         <hr />
         <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
-          <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
+          <div className="font-poppins uppercase text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
             Address Details
           </div>
           <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-4 lg:w-4/6">
@@ -323,7 +323,7 @@ const Guide: React.FC = () => {
         </div>
         <hr />
         <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
-          <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
+          <div className="font-poppins uppercase text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
             Code
           </div>
           <div className="grid content-center w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:w-4/6">
@@ -359,149 +359,111 @@ const Guide: React.FC = () => {
         </div>
         <hr />
         <div className="flex flex-col items-start justify-around w-full px-4 py-10 mb-8 lg:flex-row">
-          <div className="font-poppins text-2xl font-[500] mr-8 w-full lg:w-2/6 text-center lg:text-start mb-4 lg:mb-0">
-            Loved One Information
+          <div className="font-poppins text-2xl font-[500] mr-8 w-2/6">
+            EXPERIENCE
           </div>
-          <div className="flex flex-col w-full lg:w-4/6">
-            <div className="grid content-center w-full grid-cols-1 mb-4 sm:grid-cols-2 md:grid-cols-3 gap-x-30 gap-y-4">
-              <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  {...register("lovedOneName", { required: true })}
-                  className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
-                    errors.lovedOneName ? " border border-red-500" : ""
-                  }`}
-                />
-                {errors.lovedOneName && (
-                  <p className="mt-2 text-red-500">Name is required</p>
-                )}
-              </div>
-              <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
-                <select
-                  title="condition"
-                  id="condition"
-                  {...register("condition", { required: true })}
-                  defaultValue={"Condition of Patient"}
-                  className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${selectFocusStyle} ${
-                    errors.condition ? " border border-red-500" : ""
-                  }`}
-                >
-                  <option value="">Select Disease</option>
-                  {diseaseLabels.map((d) => (
-                    <option value={d.value} key={d.value}>
-                      {d.label}
-                    </option>
-                  ))}
-                </select>
-                {errors.condition && (
-                  <p className="mt-2 text-red-500">Condition is required</p>
-                )}
-              </div>
-              <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
-                <select
-                  title="relationship"
-                  id="relationship"
-                  {...register("relation", { required: true })}
-                  defaultValue={"Relationship to Patient"}
-                  className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${selectFocusStyle} ${
-                    errors.relation ? " border border-red-500" : ""
-                  }`}
-                >
-                  <option value="">Select Relationship</option>
-                  <option value="mother">Mother</option>
-                  <option value="father">Father</option>
-                  <option value="son">Son</option>
-                  <option value="daughter">Daughter</option>
-                  <option value="wife">Wife</option>
-                  <option value="husband">Husband</option>
-                  <option value="husband">Other</option>
-                </select>
-                {errors.relation && (
-                  <p className="mt-2 text-red-500">Relationship is required</p>
-                )}
-              </div>
-            </div>
-
-            <div className="flex flex-col w-full col-span-3 gap-4 mt-6">
-              <div className="text-[#5E5E5E] text-xl font-poppins">
-                Years of Caregiving
-              </div>
-              <div className="flex items-center justify-between w-3/5">
-                <div className="flex items-center justify-center gap-4">
-                  <input
-                    type="radio"
-                    id="0-2"
-                    title="experience"
-                    value="LESS_THAN_2"
-                    {...register("experience", { required: true })}
-                    className={`mr-2 accent-caring w-5 aspect-square ${
-                      errors.experience ? "border border-red-500" : ""
-                    }`}
-                  />
-                  <label htmlFor="0-2">0 - 2 Years</label>
-                </div>
-                <div className="flex items-center justify-center gap-4">
-                  <input
-                    type="radio"
-                    id="2-4"
-                    title="experience"
-                    value="BETWEEN_2_AND_4"
-                    {...register("experience", { required: true })}
-                    className={`mr-2 accent-caring w-5 aspect-square ${
-                      errors.experience ? "border border-red-500" : ""
-                    }`}
-                  />
-                  <label htmlFor="2-4">2 - 4 Years</label>
-                </div>
-                <div className="flex items-center justify-center gap-4">
-                  <input
-                    type="radio"
-                    id="4+"
-                    title="experience"
-                    value="MORE_THAN_4"
-                    {...register("experience", { required: true })}
-                    className={`mr-2 accent-caring w-5 aspect-square ${
-                      errors.experience ? "border border-red-500" : ""
-                    }`}
-                  />
-                  <label htmlFor="4+">4+ Years</label>
-                </div>
-              </div>
-              {errors.experience && (
-                <p className="mt-2 text-red-500">
-                  Years of Caregiving is required
-                </p>
+          <div className="grid w-4/6 grid-cols-1 gap-x-20 gap-y-4">
+            <div className="flex items-center justify-center sm:justify-start sm:items-start">
+              <select
+                title="condition"
+                id="condition"
+                {...register("condition", { required: true })}
+                defaultValue={"Condition of Patient"}
+                className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${selectFocusStyle} ${
+                  errors.condition ? " border border-red-500" : ""
+                }`}
+              >
+                <option value="">Select Disease</option>
+                {diseaseLabels.map((d) => (
+                  <option value={d.value} key={d.value}>
+                    {d.label}
+                  </option>
+                ))}
+              </select>
+              {errors.condition && (
+                <p className="mt-2 text-red-500">Condition is required</p>
               )}
             </div>
-
-            <div className="flex flex-col col-span-3 gap-2 mt-8">
-              <div className="text-[#5E5E5E] text-xl font-poppins">
-                Tell us Your Story
+            <div className="flex flex-col gap-8 mt-6">
+              <div className="flex flex-col w-full col-span-3 gap-4">
+                <div className="text-[#5E5E5E] text-xl font-poppins">
+                  Years of Caregiving
+                </div>
+                <div className="flex items-center justify-between w-3/5">
+                  <div className="flex items-center justify-center gap-4">
+                    <input
+                      type="radio"
+                      id="0-2"
+                      title="experience"
+                      value="LESS_THAN_2"
+                      {...register("experience", { required: true })}
+                      className={`mr-2 accent-caring w-5 aspect-square ${
+                        errors.experience ? "border border-red-500" : ""
+                      }`}
+                    />
+                    <label htmlFor="0-2">0 - 2 Years</label>
+                  </div>
+                  <div className="flex items-center justify-center gap-4">
+                    <input
+                      type="radio"
+                      id="2-4"
+                      title="experience"
+                      value="BETWEEN_2_AND_4"
+                      {...register("experience", { required: true })}
+                      className={`mr-2 accent-caring w-5 aspect-square ${
+                        errors.experience ? "border border-red-500" : ""
+                      }`}
+                    />
+                    <label htmlFor="2-4">2 - 4 Years</label>
+                  </div>
+                  <div className="flex items-center justify-center gap-4">
+                    <input
+                      type="radio"
+                      id="4+"
+                      title="experience"
+                      value="MORE_THAN_4"
+                      {...register("experience", { required: true })}
+                      className={`mr-2 accent-caring w-5 aspect-square ${
+                        errors.experience ? "border border-red-500" : ""
+                      }`}
+                    />
+                    <label htmlFor="4+">4+ Years</label>
+                  </div>
+                </div>
+                {errors.experience && (
+                  <p className="mt-2 text-red-500">
+                    Years of Caregiving is required
+                  </p>
+                )}
               </div>
-              <div className="w-full">
-                <textarea
-                  title="synopsis"
-                  id="synopsis"
-                  {...register("synopsis", { required: true })}
-                  className={`resize-none w-full h-40 rounded-xl p-2 border-2 border-inactive ${
-                    errors.synopsis ? " border border-red-500" : ""
-                  }`}
-                ></textarea>
+              <div className="flex flex-col col-span-3 gap-2">
+                <div className="text-[#5E5E5E] text-xl font-poppins">
+                  Tell us Your Story
+                </div>
+                <div className="w-full">
+                  <textarea
+                    title="about"
+                    id="about"
+                    {...register("about", { required: true })}
+                    className={`resize-none w-full h-40 rounded-xl p-2 border-2 border-inactive ${
+                      errors.about ? " border border-red-500" : ""
+                    }`}
+                  ></textarea>
+                </div>
+              </div>
+              <div className="col-span-3 mt-8 text-center">
+                <button
+                  className="flex items-center gap-2 p-3 mx-auto font-normal text-white bg-caring rounded-xl font-poppins"
+                  type="submit"
+                >
+                  <p className="text-3xl">Complete Onboarding</p>
+                  <div className="scale-[2]">
+                    <ChevronRightIcon />
+                  </div>
+                </button>
               </div>
             </div>
           </div>
-        </div>
-        <div className="col-span-3 mt-8 text-center">
-          <button
-            className="flex items-center gap-3 p-4 mx-auto font-normal text-white bg-caring rounded-xl font-poppins"
-            type="submit"
-          >
-            <p className="text-3xl button-hover">Complete Onboarding</p>
-            <div className="scale-[2]">
-              <ChevronRightIcon />
-            </div>
-          </button>
         </div>
       </form>
     </>

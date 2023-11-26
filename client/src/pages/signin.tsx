@@ -65,7 +65,8 @@ const Login = () => {
       setLoading(false);
     }
   };
-  const navigateToForgotPassword = () => {
+  const navigateToForgotPassword = (e) => {
+    e.preventDefault();
     router.push('/forgotpassword');
   };
 
@@ -137,10 +138,11 @@ const Login = () => {
               className="mt-2 w-full border-2 border-white bg-[#eceeed] bg-opacity-40 rounded-xl py-2 px-3 placeholder:text-white"
             />
             <div className="text-right">
-              <button onClick={navigateToForgotPassword} className="font-poppins text-md text-white underline">
+              <Link href="/forgotpassword">
                 Forgot Password?
-              </button>
+              </Link>
             </div>
+
           </div>
           <button
             type="submit"
@@ -152,12 +154,11 @@ const Login = () => {
             <span className="font-poppins text-2xl font-medium text-white">
               {`Don't have an account? `}
               <Link href="/signup">
-                <span className="font-semibold underline text-caring cursor-pointer">
-                  Sign Up
-                </span>
+                Sign Up
               </Link>
             </span>
           </div>
+
         </form>
       </div>
     </div>
