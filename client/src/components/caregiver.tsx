@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-0;
+
 import { z } from "zod";
 
 type FormValues = z.infer<typeof menteeOnboardingSchema>;

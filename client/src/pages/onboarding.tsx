@@ -7,6 +7,7 @@ import { Role } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useApp } from "@/context/app";
 import Loader from "@/components/loader";
+import { toast } from "react-hot-toast";
 
 const OnBoarding = () => {
   const [role, setRole] = useState<Role>(Role.MENTEE);
@@ -15,21 +16,26 @@ const OnBoarding = () => {
   const { logout } = useApp();
 
   useEffect(() => {
-    if (isLoading) return;
-
-    if (!session) {
-      router.replace("/signin");
-      return;
-    }
-
-    if (!!profile && profile.role === "ADMIN") {
-      router.replace("/admin/accounts");
-      return;
-    }
-
-    if (!!profile) {
-      router.replace("/dashboard");
-      return;
+    try {
+      if (isLoading) return;
+  
+      if (!session) {
+        router.replace("/signin");
+        return;
+      }
+  
+      if (!!profile && profile.role === "ADMIN") {
+        router.replace("/admin/accounts");
+        return;
+      }
+  
+      if (!!profile) {
+        router.replace("/dashboard");
+        return;
+      }
+    } catch (error) {
+      console.error("Routing error in OnBoarding:", error);
+      toast.error("An error occurred during routing.");
     }
   }, [isLoading, session, profile]);
 

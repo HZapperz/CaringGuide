@@ -17,7 +17,7 @@ import axios from "axios";
 
 type FormValues = z.infer<typeof mentorOnboardingSchema>;
 
-const Guide = () => {
+const Guide: React.FC = () => {
   const router = useRouter();
   const { session } = useApp();
   const handleErrors = useHandleErrors();
@@ -200,6 +200,7 @@ const Guide = () => {
               <input
                 type="email"
                 placeholder="Email"
+                defaultValue={session?.user?.email}
                 {...register("email", { required: true })}
                 className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${focusStyle} ${
                   errors.email ? " border border-red-500" : ""
@@ -384,6 +385,7 @@ const Guide = () => {
                 <p className="mt-2 text-red-500">Condition is required</p>
               )}
             </div>
+            
             <div className="flex flex-col gap-8 mt-6">
               <div className="flex flex-col w-full col-span-3 gap-4">
                 <div className="text-[#5E5E5E] text-xl font-poppins">
@@ -436,6 +438,31 @@ const Guide = () => {
                   </p>
                 )}
               </div>
+                <div className="flex flex-col items-center justify-center sm:justify-start sm:items-start">
+                  <select
+                    title="relationship"
+                    id="relationship"
+                    {...register("relation", { required: true })}
+                    defaultValue={"Relationship to Patient"}
+                    className={`font-poppins bg-[#ECEEED] px-4 h-[48px] rounded-xl ${selectFocusStyle} ${
+                      errors.relation ? " border border-red-500" : ""
+                    }`}
+                  >
+                    <option value="">Select Relationship</option>
+                    <option value="mother">Mother</option>
+                    <option value="father">Father</option>
+                    <option value="son">Son</option>
+                    <option value="daughter">Daughter</option>
+                    <option value="wife">Wife</option>
+                    <option value="husband">Husband</option>
+                    <option value="husband">Other</option>
+                  </select>
+                  {errors.relation && (
+                    <p className="mt-2 text-red-500">
+                      Relationship is required
+                    </p>
+                  )}
+                </div>
               <div className="flex flex-col col-span-3 gap-2">
                 <div className="text-[#5E5E5E] text-xl font-poppins">
                   Tell us Your Story
