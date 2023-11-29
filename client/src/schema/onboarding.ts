@@ -34,9 +34,9 @@ const mentorInformationSchema = z.object({
   role: z.literal(Role.MENTOR),
   about: z.string(),
   relation: z.string(),
-  lovedOneName: z.string().min(2).max(50),
+  //lovedOneName: z.string().min(2).max(50),
   code: z.string().min(2).max(50),
-  synopsis: z.string(),
+  //synopsis: z.string(),
 });
 
 export const mentorOnboardingSchema = commonDetailsSchema.merge(
