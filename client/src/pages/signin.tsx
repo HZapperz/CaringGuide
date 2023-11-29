@@ -65,10 +65,11 @@ const Login = () => {
       setLoading(false);
     }
   };
-  const navigateToForgotPassword = (e) => {
+  const navigateToForgotPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     router.push('/forgotpassword');
   };
+  
 
   return (
     <div className="h-screen bg-[url('../../public/images/waterhike.jpg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
