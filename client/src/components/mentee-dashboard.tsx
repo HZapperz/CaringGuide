@@ -74,19 +74,23 @@ const MenteeDashBoard = () => {
 
   const handleFavoriteToggle = async (resourceId: string, newFavoriteStatus: boolean) => {
     try {
-      await axios.post('/api/userFavorites', { resourceId, isStarred: newFavoriteStatus });
-
-      if (!newFavoriteStatus) {
-        // Immediately remove the unfavorited resource from the list
-        setFavoriteResources(prevResources => prevResources.filter(resource => resource.id !== resourceId));
+      const response = await axios.post('/api/userFavourites', {
+          resourceId, 
+          isStarred: newFavoriteStatus 
+      });
+  
+      if (response.status === 200 || response.status === 201) {
+        if (!newFavoriteStatus) {
+          // Only update state if API call is successful
+          setFavoriteResources(prevResources => 
+            prevResources.filter(resource => resource.id !== resourceId));
+        }
       }
     } catch (error) {
       console.error('Error updating favorite status:', error);
     }
   };
-  if (!profile || !mentor) {
-    return <Loader />;
-  }
+  
 
   useEffect(() => {
     (async () => {

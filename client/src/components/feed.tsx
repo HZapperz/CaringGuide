@@ -24,6 +24,11 @@ const FeedCard = (props: any) => {
     }, 0),
   );
 
+  const refreshPage = () => {
+    window.location.reload();
+  };
+  
+
   const supabase = useSupabaseClient();
   const queryClient = useQueryClient();
   const { session } = useApp();
@@ -128,18 +133,18 @@ const FeedCard = (props: any) => {
     setIsLiked(false);
     setIsDisliked(!isDisliked);
     try {
-      const createdFavorite = await addUserFavorite(
+      await addUserFavorite(
         props.data.id,
         isStarred,
         false,
         status,
       );
-      queryClient.invalidateQueries(["profile", session?.user.id]);
+      props.onDislike(props.data.id); // Call the callback passed from the parent
     } catch (error) {
       console.error("Error adding user favorite:", error);
     }
   };
-
+  
   useEffect(() => {
     if (props.data.image.startsWith("http")) {
       setImageUrl(props.data.image);

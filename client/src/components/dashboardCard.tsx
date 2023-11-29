@@ -27,10 +27,11 @@ const DashboardCard = ({ resource, isFavorited, onFavoriteToggle }: { resource: 
 
     try {
       // Update favorite status in the database
-      await axios.post('/api/userFavourites', { 
+      await axios.post('api/userFavourites', { 
         resourceId: resource.id, 
         isStarred: newStarredStatus 
       });
+     
       onFavoriteToggle(resource.id, newStarredStatus); // Notify parent component to update the list
     } catch (error) {
       console.error("Error updating favorite status:", error);
